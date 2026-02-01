@@ -10,7 +10,6 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Text>Rasmus er gay</Text>
       <Link href="/about">Go to About</Link>
     </View>
   );
