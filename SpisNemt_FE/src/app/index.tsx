@@ -10,7 +10,7 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Link href="/about">Go to About</Link>
+      <Text style={{ fontSize: 24, marginBottom: 20 }}>Home page</Text>
     </View>
   );
 }
