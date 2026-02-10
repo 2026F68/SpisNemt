@@ -1,5 +1,9 @@
-import AboutScreen from '../../screens/about';
+import { Text, View } from "react-native";
 
-export default function About() {
-    return <AboutScreen />;
+export default function AboutScreen() {
+    return ( 
+        <View>
+            <Text>About screen. To update this, edit src/screens/about/index.tsx</Text>
+        </View>
+    );
 }
