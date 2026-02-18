@@ -1,0 +1,170 @@
+{
+  "configuration" : { },
+  "description" : "C4 model via Structurizr Lite",
+  "documentation" : { },
+  "id" : 1,
+  "lastModifiedAgent" : "structurizr-ui",
+  "lastModifiedDate" : "2026-02-18T18:44:30Z",
+  "model" : {
+    "people" : [ {
+      "description" : "A user of my system",
+      "id" : "1",
+      "name" : "User",
+      "properties" : {
+        "structurizr.dsl.identifier" : "user"
+      },
+      "relationships" : [ {
+        "description" : "Uses",
+        "destinationId" : "2",
+        "id" : "6",
+        "sourceId" : "1",
+        "tags" : "Relationship"
+      } ],
+      "tags" : "Element,Person"
+    } ],
+    "softwareSystems" : [ {
+      "containers" : [ {
+        "description" : "The meal DB",
+        "documentation" : { },
+        "id" : "3",
+        "name" : "Recipe API",
+        "properties" : {
+          "structurizr.dsl.identifier" : "RecipeAPI"
+        },
+        "tags" : "Element,Container",
+        "technology" : "HTTP/REST"
+      } ],
+      "description" : "Allows users to receive recipes based on their ingriedients and preferences",
+      "documentation" : { },
+      "id" : "2",
+      "name" : "SpisNemt",
+      "properties" : {
+        "structurizr.dsl.identifier" : "SpisNemt"
+      },
+      "relationships" : [ {
+        "description" : "Reads from and writes to",
+        "destinationId" : "4",
+        "id" : "7",
+        "sourceId" : "2",
+        "tags" : "Relationship",
+        "technology" : "HTTP/REST"
+      }, {
+        "description" : "Uses",
+        "destinationId" : "5",
+        "id" : "8",
+        "sourceId" : "2",
+        "tags" : "Relationship",
+        "technology" : "HTTP/REST"
+      } ],
+      "tags" : "Element,Software System"
+    }, {
+      "description" : "External NoSQL database for user preferences and saved recipes",
+      "documentation" : { },
+      "id" : "4",
+      "name" : "Firebase",
+      "properties" : {
+        "structurizr.dsl.identifier" : "Firebase"
+      },
+      "tags" : "Element,Software System,External"
+    }, {
+      "description" : "External REST API for recipes",
+      "documentation" : { },
+      "id" : "5",
+      "name" : "TheMealDB",
+      "properties" : {
+        "structurizr.dsl.identifier" : "TheMealDB"
+      },
+      "tags" : "Element,Software System,External"
+    } ]
+  },
+  "name" : "My System",
+  "properties" : {
+    "structurizr.inspection.info" : "0",
+    "structurizr.inspection.ignore" : "0",
+    "structurizr.inspection.error" : "5",
+    "structurizr.inspection.warning" : "0",
+    "structurizr.dsl" : "d29ya3NwYWNlICJNeSBTeXN0ZW0iICJDNCBtb2RlbCB2aWEgU3RydWN0dXJpenIgTGl0ZSIgewoKICBtb2RlbCB7CiAgICB1c2VyID0gcGVyc29uICJVc2VyIiAiQSB1c2VyIG9mIG15IHN5c3RlbSIKCiAgICBTcGlzTmVtdCAgPSBzb2Z0d2FyZVN5c3RlbSAiU3Bpc05lbXQiICJBbGxvd3MgdXNlcnMgdG8gcmVjZWl2ZSByZWNpcGVzIGJhc2VkIG9uIHRoZWlyIGluZ3JpZWRpZW50cyBhbmQgcHJlZmVyZW5jZXMiIHsKICAgICAgUmVjaXBlQVBJICAgID0gY29udGFpbmVyICJSZWNpcGUgQVBJIiAiVGhlIG1lYWwgREIiICJIVFRQL1JFU1QiCgogICAgICAvL01vYmlsZUFwcCAtPiBSZWNpcGVBUEkgIlVzZXMiICJIVFRQUyIKICAgICAgLy9Nb2JpbGVBcHAgLT4gRGF0YWJhc2UgIlJlYWRzIGZyb20gYW5kIHdyaXRlcyB0byIgIkhUVFAvUkVTVCIKICAgIH0KCiAgICBGaXJlYmFzZSA9IHNvZnR3YXJlU3lzdGVtICJGaXJlYmFzZSIgIkV4dGVybmFsIE5vU1FMIGRhdGFiYXNlIGZvciB1c2VyIHByZWZlcmVuY2VzIGFuZCBzYXZlZCByZWNpcGVzIiB7CiAgICAgIHRhZ3MgIkV4dGVybmFsIgogICAgfQoKICAgIFRoZU1lYWxEQiA9IHNvZnR3YXJlU3lzdGVtICJUaGVNZWFsREIiICJFeHRlcm5hbCBSRVNUIEFQSSBmb3IgcmVjaXBlcyIgewogICAgICB0YWdzICJFeHRlcm5hbCIKICAgIH0KCgogICAgdXNlciAtPiBTcGlzTmVtdCAiVXNlcyIKICAgIFNwaXNOZW10IC0+IEZpcmViYXNlICJSZWFkcyBmcm9tIGFuZCB3cml0ZXMgdG8iICJIVFRQL1JFU1QiCiAgICBTcGlzTmVtdCAtPiBUaGVNZWFsREIgIlVzZXMiICJIVFRQL1JFU1QiCiAgfQoKICB2aWV3cyB7CiAgICBzeXN0ZW1Db250ZXh0IFNwaXNOZW10ICJTeXN0ZW1Db250ZXh0IiB7CiAgICAgIGluY2x1ZGUgKgogICAgICBhdXRvbGF5b3V0IGxyCiAgICB9CgogICAgY29udGFpbmVyIFNwaXNOZW10ICJDb250YWluZXJzIiB7CiAgICAgIGluY2x1ZGUgKgogICAgICBhdXRvbGF5b3V0IGxyCiAgICB9CgogICAgc3R5bGVzIHsKICAgICAgZWxlbWVudCAiRXh0ZXJuYWwiIHsKICAgICAgICBiYWNrZ3JvdW5kIGxpZ2h0Z3JleQogICAgICAgIGNvbG9yIGJsYWNrCiAgICAgICAgc3Ryb2tlIGdyZXkKICAgICAgfQogICAgfQoKICAgIHRoZW1lIGRlZmF1bHQKICB9Cn0="
+  },
+  "views" : {
+    "configuration" : {
+      "branding" : { },
+      "lastSavedView" : "SystemContext",
+      "metadataSymbols" : "SquareBrackets",
+      "styles" : {
+        "elements" : [ {
+          "background" : "#d3d3d3",
+          "color" : "#000000",
+          "stroke" : "#808080",
+          "tag" : "External"
+        } ]
+      },
+      "terminology" : { },
+      "themes" : [ "https://static.structurizr.com/themes/default/theme.json" ]
+    },
+    "containerViews" : [ {
+      "automaticLayout" : {
+        "applied" : false,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 300,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "elements" : [ {
+        "id" : "3",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "externalSoftwareSystemBoundariesVisible" : false,
+      "key" : "Containers",
+      "name" : "Container View: SpisNemt",
+      "order" : 2,
+      "softwareSystemId" : "2"
+    } ],
+    "systemContextViews" : [ {
+      "automaticLayout" : {
+        "applied" : true,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 300,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "dimensions" : {
+        "height" : 1300,
+        "width" : 2350
+      },
+      "elements" : [ {
+        "id" : "1",
+        "x" : 200,
+        "y" : 460
+      }, {
+        "id" : "2",
+        "x" : 950,
+        "y" : 460
+      }, {
+        "id" : "4",
+        "x" : 1700,
+        "y" : 160
+      }, {
+        "id" : "5",
+        "x" : 1700,
+        "y" : 760
+      } ],
+      "enterpriseBoundaryVisible" : true,
+      "key" : "SystemContext",
+      "name" : "System Context View: SpisNemt",
+      "order" : 1,
+      "relationships" : [ {
+        "id" : "6"
+      }, {
+        "id" : "7"
+      }, {
+        "id" : "8"
+      } ],
+      "softwareSystemId" : "2"
+    } ]
+  }
+}
