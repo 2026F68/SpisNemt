@@ -7,11 +7,11 @@ workspace "My System" "C4 model via Structurizr Lite" {
 
       MobileApp = container "Mobile app" "description" "Expo for iOS and Android" {
         tags "Mobile App"
-          InceptionV3 = component "Machine Learning Model" "Inception V3 model for ingredient recognition" "TensorFlow.js"{
+          InceptionV3 = component "Ingredient scanner" "Inception V3 machine learning moddel for ingredient recognition" "TensorFlow.js"{
             tags "ML Model"
           }
 
-          MLP = component "Recipe recommender" "MLP model for recipe recommendation" "TensorFlow.js"{
+          MLP = component "Recipe recommender" "Multi-layer perceptron machine learning model for recipe recommendation" "TensorFlow.js"{
             tags "ML Model"
           }
           
@@ -45,22 +45,22 @@ workspace "My System" "C4 model via Structurizr Lite" {
     SavedRecipes -> Database "Reads from and writes to" "HTTPS/REST"
     OAuthService -> Database "Reads from and writes to" "HTTPS/REST"
     MLP -> Database "Reads user preferences from" "HTTPS/REST"
+    MLP -> TheMealDB "Fetches recipes from" "HTTP/REST"
+    NativeHardware -> InceptionV3 "Sends ingredient images to" "?"
+    InceptionV3 -> MLP "Sends ingredients to" "?"
   }
 
   views {
     systemContext SpisNemt "SystemContext" {
       include *
-      autolayout lr
     }
  
     container SpisNemt "Containers" {
       include *
-      autolayout lr
     }
 
       component MobileApp "Components" {
         include *
-        autolayout lr
       }
 
     styles {
