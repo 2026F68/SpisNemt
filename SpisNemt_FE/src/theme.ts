@@ -18,7 +18,7 @@ export const globalColors = {
     successColor: '#28a745',
 };
 
-const globalSizes = {
+export const globalSizes = {
     small: 8,
     medium: 16,
     large: 24,
