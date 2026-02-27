@@ -2,11 +2,13 @@ import { Stack, Tabs } from "expo-router";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
+import { globalColors } from "../theme";
+
 export default function TabLayout() {
   return <Tabs screenOptions={{
     headerShown: false,
     tabBarShowLabel: false,
-    tabBarActiveTintColor: '#494949', // Color of the icon/label when active
+    tabBarActiveTintColor: globalColors.primaryColor, // Color of the icon/label when active
     tabBarInactiveTintColor: '#adadad', // Color when not selected
     tabBarStyle: {
       borderTopWidth: 0,              // Remove the top border
