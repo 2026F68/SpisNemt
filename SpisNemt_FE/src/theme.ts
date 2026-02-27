@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-const globalColors = {
+export const globalColors = {
     /* Neutral colors */
     headerColor: '#333333',
     textColor: '#666666',
@@ -26,7 +26,6 @@ const globalSizes = {
     
     /* Border radius */
     borderRadius: 8,
-    
 };
 
 export const globalText = StyleSheet.create({
@@ -41,7 +40,7 @@ export const globalText = StyleSheet.create({
     },
 });
 
-const globalStyles = StyleSheet.create({
+export const globalStyles = StyleSheet.create({
     body: {
         backgroundColor: globalColors.backgroundColor,
         color: globalColors.textColor
