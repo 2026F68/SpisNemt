@@ -29,7 +29,7 @@ const globalSizes = {
     
 };
 
-const globalText = StyleSheet.create({
+export const globalText = StyleSheet.create({
     header: {
         fontSize: globalSizes.large,
         fontWeight: 'bold',

@@ -1,6 +1,8 @@
 import { Link } from "expo-router";
 import { Text, View } from "react-native";
 
+import { globalText } from "../theme";
+
 export default function Index() {
   return (
     <View
@@ -10,7 +12,7 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Text style={{ fontSize: 24, marginBottom: 20 }}>Home page</Text>
+      <Text style={globalText.header}>Home page</Text>
     </View>
   );
 }
