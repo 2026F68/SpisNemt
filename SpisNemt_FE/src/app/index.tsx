@@ -2,23 +2,25 @@ import { Link } from "expo-router";
 import { Text, View } from "react-native";
 
 import { globalText } from "../theme";
-import Container from "../components/Container";
+import Container from "../components/structural/Container";
+import Title from "../components/typograghy/Title";
+import Paragraph from "../components/typograghy/Paragraph";
 
 export default function Index() {
   return (
-    // <View
-    //   style={{
-    //     flex: 1,
-    //     justifyContent: "center",
-    //     alignItems: "center",
-    //   }}
-    // >
-    //   <Text style={globalText.header}>Home page</Text>
-    // </View>
 
     <Container>
-      <Text style={globalText.header}>Home page</Text>
+      <Title>Recommended</Title>
+      <Paragraph>
+        Paragraph
+      </Paragraph>
+
+      <Title>All recipes</Title>
+      <Paragraph>
+        Paragraph
+      </Paragraph>
     </Container>
 
   );
 }
+

@@ -31,12 +31,14 @@ export const globalSizes = {
 export const globalText = StyleSheet.create({
     header: {
         fontSize: globalSizes.large,
-        fontWeight: 'bold',
+        fontWeight: 700,
         color: globalColors.headerColor,
+        lineHeight: globalSizes.large * 1.2,
     },
     paragraph: {
         fontSize: globalSizes.medium,
         color: globalColors.textColor,
+        lineHeight: globalSizes.medium * 1.5,
     },
 });
 
