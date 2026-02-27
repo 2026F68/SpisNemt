@@ -1,0 +1,301 @@
+{
+  "configuration" : { },
+  "description" : "C4 model via Structurizr Lite",
+  "documentation" : { },
+  "id" : 1,
+  "lastModifiedAgent" : "structurizr-ui",
+  "lastModifiedDate" : "2026-02-19T09:24:20Z",
+  "model" : {
+    "people" : [ {
+      "description" : "A user of SpisNemt",
+      "id" : "1",
+      "name" : "User",
+      "properties" : {
+        "structurizr.dsl.identifier" : "user"
+      },
+      "relationships" : [ {
+        "description" : "Uses",
+        "destinationId" : "2",
+        "id" : "12",
+        "sourceId" : "1",
+        "tags" : "Relationship"
+      }, {
+        "description" : "Uses",
+        "destinationId" : "4",
+        "id" : "13",
+        "sourceId" : "1",
+        "tags" : "Relationship"
+      } ],
+      "tags" : "Element,Person"
+    } ],
+    "softwareSystems" : [ {
+      "containers" : [ {
+        "description" : "Firebase noSQL",
+        "documentation" : { },
+        "id" : "3",
+        "name" : "Database",
+        "properties" : {
+          "structurizr.dsl.identifier" : "Database"
+        },
+        "tags" : "Element,Container,Database",
+        "technology" : "NoSQL database for user preferences and saved recipes"
+      }, {
+        "components" : [ {
+          "description" : "Python-based model for recipe recommendations",
+          "documentation" : { },
+          "id" : "5",
+          "name" : "Machine Learning Model",
+          "properties" : {
+            "structurizr.dsl.identifier" : "MachineLearningModel"
+          },
+          "relationships" : [ {
+            "description" : "Fetches user preferences",
+            "destinationId" : "3",
+            "id" : "8",
+            "sourceId" : "5",
+            "tags" : "Relationship",
+            "technology" : "HTTPS/REST"
+          } ],
+          "tags" : "Element,Component,ML Model",
+          "technology" : "something"
+        }, {
+          "description" : "Handles user authentication",
+          "documentation" : { },
+          "id" : "6",
+          "name" : "Sign in Controller",
+          "properties" : {
+            "structurizr.dsl.identifier" : "OAuthService"
+          },
+          "tags" : "Element,Component,OAuth Service",
+          "technology" : "OAuth"
+        }, {
+          "description" : "Handles saving and retrieving user's saved recipes",
+          "documentation" : { },
+          "id" : "7",
+          "name" : "Saved Recipes Controller",
+          "properties" : {
+            "structurizr.dsl.identifier" : "SavedRecipes"
+          },
+          "tags" : "Element,Component,Saved Recipes",
+          "technology" : "something"
+        } ],
+        "description" : "description",
+        "documentation" : { },
+        "id" : "4",
+        "name" : "Mobile app",
+        "properties" : {
+          "structurizr.dsl.identifier" : "MobileApp"
+        },
+        "relationships" : [ {
+          "description" : "Fetches user preferences",
+          "destinationId" : "3",
+          "id" : "9",
+          "linkedRelationshipId" : "8",
+          "sourceId" : "4",
+          "technology" : "HTTPS/REST"
+        }, {
+          "description" : "Reads from and writes to",
+          "destinationId" : "3",
+          "id" : "10",
+          "sourceId" : "4",
+          "tags" : "Relationship",
+          "technology" : "HTTPS/REST"
+        }, {
+          "description" : "Fetches recipes from",
+          "destinationId" : "11",
+          "id" : "14",
+          "sourceId" : "4",
+          "tags" : "Relationship",
+          "technology" : "HTTP/REST"
+        } ],
+        "tags" : "Element,Container,Mobile App",
+        "technology" : "Expo for iOS and Android"
+      } ],
+      "description" : "Allows users to receive recipes based on their ingriedients and preferences",
+      "documentation" : { },
+      "id" : "2",
+      "name" : "SpisNemt",
+      "properties" : {
+        "structurizr.dsl.identifier" : "SpisNemt"
+      },
+      "relationships" : [ {
+        "description" : "Fetches recipes from",
+        "destinationId" : "11",
+        "id" : "15",
+        "linkedRelationshipId" : "14",
+        "sourceId" : "2",
+        "technology" : "HTTP/REST"
+      } ],
+      "tags" : "Element,Software System"
+    }, {
+      "description" : "External API for recipes",
+      "documentation" : { },
+      "id" : "11",
+      "name" : "TheMealDB",
+      "properties" : {
+        "structurizr.dsl.identifier" : "TheMealDB"
+      },
+      "tags" : "Element,Software System,External"
+    } ]
+  },
+  "name" : "My System",
+  "properties" : {
+    "structurizr.inspection.info" : "0",
+    "structurizr.inspection.ignore" : "0",
+    "structurizr.inspection.error" : "7",
+    "structurizr.inspection.warning" : "0",
+    "structurizr.dsl" : "d29ya3NwYWNlICJNeSBTeXN0ZW0iICJDNCBtb2RlbCB2aWEgU3RydWN0dXJpenIgTGl0ZSIgewoKICBtb2RlbCB7CiAgICB1c2VyID0gcGVyc29uICJVc2VyIiAiQSB1c2VyIG9mIFNwaXNOZW10IgoKICAgIFNwaXNOZW10ICA9IHNvZnR3YXJlU3lzdGVtICJTcGlzTmVtdCIgIkFsbG93cyB1c2VycyB0byByZWNlaXZlIHJlY2lwZXMgYmFzZWQgb24gdGhlaXIgaW5ncmllZGllbnRzIGFuZCBwcmVmZXJlbmNlcyIgewogICAgICBEYXRhYmFzZSA9IGNvbnRhaW5lciAiRGF0YWJhc2UiICJGaXJlYmFzZSBub1NRTCIgIk5vU1FMIGRhdGFiYXNlIGZvciB1c2VyIHByZWZlcmVuY2VzIGFuZCBzYXZlZCByZWNpcGVzIiB7CiAgICAgICAgdGFncyAiRGF0YWJhc2UiCiAgICAgIH0KCiAgICAgIE1vYmlsZUFwcCA9IGNvbnRhaW5lciAiTW9iaWxlIGFwcCIgImRlc2NyaXB0aW9uIiAiRXhwbyBmb3IgaU9TIGFuZCBBbmRyb2lkIiB7CiAgICAgICAgdGFncyAiTW9iaWxlIEFwcCIKICAgICAgICAgIE1hY2hpbmVMZWFybmluZ01vZGVsID0gY29tcG9uZW50ICJNYWNoaW5lIExlYXJuaW5nIE1vZGVsIiAiUHl0aG9uLWJhc2VkIG1vZGVsIGZvciByZWNpcGUgcmVjb21tZW5kYXRpb25zIiAic29tZXRoaW5nInsKICAgICAgICAgICAgdGFncyAiTUwgTW9kZWwiCiAgICAgICAgICB9CiAgICAgICAgICAKICAgICAgICAgIE9BdXRoU2VydmljZSA9IGNvbXBvbmVudCAiU2lnbiBpbiBDb250cm9sbGVyIiAiSGFuZGxlcyB1c2VyIGF1dGhlbnRpY2F0aW9uIiAiT0F1dGgiewogICAgICAgICAgICB0YWdzICJPQXV0aCBTZXJ2aWNlIgogICAgICAgICAgfQoKICAgICAgICAgIFNhdmVkUmVjaXBlcyA9IGNvbXBvbmVudCAiU2F2ZWQgUmVjaXBlcyBDb250cm9sbGVyIiAiSGFuZGxlcyBzYXZpbmcgYW5kIHJldHJpZXZpbmcgdXNlcidzIHNhdmVkIHJlY2lwZXMiICJzb21ldGhpbmciewogICAgICAgICAgICB0YWdzICJTYXZlZCBSZWNpcGVzIgogICAgICAgICAgfQogICAgICAgICAgCiAgICAgICAgICBNYWNoaW5lTGVhcm5pbmdNb2RlbCAtPiBEYXRhYmFzZSAiRmV0Y2hlcyB1c2VyIHByZWZlcmVuY2VzIiAiSFRUUFMvUkVTVCIKICAgICAgfQoKICAgICAgTW9iaWxlQXBwIC0+IERhdGFiYXNlICJSZWFkcyBmcm9tIGFuZCB3cml0ZXMgdG8iICJIVFRQUy9SRVNUIgogICAgfQoKCiAgICBUaGVNZWFsREIgPSBzb2Z0d2FyZVN5c3RlbSAiVGhlTWVhbERCIiAiRXh0ZXJuYWwgQVBJIGZvciByZWNpcGVzIiB7CiAgICAgIHRhZ3MgIkV4dGVybmFsIgogICAgfQoKCiAgICB1c2VyIC0+IFNwaXNOZW10ICJVc2VzIgogICAgdXNlciAtPiBNb2JpbGVBcHAgIlVzZXMiCiAgICBNb2JpbGVBcHAgLT4gVGhlTWVhbERCICJGZXRjaGVzIHJlY2lwZXMgZnJvbSIgIkhUVFAvUkVTVCIKICB9CgogIHZpZXdzIHsKICAgIHN5c3RlbUNvbnRleHQgU3Bpc05lbXQgIlN5c3RlbUNvbnRleHQiIHsKICAgICAgaW5jbHVkZSAqCiAgICAgIGF1dG9sYXlvdXQgbHIKICAgIH0KIAogICAgY29udGFpbmVyIFNwaXNOZW10ICJDb250YWluZXJzIiB7CiAgICAgIGluY2x1ZGUgKgogICAgICBhdXRvbGF5b3V0IGxyCiAgICB9CgogICAgICBjb21wb25lbnQgTW9iaWxlQXBwICJDb21wb25lbnRzIiB7CiAgICAgICAgaW5jbHVkZSAqCiAgICAgICAgYXV0b2xheW91dCBscgogICAgICB9CgogICAgc3R5bGVzIHsKICAgICAgZWxlbWVudCAiRXh0ZXJuYWwiIHsKICAgICAgICBiYWNrZ3JvdW5kIGxpZ2h0Z3JleQogICAgICAgIGNvbG9yIGJsYWNrCiAgICAgICAgc3Ryb2tlIGdyZXkKICAgICAgfQogICAgICBlbGVtZW50ICJEYXRhYmFzZSIgewogICAgICAgIHNoYXBlIEN5bGluZGVyCiAgICAgIH0KICAgIH0KCiAgICB0aGVtZSBkZWZhdWx0CiAgfQp9"
+  },
+  "views" : {
+    "componentViews" : [ {
+      "automaticLayout" : {
+        "applied" : true,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 300,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "containerId" : "4",
+      "dimensions" : {
+        "height" : 2138,
+        "width" : 1660
+      },
+      "elements" : [ {
+        "id" : "3",
+        "x" : 990,
+        "y" : 199
+      }, {
+        "id" : "5",
+        "x" : 240,
+        "y" : 199
+      }, {
+        "id" : "6",
+        "x" : 240,
+        "y" : 799
+      }, {
+        "id" : "7",
+        "x" : 240,
+        "y" : 1399
+      } ],
+      "externalContainerBoundariesVisible" : false,
+      "key" : "Components",
+      "name" : "Component View: SpisNemt - Mobile app",
+      "order" : 3,
+      "relationships" : [ {
+        "id" : "8"
+      } ]
+    } ],
+    "configuration" : {
+      "branding" : { },
+      "lastSavedView" : "Components",
+      "metadataSymbols" : "SquareBrackets",
+      "styles" : {
+        "elements" : [ {
+          "shape" : "Cylinder",
+          "tag" : "Database"
+        }, {
+          "background" : "#d3d3d3",
+          "color" : "#000000",
+          "stroke" : "#808080",
+          "tag" : "External"
+        } ]
+      },
+      "terminology" : { },
+      "themes" : [ "https://static.structurizr.com/themes/default/theme.json" ]
+    },
+    "containerViews" : [ {
+      "automaticLayout" : {
+        "applied" : true,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 300,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "dimensions" : {
+        "height" : 1342,
+        "width" : 2370
+      },
+      "elements" : [ {
+        "id" : "1",
+        "x" : 199,
+        "y" : 202
+      }, {
+        "id" : "3",
+        "x" : 1699,
+        "y" : 202
+      }, {
+        "id" : "4",
+        "x" : 949,
+        "y" : 202
+      }, {
+        "id" : "11",
+        "x" : 1699,
+        "y" : 802
+      } ],
+      "externalSoftwareSystemBoundariesVisible" : false,
+      "key" : "Containers",
+      "name" : "Container View: SpisNemt",
+      "order" : 2,
+      "relationships" : [ {
+        "id" : "10",
+        "vertices" : [ {
+          "x" : 1549,
+          "y" : 502
+        } ]
+      }, {
+        "id" : "13"
+      }, {
+        "id" : "14"
+      }, {
+        "id" : "9",
+        "vertices" : [ {
+          "x" : 1549,
+          "y" : 202
+        } ]
+      } ],
+      "softwareSystemId" : "2"
+    } ],
+    "systemContextViews" : [ {
+      "automaticLayout" : {
+        "applied" : true,
+        "edgeSeparation" : 0,
+        "implementation" : "Graphviz",
+        "nodeSeparation" : 300,
+        "rankDirection" : "LeftRight",
+        "rankSeparation" : 300,
+        "vertices" : false
+      },
+      "dimensions" : {
+        "height" : 800,
+        "width" : 2350
+      },
+      "elements" : [ {
+        "id" : "1",
+        "x" : 200,
+        "y" : 160
+      }, {
+        "id" : "2",
+        "x" : 950,
+        "y" : 160
+      }, {
+        "id" : "11",
+        "x" : 1700,
+        "y" : 160
+      } ],
+      "enterpriseBoundaryVisible" : true,
+      "key" : "SystemContext",
+      "name" : "System Context View: SpisNemt",
+      "order" : 1,
+      "relationships" : [ {
+        "id" : "12"
+      }, {
+        "id" : "15"
+      } ],
+      "softwareSystemId" : "2"
+    } ]
+  }
+}
