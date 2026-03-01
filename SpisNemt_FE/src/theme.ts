@@ -5,12 +5,13 @@ export const globalColors = {
     headerColor: '#333333',
     textColor: '#666666',
     backgroundColor: '#F8F9FA',
-
+    
     /* Theme and brand colors */
     primaryColor: '#8eb155',
     primaryMutedColor: '#e8f0dc',
     secondaryColor: '#ffab20',
     secondaryMutedColor: '#ffe5b4',
+    whiteColor: '#FFFFFF',
 
     /* Visual cues */
     dangerColor: '#E21836',
@@ -19,7 +20,8 @@ export const globalColors = {
 };
 
 export const globalSizes = {
-    small: 8,
+    xsmall: 10,
+    small: 12,
     medium: 16,
     large: 24,
     xlarge: 32,
@@ -34,6 +36,7 @@ export const globalText = StyleSheet.create({
         fontWeight: 700,
         color: globalColors.headerColor,
         lineHeight: globalSizes.large * 1.2,
+        marginBottom: globalSizes.medium,
     },
     paragraph: {
         fontSize: globalSizes.medium,

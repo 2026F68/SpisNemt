@@ -9,6 +9,7 @@ export default function Container({ children }: { children: React.ReactNode }) {
             <View style={{
                 padding: globalSizes.medium,
                 backgroundColor: globalColors.backgroundColor,
+                height: '100%',
             }}>
                 {children}
             </View>
