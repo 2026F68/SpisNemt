@@ -9,6 +9,7 @@ import { Scrollable } from "../components/structural/Scrollable";
 import RecipeCard from "../components/cards/RecipeCard";
 import PillFilter from "../components/buttons/PillFilter";
 import React from "react";
+import Subtitle from "../components/typograghy/Subtitle";
 
 
 
@@ -88,7 +89,8 @@ export default function Index() {
   return (
     <>
       <Container>
-        <Title>Recommended</Title>
+        <Title>Home</Title>
+        <Subtitle>Recommended</Subtitle>
         <Scrollable horizontal>
           {recipes.map((recipe, index) => (
             <RecipeCard
@@ -101,7 +103,7 @@ export default function Index() {
           ))}
         </Scrollable>
 
-        <Title>Categories</Title>
+        <Subtitle>Categories</Subtitle>
         <Scrollable horizontal>
           {cuisines.map((cuisine, index) => (
             <PillFilter key={index} title={cuisine.title} onPress={() => { setCategory(category === null ? [cuisine.title] : category.includes(cuisine.title) ? category.filter(c => c !== cuisine.title) : [...category, cuisine.title]) }} active={category !== null && category.includes(cuisine.title)} />
