@@ -22,7 +22,9 @@ export const cardStyle = StyleSheet.create({
         height: 100,
         borderRadius: globalSizes.borderRadius,
         marginBottom: globalSizes.small,
-        backgroundColor: globalColors.primaryMutedColor,
+        backgroundColor: globalColors.whiteColor,
+        borderWidth: 1,
+        borderColor: globalColors.primaryMutedColor,
     },
     cardTitle: {
         fontSize: globalSizes.medium,

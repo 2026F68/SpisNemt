@@ -28,6 +28,7 @@ export const globalSizes = {
     
     /* Border radius */
     borderRadius: 8,
+    borderRadiusFull: 9999,
 };
 
 export const globalText = StyleSheet.create({
@@ -37,6 +38,7 @@ export const globalText = StyleSheet.create({
         color: globalColors.headerColor,
         lineHeight: globalSizes.large * 1.2,
         marginBottom: globalSizes.medium,
+        marginTop: globalSizes.medium,
     },
     paragraph: {
         fontSize: globalSizes.medium,

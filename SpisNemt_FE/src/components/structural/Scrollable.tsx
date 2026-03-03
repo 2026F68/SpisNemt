@@ -8,7 +8,7 @@ interface ScrollableProps {
 
 export const Scrollable: React.FC<ScrollableProps> = ({ children, horizontal = false }) => {
     return (
-        <ScrollView style={{ flex: 1, marginBottom: globalSizes.medium }} horizontal={horizontal} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
+        <ScrollView style={{  marginBottom: globalSizes.medium, paddingBottom: globalSizes.xsmall }} horizontal={horizontal} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
             {children}
         </ScrollView>
     )
