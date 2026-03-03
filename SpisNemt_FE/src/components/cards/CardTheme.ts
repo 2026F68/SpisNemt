@@ -44,11 +44,11 @@ export const cardStyle = StyleSheet.create({
         marginBottom: globalSizes.xsmall,
         marginTop: globalSizes.xsmall / 2,
     },
-    cardContainerSelected: {
+    SelectableCardContainer: {
         width: 150,
         height: 180,
         borderRadius: globalSizes.borderRadius,
-        borderColor: globalColors.primaryColor,
+        borderColor: 'transparent',
         borderWidth: 3,
         backgroundColor: globalColors.whiteColor,
         padding: globalSizes.medium,
@@ -60,21 +60,16 @@ export const cardStyle = StyleSheet.create({
         shadowRadius: 4,
         elevation: 3,
     },
-    cardContainerNotSelected: {
-        width: 150,
-        height: 180,
-        borderRadius: globalSizes.borderRadius,
-        backgroundColor: globalColors.whiteColor,
-        borderWidth: 3,
-        borderColor: 'transparent',
-        padding: globalSizes.medium,
-        paddingBottom: globalSizes.large,
-        marginRight: globalSizes.medium,
-        shadowColor: globalColors.headerColor,
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        elevation: 3,
+    selectedIndicator: {
+        position: 'absolute',
+        top: -globalSizes.small,
+        right: -globalSizes.small,
+        width: globalSizes.large,
+        height: globalSizes.large,
+        borderRadius: 12,
+        backgroundColor: globalColors.primaryColor,
+        borderWidth: 2,
+        borderColor: globalColors.whiteColor,
     },
     SelecteableCardImage: {
         width: 112,
@@ -83,4 +78,8 @@ export const cardStyle = StyleSheet.create({
         marginBottom: globalSizes.small,
         backgroundColor: globalColors.primaryMutedColor,
     },
+    SelectableCheckMark: {
+        color: globalColors.whiteColor,
+        marginLeft: 6,
+    }
 });

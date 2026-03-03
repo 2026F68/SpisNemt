@@ -5,22 +5,27 @@ import { Scrollable } from "../components/structural/Scrollable";
 import Title from "../components/typograghy/Title";
 
 export default function Account() {
-  const [allergies, setAllergies] = useState([
-    {name: "Gluten", selected: false},
-    {name: "Dairy", selected: false},
-    {name: "Nuts", selected: false},
-    {name: "Soy", selected: false}])
+    const [allergies, setAllergies] = useState([
+        {name: "Gluten", selected: false},
+        {name: "Dairy", selected: false},
+        {name: "Nuts", selected: false},
+        {name: "Soy", selected: false}])
+		
+    const [preferences, setPreferences] = useState([
+        {name: "Italian", selected: false},
+        {name: "Spanish", selected: false},
+        {name: "French", selected: false},
+        {name: "German", selected: false}])
     return (
         <>
           <Container>
             <Title>Account</Title>
-
+											
               <Title>Preferences</Title>
             <Scrollable horizontal>
-                <SelectableCard title="Italian"/>
-                <SelectableCard title="Spanish"/>
-                <SelectableCard title="French"/>
-                <SelectableCard title="German"/>
+                {preferences.map((preference, index) => (
+                    <SelectableCard key={index} title={preference.name} selected={preference.selected} />
+                ))}
             </Scrollable>
 
               <Title>Allergies</Title>
