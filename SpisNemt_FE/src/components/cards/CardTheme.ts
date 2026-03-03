@@ -1,6 +1,6 @@
 
-import { StyleSheet } from 'react-native';
 import { globalColors, globalSizes } from '@/src/theme';
+import { StyleSheet } from 'react-native';
 
 export const cardStyle = StyleSheet.create({
     cardContainer: {
@@ -25,7 +25,7 @@ export const cardStyle = StyleSheet.create({
         backgroundColor: globalColors.primaryMutedColor,
     },
     cardTitle: {
-        fontSize: globalSizes.medium,
+        fontSize: globalSizes.medium,   
         fontWeight: 600,
         color: globalColors.headerColor,
     },
@@ -56,7 +56,7 @@ export const cardStyle = StyleSheet.create({
         marginRight: globalSizes.medium,
         shadowColor: globalColors.headerColor,
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
+        shadowOpacity: 0.1, 
         shadowRadius: 4,
         elevation: 3,
     },
