@@ -14,7 +14,7 @@ export default function SelectableCard({ title, selected }: SelectableCardProps)
 
     return (
             <Pressable onPress={() => setSelected(!Selected)}>
-                <View style={Selected ? [cardStyle.SelectableCardContainer, { borderColor: globalColors.primaryColor }] : cardStyle.SelectableCardContainer}>
+                <View style={Selected ? [cardStyle.SelectableCard, { borderColor: globalColors.primaryColor }] : cardStyle.SelectableCard}>
                     {Selected && (
                         <View style={cardStyle.selectedIndicator}>
                             <Text style={cardStyle.SelectableCheckMark}>✓</Text>

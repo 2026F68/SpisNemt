@@ -15,7 +15,7 @@ export default function Account() {
         {name: "Italian", selected: false},
         {name: "Spanish", selected: false},
         {name: "French", selected: false},
-        {name: "German", selected: false}])
+        {name: "Mexican", selected: false}])
     return (
         <>
           <Container>

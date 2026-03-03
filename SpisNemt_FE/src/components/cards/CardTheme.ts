@@ -44,7 +44,7 @@ export const cardStyle = StyleSheet.create({
         marginBottom: globalSizes.xsmall,
         marginTop: globalSizes.xsmall / 2,
     },
-    SelectableCardContainer: {
+    SelectableCard: {
         width: 150,
         height: 180,
         borderRadius: globalSizes.borderRadius,
@@ -70,13 +70,6 @@ export const cardStyle = StyleSheet.create({
         backgroundColor: globalColors.primaryColor,
         borderWidth: 2,
         borderColor: globalColors.whiteColor,
-    },
-    SelecteableCardImage: {
-        width: 112,
-        height: 100,
-        borderRadius: globalSizes.borderRadius,
-        marginBottom: globalSizes.small,
-        backgroundColor: globalColors.primaryMutedColor,
     },
     SelectableCheckMark: {
         color: globalColors.whiteColor,
