@@ -1,6 +1,7 @@
 import { useState } from "react";
 import SelectableCard from "../components/cards/SelectableCard";
 import Container from "../components/structural/Container";
+import AccountCard from "../components/cards/AccountCard";
 import { Scrollable } from "../components/structural/Scrollable";
 import Title from "../components/typograghy/Title";
 
@@ -20,6 +21,8 @@ export default function Account() {
         <>
           <Container>
             <Title>Account</Title>
+
+            <AccountCard accountName="John Doe" accountType="User"/>
 											
               <Title>Preferences</Title>
             <Scrollable horizontal>

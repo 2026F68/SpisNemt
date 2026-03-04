@@ -74,5 +74,41 @@ export const cardStyle = StyleSheet.create({
     SelectableCheckMark: {
         color: globalColors.whiteColor,
         marginLeft: 6,
-    }
+    },
+    AccountCardContainer: {
+        width: '100%',
+        height: 100,
+        borderRadius: globalSizes.borderRadius,
+        backgroundColor: globalColors.whiteColor,
+        marginBottom: globalSizes.xlarge,
+        padding: globalSizes.medium,
+        marginRight: globalSizes.medium,
+        shadowColor: globalColors.headerColor,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    AccountCardImage: {
+        width: 65,
+        height: 65,
+        borderRadius: '50%',
+        backgroundColor: globalColors.primaryMutedColor,
+    },
+    AccountTextContainer: {
+        marginLeft: globalSizes.medium,
+    },
+    AccountName: {
+        fontSize: globalSizes.medium,   
+        fontWeight: 600,
+        color: globalColors.headerColor,
+    },
+    AccountType: {
+        fontSize: globalSizes.small,
+        color: globalColors.textColor,
+    },
+
+
 });
