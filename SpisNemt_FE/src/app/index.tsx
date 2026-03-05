@@ -120,7 +120,6 @@ export default function Index() {
             />
           ))}
         </Scrollable>
-
       </Container>
     </>
 
