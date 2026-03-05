@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text } from 'react-native';
+import { Text, View } from 'react-native';
 import { cardStyle } from './CardTheme';
 
 interface RecipeCardProps {
@@ -6,11 +6,13 @@ interface RecipeCardProps {
     category?: string;
     description?: string;
     imageUrl?: string;
+    variant?: 'default' | 'saved';
 }
 
-export default function RecipeCard({ title, category, description, imageUrl }: RecipeCardProps) {
+export default function RecipeCard({ title, category, description, imageUrl, variant }: RecipeCardProps) {
+    const styles = variant === 'saved' ? cardStyle.SavedRecipeCardContainer : cardStyle.cardContainer;
     return (
-        <View style={cardStyle.cardContainer}>
+        <View style={styles}>
                 <View style={cardStyle.cardImage} />
                 <Text style={cardStyle.cardTitle}>{title}</Text>
                 <Text style={cardStyle.cardCategory}>{category}</Text>
