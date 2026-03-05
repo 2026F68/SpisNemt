@@ -1,6 +1,6 @@
 
-import { StyleSheet } from 'react-native';
 import { globalColors, globalSizes } from '@/src/theme';
+import { StyleSheet } from 'react-native';
 
 export const cardStyle = StyleSheet.create({
     cardContainer: {
@@ -27,7 +27,7 @@ export const cardStyle = StyleSheet.create({
         borderColor: globalColors.primaryMutedColor,
     },
     cardTitle: {
-        fontSize: globalSizes.medium,
+        fontSize: globalSizes.medium,   
         fontWeight: 600,
         color: globalColors.headerColor,
     },
@@ -46,4 +46,71 @@ export const cardStyle = StyleSheet.create({
         marginBottom: globalSizes.xsmall,
         marginTop: globalSizes.xsmall / 2,
     },
+    SelectableCard: {
+        width: 150,
+        height: 180,
+        borderRadius: globalSizes.borderRadius,
+        borderColor: 'transparent',
+        borderWidth: 3,
+        backgroundColor: globalColors.whiteColor,
+        padding: globalSizes.medium,
+        paddingBottom: globalSizes.large,
+        marginRight: globalSizes.medium,
+        shadowColor: globalColors.headerColor,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1, 
+        shadowRadius: 4,
+        elevation: 3,
+    },
+    selectedIndicator: {
+        position: 'absolute',
+        top: -globalSizes.small,
+        right: -globalSizes.small,
+        width: globalSizes.large,
+        height: globalSizes.large,
+        borderRadius: 12,
+        backgroundColor: globalColors.primaryColor,
+        borderWidth: 2,
+        borderColor: globalColors.whiteColor,
+    },
+    SelectableCheckMark: {
+        color: globalColors.whiteColor,
+        marginLeft: 6,
+    },
+    AccountCardContainer: {
+        width: '100%',
+        height: 100,
+        borderRadius: globalSizes.borderRadius,
+        backgroundColor: globalColors.whiteColor,
+        marginBottom: globalSizes.xlarge,
+        padding: globalSizes.medium,
+        marginRight: globalSizes.medium,
+        shadowColor: globalColors.headerColor,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    AccountCardImage: {
+        width: 65,
+        height: 65,
+        borderRadius: '50%',
+        backgroundColor: globalColors.primaryMutedColor,
+    },
+    AccountTextContainer: {
+        marginLeft: globalSizes.medium,
+    },
+    AccountName: {
+        fontSize: globalSizes.medium,   
+        fontWeight: 600,
+        color: globalColors.headerColor,
+    },
+    AccountType: {
+        fontSize: globalSizes.small,
+        color: globalColors.textColor,
+    },
+
+
 });
