@@ -33,12 +33,20 @@ export const globalSizes = {
 
 export const globalText = StyleSheet.create({
     header: {
-        fontSize: globalSizes.large,
+        fontSize: globalSizes.xlarge,
         fontWeight: 700,
         color: globalColors.headerColor,
         lineHeight: globalSizes.large * 1.2,
         marginBottom: globalSizes.medium,
         marginTop: globalSizes.medium,
+    },
+    subheader: {
+        fontSize: globalSizes.large,
+        fontWeight: 600,
+        color: globalColors.textColor,
+        lineHeight: globalSizes.medium * 1.2,
+        marginBottom: globalSizes.medium,
+        marginTop: globalSizes.small,
     },
     paragraph: {
         fontSize: globalSizes.medium,
