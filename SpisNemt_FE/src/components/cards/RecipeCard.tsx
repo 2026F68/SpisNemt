@@ -10,10 +10,11 @@ interface RecipeCardProps {
 }
 
 export default function RecipeCard({ title, category, description, imageUrl, variant }: RecipeCardProps) {
-    const styles = variant === 'saved' ? cardStyle.SavedRecipeCardContainer : cardStyle.cardContainer;
+    const containerStyles = variant === 'saved' ? cardStyle.SavedRecipeCardContainer : cardStyle.cardContainer;
+    const imageStyles = variant === 'saved' ? cardStyle.SavedRecipeCardImage : cardStyle.cardImage;
     return (
-        <View style={styles}>
-                <View style={cardStyle.cardImage} />
+        <View style={containerStyles}>
+                <View style={imageStyles} />
                 <Text style={cardStyle.cardTitle}>{title}</Text>
                 <Text style={cardStyle.cardCategory}>{category}</Text>
                 <Text style={cardStyle.cardParagraph}>{description}</Text>

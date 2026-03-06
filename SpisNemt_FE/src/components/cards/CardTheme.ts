@@ -125,4 +125,13 @@ export const cardStyle = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
+  SavedRecipeCardImage: {
+    width: "100%",
+    height: 220,
+    borderRadius: globalSizes.borderRadius,
+    marginBottom: globalSizes.small,
+    backgroundColor: globalColors.whiteColor,
+    borderWidth: 1,
+    borderColor: globalColors.primaryMutedColor,
+  },
 });
