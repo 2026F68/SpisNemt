@@ -1,0 +1,23 @@
+{
+  "users": {
+    "userId123": {
+      "email": "",
+      "name": "",
+      "accountType": "",
+
+      "preferences": {
+        "cuisines": ["", "", ""],
+        "allergies": ["", ""]
+      },
+
+      "savedRecipes": {
+        "recipe1": {
+          "recipeId": ""
+        },
+        "recipe2": {
+          "recipeId": ""
+        }
+      }
+    }
+  }
+}
