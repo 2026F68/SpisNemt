@@ -6,12 +6,17 @@ interface RecipeCardProps {
     category?: string;
     description?: string;
     imageUrl?: string;
+    layout?: 'grid' | 'list';
     variant?: 'default' | 'saved';
 }
 
-export default function RecipeCard({ title, category, description, imageUrl, variant }: RecipeCardProps) {
-    const containerStyles = variant === 'saved' ? cardStyle.SavedRecipeCardContainer : cardStyle.cardContainer;
-    const imageStyles = variant === 'saved' ? cardStyle.SavedRecipeCardImage : cardStyle.cardImage;
+export default function RecipeCard({ title, category, description, imageUrl, layout, variant }: RecipeCardProps) {
+    const containerStyles = variant === 'saved' 
+        ? (layout === 'grid' ? cardStyle.SavedRecipeCardContainerGrid : cardStyle.SavedRecipeCardContainerList)
+        : cardStyle.cardContainer;
+    const imageStyles = variant === 'saved'
+        ? (layout === 'grid' ? cardStyle.SavedRecipeCardImageGrid : cardStyle.SavedRecipeCardImageList)
+        : cardStyle.cardImage;
     return (
         <View style={containerStyles}>
                 <View style={imageStyles} />
