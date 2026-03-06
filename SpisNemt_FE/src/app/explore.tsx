@@ -1,4 +1,5 @@
-import { View, Text } from "react-native";
+import { Text, View } from "react-native";
+import Test from "../components/Test";
 
 export default function Explore() {
   return (
@@ -9,6 +10,7 @@ export default function Explore() {
         alignItems: "center",
       }}
     >
+      <Test />
       <Text style={{ fontSize: 24, marginBottom: 20 }}>Explore page</Text>
     </View>
   );
