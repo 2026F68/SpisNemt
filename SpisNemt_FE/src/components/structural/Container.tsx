@@ -5,7 +5,10 @@ import { globalColors, globalSizes } from "../../theme";
 
 export default function Container({ children }: { children: React.ReactNode }) {
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{
+            backgroundColor: globalColors.backgroundColor,
+            flex: 1,
+        }}>
             <View style={{
                 padding: globalSizes.medium,
                 backgroundColor: globalColors.backgroundColor,
