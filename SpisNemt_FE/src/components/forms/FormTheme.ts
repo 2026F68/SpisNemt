@@ -30,14 +30,14 @@ export const formTheme = StyleSheet.create({
     formInput: {
         borderWidth: 1,
         borderColor: '#ccc',
-        borderRadius: 4,
+        borderRadius: 15,
         padding: 10,
         marginBottom: 15,
     },
     formButton: {
         backgroundColor: globalColors.primaryColor,
         padding: 15,
-        borderRadius: 4,
+        borderRadius: 15,
         height: 50,
         paddingHorizontal: 15,
         justifyContent: "center",

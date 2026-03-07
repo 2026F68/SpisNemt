@@ -14,6 +14,7 @@ import { formTheme } from "../components/forms/FormTheme";
 import { recipes } from "../mock/recipes";
 import SearchInput from "../components/forms/SearchInput";
 import { globalColors } from "../theme";
+import Alert from "../components/typograghy/Alert";
 
 export default function Explore() {
   const [query, setQuery] = useState('');
@@ -74,7 +75,9 @@ export default function Explore() {
               />
             ))
           ) : (
-            <Paragraph style={{color: globalColors.dangerColor}}>No recipes found for "{query}"</Paragraph>
+            <Alert variant="danger">
+              No recipes found for "{query}"
+            </Alert>
           )}
         </Scrollable>
       )}
