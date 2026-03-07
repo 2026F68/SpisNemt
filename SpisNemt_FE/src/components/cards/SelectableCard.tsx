@@ -13,16 +13,16 @@ export default function SelectableCard({ title, selected }: SelectableCardProps)
     const [Selected, setSelected] = useState(selected ?? false);
 
     return (
-            <Pressable onPress={() => setSelected(!Selected)}>
-                <View style={Selected ? [cardStyle.SelectableCard, { borderColor: globalColors.primaryColor }] : cardStyle.SelectableCard}>
-                    {Selected && (
-                        <View style={cardStyle.selectedIndicator}>
-                            <Text style={cardStyle.SelectableCheckMark}>✓</Text>
-                        </View>
-                    )}
-                    <View style={cardStyle.cardImage} />
-                    <Text style={cardStyle.cardTitle}>{title}</Text>
-                </View>
-            </Pressable>
+        <Pressable onPress={() => setSelected(!Selected)}>
+            <View style={Selected ? [cardStyle.SelectableCard, { borderColor: globalColors.primaryColor }] : cardStyle.SelectableCard}>
+                {Selected && (
+                    <View style={cardStyle.selectedIndicator}>
+                        <Text style={cardStyle.SelectableCheckMark}>✓</Text>
+                    </View>
+                )}
+                <View style={cardStyle.cardImage} />
+                <Text style={cardStyle.cardTitle}>{title}</Text>
+            </View>
+        </Pressable>
     );
 }

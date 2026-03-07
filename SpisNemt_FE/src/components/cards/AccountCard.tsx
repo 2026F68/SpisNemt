@@ -10,7 +10,7 @@ interface AccountCardProps {
 export default function AccountCard({ accountName, accountType, imageUrl }: AccountCardProps) {
     return (
         <View style={cardStyle.AccountCardContainer}>
-            <View style={cardStyle.AccountCardImage}> </View>
+            <View style={cardStyle.AccountCardImage}></View>
             <View style={cardStyle.AccountTextContainer}>
                 <Text style={cardStyle.AccountName}>{accountName}</Text>
                 <Text style={cardStyle.AccountType}>{accountType}</Text>
