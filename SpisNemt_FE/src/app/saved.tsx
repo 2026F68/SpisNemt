@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { Pressable, Text as RNText, View } from 'react-native';
+import { View } from "react-native";
 import RecipeCard from "../components/cards/RecipeCard";
 import Container from "../components/structural/Container";
 import { Scrollable } from "../components/structural/Scrollable";
@@ -47,27 +46,19 @@ const recipes = [
     category: "Japanese",
     description: "Assorted sushi rolls with fresh fish and vegetables.",
     imageUrl: "/assets/images/sushi-platter.jpg",
-  }
+  },
 ];
 
 export default function Saved() {
-  const [layout, setLayout] = useState<'grid' | 'list'>('list');
-
   return (
     <>
       <Container>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Title>Saved</Title>
-          <Pressable onPress={() => setLayout(layout === 'grid' ? 'list' : 'grid')}>
-            <RNText style={{ fontSize: 24 }}>{layout === 'grid' ? 'list' : 'grid'}</RNText>
-          </Pressable>
-        </View>
+        <Title>Saved</Title>
         <Scrollable>
-          <View style={layout === 'grid' ? { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' } : {}}>
+          <View>
             {recipes.map((recipe, index) => (
               <RecipeCard
                 variant="saved"
-                layout={layout}
                 key={index}
                 title={recipe.title}
                 category={recipe.category}
