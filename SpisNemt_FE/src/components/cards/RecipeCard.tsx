@@ -18,12 +18,10 @@ export default function RecipeCard({
 }: RecipeCardProps) {
   const containerStyles =
     variant === "saved"
-      ? cardStyle.SavedRecipeCardContainerList
+      ? cardStyle.SavedRecipeCardContainer
       : cardStyle.cardContainer;
   const imageStyles =
-    variant === "saved"
-      ? cardStyle.SavedRecipeCardImageList
-      : cardStyle.cardImage;
+    variant === "saved" ? cardStyle.SavedRecipeCardImage : cardStyle.cardImage;
   return (
     <View style={containerStyles}>
       <View style={imageStyles} />

@@ -110,7 +110,7 @@ export const cardStyle = StyleSheet.create({
     fontSize: globalSizes.small,
     color: globalColors.textColor,
   },
-  SavedRecipeCardContainerList: {
+  SavedRecipeCardContainer: {
     width: "100%",
     height: 350,
     borderRadius: globalSizes.borderRadius,
@@ -125,7 +125,7 @@ export const cardStyle = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
-  SavedRecipeCardImageList: {
+  SavedRecipeCardImage: {
     width: "100%",
     height: 220,
     borderRadius: globalSizes.borderRadius,
