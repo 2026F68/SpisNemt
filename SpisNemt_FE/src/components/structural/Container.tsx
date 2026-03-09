@@ -5,16 +5,17 @@ import { globalColors, globalSizes } from "../../theme";
 
 export default function Container({ children }: { children: React.ReactNode }) {
     return (
-        <ScrollView>
-            <SafeAreaView>
-                <View style={{
-                    padding: globalSizes.medium,
-                    backgroundColor: globalColors.backgroundColor,
-                    height: '100%',
-                }}>
-                    {children}
-                </View>
-            </SafeAreaView>
-        </ScrollView>
+        <SafeAreaView style={{
+            backgroundColor: globalColors.backgroundColor,
+            flex: 1,
+        }}>
+            <View style={{
+                padding: globalSizes.medium,
+                backgroundColor: globalColors.backgroundColor,
+                height: '100%',
+            }}>
+                {children}
+            </View>
+        </SafeAreaView>
     );
 }
