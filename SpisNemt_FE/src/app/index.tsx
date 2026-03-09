@@ -1,14 +1,8 @@
-import { Link } from "expo-router";
-import { Text, View } from "react-native";
-
-import { globalText } from "../theme";
-import Container from "../components/structural/Container";
-import Title from "../components/typograghy/Title";
-import Paragraph from "../components/typograghy/Paragraph";
-import { Scrollable } from "../components/structural/Scrollable";
-import RecipeCard from "../components/cards/RecipeCard";
-import PillFilter from "../components/buttons/PillFilter";
 import React from "react";
+import PillFilter from "../components/buttons/PillFilter";
+import RecipeCard from "../components/cards/RecipeCard";
+import Container from "../components/structural/Container";
+import { Scrollable } from "../components/structural/Scrollable";
 import Subtitle from "../components/typograghy/Subtitle";
 
 import { recipes } from "../mock/recipes";
@@ -38,24 +32,39 @@ export default function Index() {
         <Subtitle>Categories</Subtitle>
         <Scrollable horizontal>
           {cuisines.map((cuisine, index) => (
-            <PillFilter key={index} title={cuisine.title} onPress={() => { setCategory(category === null ? [cuisine.title] : category.includes(cuisine.title) ? category.filter(c => c !== cuisine.title) : [...category, cuisine.title]) }} active={category !== null && category.includes(cuisine.title)} />
-          ))}
-        </Scrollable>
-        <Scrollable horizontal>
-          {recipes.filter(recipe => category.length === 0 || category.includes(recipe.category)).map((recipe, index) => (
-            <RecipeCard
+            <PillFilter
               key={index}
-              title={recipe.title}
-              category={recipe.category}
-              description={recipe.description}
-              imageUrl={recipe.imageUrl}
+              title={cuisine.title}
+              onPress={() => {
+                setCategory(
+                  category === null
+                    ? [cuisine.title]
+                    : category.includes(cuisine.title)
+                      ? category.filter((c) => c !== cuisine.title)
+                      : [...category, cuisine.title],
+                );
+              }}
+              active={category !== null && category.includes(cuisine.title)}
             />
           ))}
         </Scrollable>
-
+        <Scrollable horizontal>
+          {recipes
+            .filter(
+              (recipe) =>
+                category.length === 0 || category.includes(recipe.category),
+            )
+            .map((recipe, index) => (
+              <RecipeCard
+                key={index}
+                title={recipe.title}
+                category={recipe.category}
+                description={recipe.description}
+                imageUrl={recipe.imageUrl}
+              />
+            ))}
+        </Scrollable>
       </Container>
     </>
-
   );
 }
-
