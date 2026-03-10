@@ -1,4 +1,4 @@
-import { Text, TextInput, TouchableHighlight, View } from "react-native";
+import { Pressable, Text, TextInput, View } from "react-native";
 import { formTheme } from "./FormTheme";
 
 interface SearchInputProps {
@@ -10,20 +10,20 @@ interface SearchInputProps {
 
 export default function SearchInput({ placeholder, value, onChangeText, actionButtonOnPress }: SearchInputProps) {
     return (
-        <View style={{flexDirection: "row", marginBottom: 15, gap: 10, width: "100%"}}>
-            <View style={{flex: 1}}>
+        <View style={{ flexDirection: "row", marginBottom: 15, gap: 10, width: "100%" }}>
+            <View style={{ flex: 1 }}>
                 <TextInput
                     placeholder={placeholder}
                     value={value}
                     onChangeText={onChangeText}
-                    style={[formTheme.formInput, {height: 20, paddingVertical: 20}]}
+                    style={[formTheme.formInput, { height: 20, paddingVertical: 20 }]}
                 />
             </View>
-            <TouchableHighlight style={[formTheme.formButton, {height: 20, paddingVertical: 20}]} onPress={actionButtonOnPress}>
-                <View>
-                    <Text style={{color: '#fff', fontWeight: 'bold'}}>Kamera</Text>
-                </View>
-            </TouchableHighlight>
+            <Pressable style={[formTheme.formButton, { height: 20, paddingVertical: 20 }]} onPress={actionButtonOnPress}>
+
+                <Text style={{ color: '#fff', fontWeight: 'bold' }}>Kamera</Text>
+
+            </Pressable>
         </View>
     );
 }
