@@ -1,20 +1,26 @@
 import { globalColors, globalSizes } from "@/src/theme";
 import { StyleSheet } from "react-native";
 
+const shadowOpacity = 0.3;
+const shadowRadius = 5;
+const elevation = 4;
+
+const cardRadius = 20;
+
 export const cardStyle = StyleSheet.create({
   cardContainer: {
     width: 190,
     height: 250,
-    borderRadius: globalSizes.borderRadius,
+    borderRadius: cardRadius,
     backgroundColor: globalColors.whiteColor,
     padding: globalSizes.medium,
     paddingBottom: globalSizes.large,
     marginRight: globalSizes.medium,
     shadowColor: globalColors.headerColor,
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    shadowOpacity: shadowOpacity,
+    shadowRadius: shadowRadius,
+    elevation: elevation,
   },
   cardImage: {
     width: "100%",
@@ -48,7 +54,7 @@ export const cardStyle = StyleSheet.create({
   SelectableCard: {
     width: 150,
     height: 180,
-    borderRadius: globalSizes.borderRadius,
+    borderRadius: cardRadius,
     borderColor: "transparent",
     borderWidth: 3,
     backgroundColor: globalColors.whiteColor,
@@ -57,9 +63,9 @@ export const cardStyle = StyleSheet.create({
     marginRight: globalSizes.medium,
     shadowColor: globalColors.headerColor,
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    shadowOpacity: shadowOpacity,
+    shadowRadius: shadowRadius,
+    elevation: elevation,
   },
   selectedIndicator: {
     position: "absolute",
@@ -86,9 +92,9 @@ export const cardStyle = StyleSheet.create({
     marginRight: globalSizes.medium,
     shadowColor: globalColors.headerColor,
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    shadowOpacity: shadowOpacity,
+    shadowRadius: shadowRadius,
+    elevation: elevation,
     flexDirection: "row",
     alignItems: "center",
   },
@@ -121,9 +127,9 @@ export const cardStyle = StyleSheet.create({
     marginRight: globalSizes.medium,
     shadowColor: globalColors.headerColor,
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    shadowOpacity: shadowOpacity,
+    shadowRadius: shadowRadius,
+    elevation: elevation,
   },
   SavedRecipeCardImage: {
     width: "100%",
