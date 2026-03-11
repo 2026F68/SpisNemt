@@ -4,7 +4,7 @@ export const globalColors = {
     /* Neutral colors */
     headerColor: '#333333',
     textColor: '#666666',
-    backgroundColor: '#F8F9FA',
+    backgroundColor: '#F4F4F4',
     
     /* Theme and brand colors */
     primaryColor: '#8eb155',
