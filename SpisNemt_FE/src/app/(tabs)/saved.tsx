@@ -1,8 +1,9 @@
-import { View } from "react-native";
-import RecipeCard from "../components/cards/RecipeCard";
-import Container from "../components/structural/Container";
-import { Scrollable } from "../components/structural/Scrollable";
-import Title from "../components/typograghy/Title";
+import { router } from "expo-router";
+import { Pressable, View } from "react-native";
+import RecipeCard from "../../components/cards/RecipeCard";
+import Container from "../../components/structural/Container";
+import { Scrollable } from "../../components/structural/Scrollable";
+import Title from "../../components/typograghy/Title";
 
 const recipes = [
   {
@@ -57,14 +58,18 @@ export default function Saved() {
         <Scrollable>
           <View>
             {recipes.map((recipe, index) => (
-              <RecipeCard
-                variant="saved"
+              <Pressable
                 key={index}
-                title={recipe.title}
-                category={recipe.category}
-                description={recipe.description}
-                imageUrl={recipe.imageUrl}
-              />
+                onPress={() => router.push("/SingleRecipe")}
+              >
+                <RecipeCard
+                  variant="saved"
+                  title={recipe.title}
+                  category={recipe.category}
+                  description={recipe.description}
+                  imageUrl={recipe.imageUrl}
+                />
+              </Pressable>
             ))}
           </View>
         </Scrollable>
