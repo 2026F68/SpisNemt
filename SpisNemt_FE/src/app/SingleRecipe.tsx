@@ -4,5 +4,18 @@ import SingleRecipeInfo from "../components/singleRecipe/singleRecipeInfo";
 export default function SingleRecipeInfoScreen() {
   const params = useLocalSearchParams();
 
-  return <SingleRecipeInfo />;
+  const ingredients = params.ingredients
+    ? JSON.parse(params.ingredients as string)
+    : undefined;
+
+  return (
+    <SingleRecipeInfo
+      title={params.title as string}
+      category={params.category as string}
+      description={params.description as string}
+      imageUrl={params.imageUrl as string}
+      ingredients={ingredients}
+      instructions={params.instructions as string}
+    />
+  );
 }

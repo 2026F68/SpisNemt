@@ -1,14 +1,52 @@
-import { Text, View } from "react-native";
+import { Image, Text, View } from "react-native";
+import CloseButton from "../buttons/CloseButton";
+import { cardStyle } from "../cards/CardTheme";
+import Container from "../structural/Container";
 import { Scrollable } from "../structural/Scrollable";
+import { List, Section, Title } from "../typograghy";
 
-interface SingleRecipeInfoProps {}
+interface SingleRecipeInfoProps {
+  title?: string;
+  category?: string;
+  description?: string;
+  ingredients?: string[];
+  instructions?: string;
+  imageUrl?: string;
+}
 
-export default function SingleRecipeInfo({}: SingleRecipeInfoProps) {
+export default function SingleRecipeInfo({
+  title,
+  category,
+  description,
+  ingredients,
+  instructions,
+  imageUrl,
+}: SingleRecipeInfoProps) {
   return (
-    <Scrollable>
-      <View>
-        <Text>SingleRecipeInfo</Text>
-      </View>
-    </Scrollable>
+    <View style={{ flex: 1 }}>
+      <CloseButton />
+      <Scrollable>
+        <Image
+          source={{ uri: imageUrl }}
+          style={{ width: "100%", height: 300 }}
+        />
+        <Container>
+          <Title>{title}</Title>
+          <Text style={cardStyle.cardCategory}>{category}</Text>
+
+          <Section title="Recipe Description">
+            <Text>{description}</Text>
+          </Section>
+
+          <Section title="Ingredients">
+            <List variant="bullet" items={ingredients} />
+          </Section>
+
+          <Section title="Instructions">
+            <Text>{instructions}</Text>
+          </Section>
+        </Container>
+      </Scrollable>
+    </View>
   );
 }

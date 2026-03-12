@@ -8,7 +8,7 @@ export default function RootLayout() {
       <Stack.Screen
         name="SingleRecipe"
         options={{
-          headerShown: true,
+          headerShown: false,
           presentation: "modal",
         }}
       />
