@@ -1,27 +1,24 @@
-import { TextInput, View } from "react-native";
-import Container from "../components/structural/Container";
-import Title from "../components/typograghy/Title";
+import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
 import React, { useMemo } from "react";
-import Paragraph from "../components/typograghy/Paragraph";
-import Button from "../components/buttons/Button";
-import { CameraView, CameraType, useCameraPermissions } from 'expo-camera';
+import Button from "../../components/buttons/Button";
+import Container from "../../components/structural/Container";
+import Paragraph from "../../components/typograghy/Paragraph";
+import Title from "../../components/typograghy/Title";
 
-import { useState } from 'react';
-import { Scrollable } from "../components/structural/Scrollable";
-import RecipeCard from "../components/cards/RecipeCard";
-import { formTheme } from "../components/forms/FormTheme";
+import { useState } from "react";
+import RecipeCard from "../../components/cards/RecipeCard";
+import { Scrollable } from "../../components/structural/Scrollable";
 
-import { recipes } from "../mock/recipes";
-import SearchInput from "../components/forms/SearchInput";
-import { globalColors } from "../theme";
-import Alert from "../components/typograghy/Alert";
-import PillFilter from "../components/buttons/PillFilter";
+import PillFilter from "../../components/buttons/PillFilter";
+import SearchInput from "../../components/forms/SearchInput";
+import Alert from "../../components/typograghy/Alert";
+import { recipes } from "../../mock/recipes";
 
 export default function Explore() {
-  const [draft, setDraft] = useState('');
+  const [draft, setDraft] = useState("");
   const [terms, setTerms] = useState<string[]>([]);
 
-  const [facing, setFacing] = React.useState<CameraType>('back');
+  const [facing, setFacing] = React.useState<CameraType>("back");
   const [permission, requestPermission] = useCameraPermissions();
 
   const [cameraOpen, setCameraOpen] = React.useState(false);
@@ -36,9 +33,9 @@ export default function Explore() {
     return recipes.filter((recipe) =>
       activeTerms.every((term) =>
         recipe.ingredients.some((ingredient) =>
-          ingredient.toLowerCase().includes(term)
-        )
-      )
+          ingredient.toLowerCase().includes(term),
+        ),
+      ),
     );
   }, [terms, draft]);
 
@@ -77,16 +74,14 @@ export default function Explore() {
     // Camera permissions are not granted yet.
     return (
       <Container>
-
         <Paragraph>We need your permission to show the camera</Paragraph>
         <Button onPress={requestPermission} title="Grant permission" />
-
       </Container>
     );
   }
 
   function toggleCameraFacing() {
-    setFacing(current => (current === 'back' ? 'front' : 'back'));
+    setFacing((current) => (current === "back" ? "front" : "back"));
   }
 
   return (
@@ -126,9 +121,7 @@ export default function Explore() {
               />
             ))
           ) : (
-            <Alert variant="danger">
-              No recipes found for "{searchLabel}"
-            </Alert>
+            <Alert variant="danger">No recipes found for "{searchLabel}"</Alert>
           )}
         </Scrollable>
       )}
@@ -140,7 +133,6 @@ export default function Explore() {
       {cameraOpen && (
         <CameraView style={{ flex: 1, marginTop: 20 }} facing={facing} />
       )}
-
     </Container>
   );
-} 
+}
