@@ -1,23 +1,15 @@
 {
   "users": {
-    "userId123": {
+    "userId": {
       "email": "",
+      "password": "",
       "name": "",
-      "accountType": "",
 
       "preferences": {
-        "cuisines": ["", "", ""],
-        "allergies": ["", ""]
+        "area": [], // "Italian", "Spanish", "Mexican", "French"
+        "category": [] // "Beef", "Pork", "Vegan", "Vegetarian", "Seafood"
       },
 
-      "savedRecipes": {
-        "recipe1": {
-          "recipeId": ""
-        },
-        "recipe2": {
-          "recipeId": ""
-        }
-      }
-    }
+      "savedRecipes": [idMeal]
   }
 }
