@@ -1,14 +1,22 @@
 import { globalSizes } from "@/src/theme";
-import { ScrollView } from "react-native";
+import { ScrollView, StyleProp, View, ViewStyle } from "react-native";
 
 interface ScrollableProps {
     children: React.ReactNode;
     horizontal?: boolean;
+    style?: StyleProp<ViewStyle>;
+    contentContainerStyle?: StyleProp<ViewStyle>;
 }
 
-export const Scrollable: React.FC<ScrollableProps> = ({ children, horizontal = false }) => {
+export const Scrollable: React.FC<ScrollableProps> = ({ children, horizontal = false, style, contentContainerStyle }) => {
     return (
-        <ScrollView style={{  marginBottom: globalSizes.medium, paddingBottom: globalSizes.xsmall }} horizontal={horizontal} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
+        <ScrollView 
+            style={style} 
+            horizontal={horizontal} 
+            showsHorizontalScrollIndicator={false} 
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={contentContainerStyle}
+        >
             {children}
         </ScrollView>
     )

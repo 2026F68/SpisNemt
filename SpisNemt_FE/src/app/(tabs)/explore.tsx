@@ -10,6 +10,34 @@ import PillFilter from "../../components/buttons/PillFilter";
 import SearchInput from "../../components/forms/SearchInput";
 import Alert from "../../components/typograghy/Alert";
 import { recipes } from "../../mock/recipes";
+import { StyleSheet, View } from "react-native";
+
+const styles = StyleSheet.create({
+  chipContainer: {
+    height: 48,
+    justifyContent: "center",
+    marginBottom: 12,
+  },
+  chipScroll: {
+    marginBottom: 8,
+    paddingBottom: 0,
+    flexGrow: 0,
+    maxHeight: 48,
+  },
+  chipScrollContent: {
+    alignItems: "center",
+  },
+
+  cameraContainer: {
+    marginTop: 12,
+    height: 320,
+    borderRadius: 12,
+    overflow: "hidden",
+  },
+  camera: {
+    flex: 1,
+  },
+});
 
 export default function Explore() {
   const [draft, setDraft] = useState("");
@@ -73,6 +101,7 @@ export default function Explore() {
 
   const searchLabel = submittedTerms.join(", ");
 
+
   if (!permission) {
     return <Paragraph>Requesting camera permission...</Paragraph>;
   }
@@ -96,24 +125,33 @@ export default function Explore() {
         value={draft}
         onChangeText={handleDraftChange}
         onSubmitEditing={submitSearch}
-        actionButtonOnPress={() => setCameraOpen((current) => !current)}
+        actionButtonOnPress={() => {
+          setCameraOpen((current) => !current);
+        }}
       />
 
-      {terms.length > 0 && (
-        <Scrollable horizontal>
-          {terms.map((term) => (
-            <PillFilter
-              key={term}
-              title={term}
-              onPress={() => removeTerm(term)}
-              active
-            />
-          ))}
-        </Scrollable>
-      )}
+
+
+      <View style={styles.chipContainer}>
+        {terms.length > 0 && (
+          <Scrollable horizontal style={styles.chipScroll} contentContainerStyle={styles.chipScrollContent}>
+            {terms.map((term) => (
+              <PillFilter
+                key={term}
+                title={term}
+                onPress={() => removeTerm(term)}
+                active
+              />
+            ))}
+          </Scrollable>
+        )}
+      </View>
+
 
       {cameraOpen && (
-        <CameraView style={{ marginTop: 20 }} facing={facing} />
+        <View style={styles.cameraContainer}>
+          <CameraView style={styles.camera} facing={facing} />
+        </View>
       )}
 
       {hasSubmittedSearch && (
@@ -129,14 +167,13 @@ export default function Explore() {
               />
             ))
           ) : (
-            <Alert variant="danger">No recipes found for "{searchLabel}"</Alert>
+            <>
+              <Alert variant="danger">No recipes found for "{searchLabel}".</Alert>
+            </>
           )}
         </Scrollable>
       )}
 
-      {!hasSubmittedSearch && (
-        <Paragraph>Type your search terms above, or use the camera to scan ingredients.</Paragraph>
-      )}
 
 
     </Container>
