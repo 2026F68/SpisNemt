@@ -7,7 +7,7 @@ export default function Container({ children }: { children: React.ReactNode }) {
     return (
         <SafeAreaView style={{
             backgroundColor: globalColors.backgroundColor,
-            flex: 1,
+            height: '100%',
         }}>
             <View style={{
                 padding: globalSizes.medium,

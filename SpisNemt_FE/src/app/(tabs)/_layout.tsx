@@ -15,7 +15,6 @@ export default function TabLayout() {
         tabBarStyle: {
           borderTopWidth: 0, // Remove the top border
           height: 50, // Custom height
-          margin: 10,
         },
       }}
     >
