@@ -5,12 +5,27 @@ import Container from "../components/structural/Container";
 import { Scrollable } from "../components/structural/Scrollable";
 import Subtitle from "../components/typograghy/Subtitle";
 import Title from "../components/typograghy/Title";
-
-import { cuisines } from "../mock/cuisines";
-import { recipes } from "../mock/recipes";
+import { get10RandomMeals } from "./services/mealDbAPI/get10RandomMeals";
 
 export default function Index() {
   const [category, setCategory] = React.useState<string[]>([]);
+  const [randomMeals, setRandomMeals] = React.useState<any[]>([]);
+
+  React.useEffect(() => {
+    get10RandomMeals()
+      .then((meals) => setRandomMeals(meals ?? []))
+      .catch(() => setRandomMeals([]));
+  }, []);
+
+  const categories = React.useMemo(
+    () => [...new Set(randomMeals.map((m) => m.strCategory as string))],
+    [randomMeals],
+  );
+
+  const filteredMeals =
+    category.length === 0
+      ? randomMeals
+      : randomMeals.filter((m) => category.includes(m.strCategory));
 
   return (
     <>
@@ -18,51 +33,42 @@ export default function Index() {
         <Title>Home</Title>
         <Subtitle>Recommended</Subtitle>
         <Scrollable horizontal>
-          {recipes.map((recipe, index) => (
+          {randomMeals.map((meal) => (
             <RecipeCard
-              key={index}
-              title={recipe.title}
-              category={recipe.category}
-              description={recipe.description}
-              imageUrl={recipe.imageUrl}
+              key={meal.idMeal}
+              title={meal.strMeal}
+              category={meal.strCategory}
+              imageUrl={meal.strMealThumb}
             />
           ))}
         </Scrollable>
 
         <Subtitle>Categories</Subtitle>
         <Scrollable horizontal>
-          {cuisines.map((cuisine, index) => (
+          {categories.map((category, index) => (
             <PillFilter
               key={index}
-              title={cuisine.title}
+              title={category}
               onPress={() => {
-                setCategory(
-                  category === null
-                    ? [cuisine.title]
-                    : category.includes(cuisine.title)
-                      ? category.filter((c) => c !== cuisine.title)
-                      : [...category, cuisine.title],
+                setCategory((prev) =>
+                  prev.includes(category)
+                    ? prev.filter((c) => c !== category)
+                    : [...prev, category],
                 );
               }}
-              active={category !== null && category.includes(cuisine.title)}
+              active={category.includes(category)}
             />
           ))}
         </Scrollable>
         <Scrollable horizontal>
-          {recipes
-            .filter(
-              (recipe) =>
-                category.length === 0 || category.includes(recipe.category),
-            )
-            .map((recipe, index) => (
-              <RecipeCard
-                key={index}
-                title={recipe.title}
-                category={recipe.category}
-                description={recipe.description}
-                imageUrl={recipe.imageUrl}
-              />
-            ))}
+          {filteredMeals.map((meal) => (
+            <RecipeCard
+              key={meal.idMeal}
+              title={meal.strMeal}
+              category={meal.strCategory}
+              imageUrl={meal.strMealThumb}
+            />
+          ))}
         </Scrollable>
       </Container>
     </>
