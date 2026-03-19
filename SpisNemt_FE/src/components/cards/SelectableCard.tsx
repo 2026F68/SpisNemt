@@ -1,24 +1,26 @@
 import { globalColors } from "@/src/theme";
-import React, { useState } from "react";
+import React from "react";
 import { Pressable, Text, View } from "react-native";
 import { cardStyle } from "./CardTheme";
 
 interface SelectableCardProps {
   title?: string;
   selected?: boolean;
+  onToggle?: () => void;
 }
 
 export default function SelectableCard({
   title,
   selected,
+  onToggle,
 }: SelectableCardProps) {
-  const [Selected, setSelected] = useState(selected ?? false);
+  const isSelected = selected ?? false;
 
   return (
-    <Pressable onPress={() => setSelected(!Selected)}>
+    <Pressable onPress={onToggle}>
       <View
         style={
-          Selected
+          isSelected
             ? [
                 cardStyle.SelectableCard,
                 { borderColor: globalColors.primaryColor },
@@ -26,7 +28,7 @@ export default function SelectableCard({
             : cardStyle.SelectableCard
         }
       >
-        {Selected && (
+        {isSelected && (
           <View style={cardStyle.selectedIndicator}>
             <Text style={cardStyle.SelectableCheckMark}>✓</Text>
           </View>
