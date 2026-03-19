@@ -25,6 +25,7 @@ export default function Account() {
 
   useEffect(() => {
     const currentUser = GoogleSignin.getCurrentUser();
+    console.log("Logged in user:", currentUser);
     const resolvedName =
       currentUser?.user.name || currentUser?.user.email || "Guest";
 

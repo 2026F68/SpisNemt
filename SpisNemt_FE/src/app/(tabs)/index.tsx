@@ -12,6 +12,8 @@ import { recipes } from "../../mock/recipes";
 import {
   GoogleSignin,
   GoogleSigninButton,
+  isErrorWithCode,
+  statusCodes,
 } from "@react-native-google-signin/google-signin";
 
 const webClientId = process.env.EXPO_PUBLIC_WEB_ID;
@@ -54,7 +56,23 @@ const googleSignIn = async () => {
       await processUserData(idToken, user); // Server call to validate the token & process the user data for signing In
     }
   } catch (error) {
-    console.log("Error", error);
+    if (isErrorWithCode(error)) {
+      switch (error.code) {
+        case statusCodes.SIGN_IN_CANCELLED:
+          console.log("Google sign-in cancelled");
+          break;
+        case statusCodes.IN_PROGRESS:
+          console.log("Google sign-in already in progress");
+          break;
+        case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
+          console.log("Google Play Services not available or outdated");
+          break;
+        default:
+          console.log("Google sign-in error", error);
+      }
+    } else {
+      console.log("Unexpected error", error);
+    }
   }
 };
 
