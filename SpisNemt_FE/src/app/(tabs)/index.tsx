@@ -14,12 +14,15 @@ import {
   GoogleSigninButton,
 } from "@react-native-google-signin/google-signin";
 
+const webClientId = process.env.EXPO_PUBLIC_WEB_ID;
+const iosClientId = process.env.EXPO_PUBLIC_IOS_ID;
+
 GoogleSignin.configure({
-  webClientId: process.env.EXPO_PUBLIC_WEB_ID,
+  webClientId,
   scopes: ["profile", "email"], // what API you want to access on behalf of the user, default is email and profile
-  offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
+  offlineAccess: Boolean(webClientId), // if you want to access Google API on behalf of the user FROM YOUR SERVER
   forceCodeForRefreshToken: false,
-  iosClientId: process.env.EXPO_PUBLIC_IOS_ID,
+  iosClientId,
 });
 
 const GoogleLogin = async () => {
@@ -60,8 +63,6 @@ export default function Index() {
 
   return (
     <>
-      <GoogleSigninButton onPress={googleSignIn} />
-
       <Container>
         <Title>Home</Title>
         <Subtitle>Recommended</Subtitle>
@@ -76,6 +77,8 @@ export default function Index() {
             />
           ))}
         </Scrollable>
+
+        <GoogleSigninButton onPress={googleSignIn} />
 
         <Subtitle>Categories</Subtitle>
         <Scrollable horizontal>
