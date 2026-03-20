@@ -12,12 +12,12 @@ import { getUserProfile } from "../../services/userProfile/getUserProfile";
 import { saveUserPreferences } from "../../services/userProfile/saveUserPreferences";
 
 const PREFERENCE_OPTIONS = ["Italian", "Spanish", "French", "Mexican"];
-const ALLERGY_OPTIONS = ["Gluten", "Dairy", "Nuts", "Soy"];
+const CATEGORY_OPTIONS = ["Gluten", "Dairy", "Nuts", "Soy"];
 
 export default function Account() {
   const { user, signOut } = useAuth();
-  const [preferences, setPreferences] = useState<string[]>([]);
-  const [allergies, setAllergies] = useState<string[]>([]);
+  const [preferences, setArea] = useState<string[]>([]);
+  const [category, setCategory] = useState<string[]>([]);
   const [feedback, setFeedback] = useState<{
     message: string;
     variant: "success" | "warning" | "danger";
@@ -38,8 +38,8 @@ export default function Account() {
           return;
         }
 
-        setPreferences(profile.preferences.area);
-        setAllergies(profile.preferences.category);
+        setArea(profile.preferences.area);
+        setCategory(profile.preferences.category);
       } catch (error) {
         console.error(error);
         setFeedback({
@@ -70,7 +70,7 @@ export default function Account() {
     }
 
     try {
-      await saveUserPreferences(user, preferences, allergies);
+      await saveUserPreferences(user, preferences, category);
       setFeedback({
         message: "Preferences saved.",
         variant: "success",
@@ -115,20 +115,22 @@ export default function Account() {
               title={preference}
               selected={preferences.includes(preference)}
               onToggle={() =>
-                toggleSelection(preferences, setPreferences, preference)
+                toggleSelection(preferences, setArea, preference)
               }
             />
           ))}
         </Scrollable>
 
-        <Subtitle>Allergies</Subtitle>
+        <Subtitle>Category</Subtitle>
         <Scrollable horizontal>
-          {ALLERGY_OPTIONS.map((allergy) => (
+          {CATEGORY_OPTIONS.map((categoryOption) => (
             <SelectableCard
-              key={allergy}
-              title={allergy}
-              selected={allergies.includes(allergy)}
-              onToggle={() => toggleSelection(allergies, setAllergies, allergy)}
+              key={categoryOption}
+              title={categoryOption}
+              selected={category.includes(categoryOption)}
+              onToggle={() =>
+                toggleSelection(category, setCategory, categoryOption)
+              }
             />
           ))}
         </Scrollable>

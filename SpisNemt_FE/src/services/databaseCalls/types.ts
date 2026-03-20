@@ -11,6 +11,6 @@ export interface UserProfileDocument {
     area: string[];
     category: string[];
   };
-  savedRecipes: Array<string | number>;
+  savedRecipes: number[];
   updatedAt?: unknown;
 }

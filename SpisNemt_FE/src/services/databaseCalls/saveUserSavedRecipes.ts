@@ -4,7 +4,7 @@ import type { UserIdentity } from "./types";
 
 export async function saveUserSavedRecipes(
   user: UserIdentity,
-  savedRecipes: Array<string | number>,
+  savedRecipes: number[],
 ) {
   await setDoc(
     userProfileDocRef(user.id),
