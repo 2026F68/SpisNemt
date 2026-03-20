@@ -155,11 +155,12 @@ export default function Explore() {
       )}
 
       {hasSubmittedSearch && (
-        <Scrollable horizontal>
+        <Scrollable>
           {filteredRecipes.length > 0 ? (
             filteredRecipes.map((recipe, index) => (
               <RecipeCard
                 key={index}
+                variant="saved"
                 title={recipe.title}
                 category={recipe.category}
                 description={recipe.description}
