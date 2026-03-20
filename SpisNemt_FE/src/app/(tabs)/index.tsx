@@ -6,8 +6,7 @@ import { Scrollable } from "../../components/structural/Scrollable";
 import Subtitle from "../../components/typograghy/Subtitle";
 import Title from "../../components/typograghy/Title";
 
-import { cuisines } from "../../mock/cuisines";
-import { recipes } from "../../mock/recipes";
+import { get10RandomMeals } from "../services/mealDbAPI/get10RandomMeals";
 
 export default function Index() {
   const [category, setCategory] = React.useState<string[]>([]);
