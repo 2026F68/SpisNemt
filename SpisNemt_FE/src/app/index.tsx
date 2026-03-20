@@ -1,12 +1,11 @@
 import React from "react";
-import PillFilter from "../../components/buttons/PillFilter";
-import RecipeCard from "../../components/cards/RecipeCard";
-import Container from "../../components/structural/Container";
-import { Scrollable } from "../../components/structural/Scrollable";
-import Subtitle from "../../components/typograghy/Subtitle";
-import Title from "../../components/typograghy/Title";
-
-import { get10RandomMeals } from "../services/mealDbAPI/get10RandomMeals";
+import PillFilter from "../components/buttons/PillFilter";
+import RecipeCard from "../components/cards/RecipeCard";
+import Container from "../components/structural/Container";
+import { Scrollable } from "../components/structural/Scrollable";
+import Subtitle from "../components/typograghy/Subtitle";
+import Title from "../components/typograghy/Title";
+import { get10RandomMeals } from "./services/mealDbAPI/get10RandomMeals";
 
 export default function Index() {
   const [category, setCategory] = React.useState<string[]>([]);
