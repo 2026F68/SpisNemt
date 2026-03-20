@@ -8,8 +8,8 @@ import Alert from "../../components/typograghy/Alert";
 import Subtitle from "../../components/typograghy/Subtitle";
 import Title from "../../components/typograghy/Title";
 import { useAuth } from "../../context/AuthContext";
-import { getUserProfile } from "../../services/userProfile/getUserProfile";
-import { saveUserPreferences } from "../../services/userProfile/saveUserPreferences";
+import { getUserProfile } from "../../services/databaseAPI/getUserProfile";
+import { saveUserPreferences } from "../../services/databaseAPI/saveUserPreferences";
 
 const PREFERENCE_OPTIONS = ["Italian", "Spanish", "French", "Mexican"];
 const CATEGORY_OPTIONS = ["Gluten", "Dairy", "Nuts", "Soy"];
@@ -114,9 +114,7 @@ export default function Account() {
               key={preference}
               title={preference}
               selected={preferences.includes(preference)}
-              onToggle={() =>
-                toggleSelection(preferences, setArea, preference)
-              }
+              onToggle={() => toggleSelection(preferences, setArea, preference)}
             />
           ))}
         </Scrollable>
