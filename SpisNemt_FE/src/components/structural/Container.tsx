@@ -14,6 +14,7 @@ export default function Container({ children }: { children: React.ReactNode }) {
       <View
         style={{
           padding: globalSizes.medium,
+          paddingBottom: 0,
           backgroundColor: globalColors.backgroundColor,
           height: "100%",
         }}

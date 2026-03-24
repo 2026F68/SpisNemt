@@ -1,5 +1,5 @@
 import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import Button from "../../components/buttons/Button";
 import Container from "../../components/structural/Container";
 import Paragraph from "../../components/typograghy/Paragraph";
@@ -9,8 +9,14 @@ import { Scrollable } from "../../components/structural/Scrollable";
 import PillFilter from "../../components/buttons/PillFilter";
 import SearchInput from "../../components/forms/SearchInput";
 import Alert from "../../components/typograghy/Alert";
-import { recipes } from "../../mock/recipes";
+import { getMealByMultiIngredients } from "../../services/mealDbAPI/getMealByMultiIngredients";
 import { StyleSheet, View } from "react-native";
+
+interface MealDbMeal {
+  idMeal: string;
+  strMeal: string;
+  strMealThumb: string;
+}
 
 const styles = StyleSheet.create({
   chipContainer: {
@@ -44,8 +50,11 @@ export default function Explore() {
   const [terms, setTerms] = useState<string[]>([]);
   const [submittedTerms, setSubmittedTerms] = useState<string[]>([]);
   const [hasSubmittedSearch, setHasSubmittedSearch] = useState(false);
+  const [results, setResults] = useState<MealDbMeal[]>([]);
+  const [isLoadingResults, setIsLoadingResults] = useState(false);
+  const [searchError, setSearchError] = useState<string | null>(null);
 
-  const [facing, setFacing] = React.useState<CameraType>("back");
+  const [facing] = React.useState<CameraType>("back");
   const [permission, requestPermission] = useCameraPermissions();
   const [cameraOpen, setCameraOpen] = React.useState(false);
 
@@ -62,7 +71,7 @@ export default function Explore() {
     setTerms((prev) => prev.filter((t) => t !== termToRemove));
   };
 
-  const submitSearch = () => {
+  const submitSearch = async () => {
     const draftTerm = normalizeTerm(draft);
     const nextTerms =
       draftTerm && !terms.includes(draftTerm) ? [...terms, draftTerm] : terms;
@@ -75,6 +84,24 @@ export default function Explore() {
     setSubmittedTerms(nextTerms);
     setCameraOpen(false);
     setHasSubmittedSearch(true);
+
+    if (nextTerms.length === 0) {
+      setResults([]);
+      setSearchError(null);
+      return;
+    }
+
+    try {
+      setIsLoadingResults(true);
+      setSearchError(null);
+      const meals = await getMealByMultiIngredients(nextTerms);
+      setResults(meals);
+    } catch {
+      setResults([]);
+      setSearchError("Something went wrong while searching for recipes.");
+    } finally {
+      setIsLoadingResults(false);
+    }
   };
 
   const handleDraftChange = (text: string) => {
@@ -86,18 +113,6 @@ export default function Explore() {
     }
     setDraft(text);
   };
-
-  const filteredRecipes = useMemo(() => {
-    if (!hasSubmittedSearch || submittedTerms.length === 0) return [];
-
-    return recipes.filter((recipe) =>
-      submittedTerms.every((term) =>
-        recipe.ingredients.some((ingredient) =>
-          ingredient.toLowerCase().includes(term),
-        ),
-      ),
-    );
-  }, [submittedTerms, hasSubmittedSearch]);
 
   const searchLabel = submittedTerms.join(", ");
 
@@ -156,15 +171,19 @@ export default function Explore() {
 
       {hasSubmittedSearch && (
         <Scrollable>
-          {filteredRecipes.length > 0 ? (
-            filteredRecipes.map((recipe, index) => (
+          {isLoadingResults ? (
+            <Paragraph>Searching recipes...</Paragraph>
+          ) : searchError ? (
+            <Alert variant="danger">{searchError}</Alert>
+          ) : results.length > 0 ? (
+            results.map((meal) => (
               <RecipeCard
-                key={index}
+                key={meal.idMeal}
                 variant="saved"
-                title={recipe.title}
-                category={recipe.category}
-                description={recipe.description}
-                imageUrl={recipe.imageUrl}
+                title={meal.strMeal}
+                category="MealDB"
+                description="Found by selected ingredients"
+                imageUrl={meal.strMealThumb}
               />
             ))
           ) : (
