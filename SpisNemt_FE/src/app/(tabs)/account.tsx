@@ -84,14 +84,6 @@ export default function Account() {
     }
   };
 
-  const googleSignOut = async () => {
-    try {
-      await signOut();
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   return (
     <>
       <Container>
@@ -104,8 +96,6 @@ export default function Account() {
         )}
 
         <Button title="Save Preferences" onPress={saveSelections} />
-
-        <Button title="Sign Out" onPress={googleSignOut} />
 
         <Subtitle>Preferences</Subtitle>
         <Scrollable horizontal>
