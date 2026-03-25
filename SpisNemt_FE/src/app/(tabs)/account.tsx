@@ -91,6 +91,8 @@ export default function Account() {
 
         <AccountCard accountName={accountName} accountType="User" />
 
+        <Button title="Sign Out" onPress={() => void signOut()} />
+
         {feedback && (
           <Alert variant={feedback.variant}>{feedback.message}</Alert>
         )}
