@@ -1,28 +1,24 @@
 {
   "configuration" : { },
-  "description" : "C4 model via Structurizr Lite",
+  "description" : "Description",
   "documentation" : { },
   "id" : 1,
-  "lastModifiedAgent" : "structurizr-ui",
-  "lastModifiedDate" : "2026-03-05T07:47:19Z",
+  "lastModifiedDate" : "2026-03-26T17:52:25Z",
   "model" : {
     "people" : [ {
-      "description" : "A user of SpisNemt",
       "id" : "1",
       "name" : "User",
       "properties" : {
         "structurizr.dsl.identifier" : "user"
       },
       "relationships" : [ {
-        "description" : "Uses",
         "destinationId" : "2",
-        "id" : "11",
+        "id" : "19",
         "sourceId" : "1",
         "tags" : "Relationship"
       }, {
-        "description" : "Uses",
         "destinationId" : "3",
-        "id" : "12",
+        "id" : "20",
         "sourceId" : "1",
         "tags" : "Relationship"
       } ],
@@ -31,164 +27,261 @@
     "softwareSystems" : [ {
       "containers" : [ {
         "components" : [ {
-          "description" : "Inception V3 machine learning moddel for ingredient recognition",
           "documentation" : { },
           "id" : "4",
-          "name" : "Ingredient scanner",
+          "name" : "HomeScreen",
+          "properties" : {
+            "structurizr.dsl.identifier" : "HomeScreen"
+          },
+          "relationships" : [ {
+            "destinationId" : "13",
+            "id" : "35",
+            "sourceId" : "4",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component,ML Model"
+        }, {
+          "documentation" : { },
+          "id" : "5",
+          "name" : "ExploreScreen",
+          "properties" : {
+            "structurizr.dsl.identifier" : "ExploreScreen"
+          },
+          "relationships" : [ {
+            "destinationId" : "13",
+            "id" : "37",
+            "sourceId" : "5",
+            "tags" : "Relationship"
+          }, {
+            "destinationId" : "8",
+            "id" : "42",
+            "sourceId" : "5",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component,ML Model"
+        }, {
+          "documentation" : { },
+          "id" : "6",
+          "name" : "SavedRecipesScreen",
+          "properties" : {
+            "structurizr.dsl.identifier" : "SavedRecipesScreen"
+          },
+          "relationships" : [ {
+            "destinationId" : "13",
+            "id" : "38",
+            "sourceId" : "6",
+            "tags" : "Relationship"
+          }, {
+            "destinationId" : "15",
+            "id" : "41",
+            "sourceId" : "6",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component,ML Model"
+        }, {
+          "documentation" : { },
+          "id" : "7",
+          "name" : "AccountScreen",
+          "properties" : {
+            "structurizr.dsl.identifier" : "AccountScreen"
+          },
+          "relationships" : [ {
+            "destinationId" : "15",
+            "id" : "39",
+            "sourceId" : "7",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component,ML Model"
+        }, {
+          "documentation" : { },
+          "id" : "8",
+          "name" : "ComputerVision",
           "properties" : {
             "structurizr.dsl.identifier" : "InceptionV3"
           },
-          "relationships" : [ {
-            "description" : "Sends ingredients to",
-            "destinationId" : "5",
-            "id" : "22",
-            "sourceId" : "4",
-            "tags" : "Relationship",
-            "technology" : "?"
-          } ],
-          "tags" : "Element,Component,ML Model",
-          "technology" : "TensorFlow.js"
-        }, {
-          "description" : "Multi-layer perceptron machine learning model for recipe recommendation",
-          "documentation" : { },
-          "id" : "5",
-          "name" : "Recipe recommender",
-          "properties" : {
-            "structurizr.dsl.identifier" : "MLP"
-          },
-          "relationships" : [ {
-            "description" : "Reads user preferences from",
-            "destinationId" : "9",
-            "id" : "19",
-            "sourceId" : "5",
-            "tags" : "Relationship",
-            "technology" : "HTTPS/REST"
-          }, {
-            "description" : "Fetches recipes from",
-            "destinationId" : "10",
-            "id" : "20",
-            "sourceId" : "5",
-            "tags" : "Relationship",
-            "technology" : "HTTP/REST"
-          } ],
-          "tags" : "Element,Component,ML Model",
-          "technology" : "TensorFlow.js"
-        }, {
-          "description" : "Handles user authentication",
-          "documentation" : { },
-          "id" : "6",
-          "name" : "Sign in Controller",
-          "properties" : {
-            "structurizr.dsl.identifier" : "OAuthService"
-          },
-          "relationships" : [ {
-            "description" : "Reads from and writes to",
-            "destinationId" : "9",
-            "id" : "18",
-            "sourceId" : "6",
-            "tags" : "Relationship",
-            "technology" : "HTTPS/REST"
-          } ],
-          "tags" : "Element,Component,OAuth Service",
-          "technology" : "Firebase Auth"
-        }, {
-          "description" : "Handles saving and retrieving user's saved recipes",
-          "documentation" : { },
-          "id" : "7",
-          "name" : "Saved Recipes Controller",
-          "properties" : {
-            "structurizr.dsl.identifier" : "SavedRecipes"
-          },
-          "relationships" : [ {
-            "description" : "Reads from and writes to",
-            "destinationId" : "9",
-            "id" : "17",
-            "sourceId" : "7",
-            "tags" : "Relationship",
-            "technology" : "HTTPS/REST"
-          } ],
-          "tags" : "Element,Component,Saved Recipes",
-          "technology" : "something"
-        }, {
-          "description" : "Handles native hardware interactions like camera and haptic engine",
-          "documentation" : { },
-          "id" : "8",
-          "name" : "Native Hardware Controller",
-          "properties" : {
-            "structurizr.dsl.identifier" : "NativeHardware"
-          },
-          "relationships" : [ {
-            "description" : "Sends ingredient images to",
-            "destinationId" : "4",
-            "id" : "21",
-            "sourceId" : "8",
-            "tags" : "Relationship",
-            "technology" : "?"
-          } ],
-          "tags" : "Element,Component,Native Hardware",
-          "technology" : "something"
+          "tags" : "Element,Component,ML Model"
         } ],
-        "description" : "description",
         "documentation" : { },
         "id" : "3",
-        "name" : "Mobile app",
+        "name" : "UI",
         "properties" : {
-          "structurizr.dsl.identifier" : "MobileApp"
+          "structurizr.dsl.identifier" : "UI"
         },
         "relationships" : [ {
-          "description" : "Fetches recipes from",
-          "destinationId" : "10",
-          "id" : "13",
-          "sourceId" : "3",
-          "tags" : "Relationship",
-          "technology" : "HTTP/REST"
-        }, {
-          "description" : "Reads from and writes to",
           "destinationId" : "9",
-          "id" : "15",
+          "id" : "21",
           "sourceId" : "3",
-          "tags" : "Relationship",
-          "technology" : "HTTP/REST"
+          "tags" : "Relationship"
+        }, {
+          "destinationId" : "10",
+          "id" : "30",
+          "sourceId" : "3",
+          "tags" : "Relationship"
+        }, {
+          "destinationId" : "13",
+          "id" : "36",
+          "linkedRelationshipId" : "35",
+          "sourceId" : "3"
+        }, {
+          "destinationId" : "15",
+          "id" : "40",
+          "linkedRelationshipId" : "39",
+          "sourceId" : "3"
         } ],
-        "tags" : "Element,Container,Mobile App",
-        "technology" : "Expo for iOS and Android"
+        "tags" : "Element,Container,Mobile App"
+      }, {
+        "components" : [ {
+          "documentation" : { },
+          "id" : "10",
+          "name" : "SignInController",
+          "properties" : {
+            "structurizr.dsl.identifier" : "SignInController"
+          },
+          "relationships" : [ {
+            "destinationId" : "15",
+            "id" : "27",
+            "sourceId" : "10",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component,Auth"
+        }, {
+          "documentation" : { },
+          "id" : "11",
+          "name" : "RecipeRecommender",
+          "properties" : {
+            "structurizr.dsl.identifier" : "RecipeRecommender"
+          },
+          "relationships" : [ {
+            "destinationId" : "12",
+            "id" : "29",
+            "sourceId" : "11",
+            "tags" : "Relationship"
+          }, {
+            "destinationId" : "3",
+            "id" : "31",
+            "sourceId" : "11",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component,Service"
+        }, {
+          "documentation" : { },
+          "id" : "12",
+          "name" : "PreferenceService",
+          "properties" : {
+            "structurizr.dsl.identifier" : "PreferenceService"
+          },
+          "relationships" : [ {
+            "destinationId" : "13",
+            "id" : "33",
+            "sourceId" : "12",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component,Service"
+        } ],
+        "documentation" : { },
+        "id" : "9",
+        "name" : "Backend",
+        "properties" : {
+          "structurizr.dsl.identifier" : "Backend"
+        },
+        "relationships" : [ {
+          "destinationId" : "18",
+          "id" : "24",
+          "sourceId" : "9",
+          "tags" : "Relationship"
+        }, {
+          "destinationId" : "15",
+          "id" : "28",
+          "linkedRelationshipId" : "27",
+          "sourceId" : "9"
+        }, {
+          "destinationId" : "3",
+          "id" : "32",
+          "linkedRelationshipId" : "31",
+          "sourceId" : "9"
+        }, {
+          "destinationId" : "13",
+          "id" : "34",
+          "linkedRelationshipId" : "33",
+          "sourceId" : "9"
+        } ],
+        "tags" : "Element,Container,Backend"
+      }, {
+        "components" : [ {
+          "documentation" : { },
+          "id" : "14",
+          "name" : "API Client",
+          "properties" : {
+            "structurizr.dsl.identifier" : "test"
+          },
+          "tags" : "Element,Component,API Client"
+        } ],
+        "documentation" : { },
+        "id" : "13",
+        "name" : "MealDBService",
+        "properties" : {
+          "structurizr.dsl.identifier" : "MealDBService"
+        },
+        "relationships" : [ {
+          "destinationId" : "18",
+          "id" : "26",
+          "sourceId" : "13",
+          "tags" : "Relationship"
+        } ],
+        "tags" : "Element,Container"
+      }, {
+        "components" : [ {
+          "documentation" : { },
+          "id" : "16",
+          "name" : "API Client",
+          "properties" : {
+            "structurizr.dsl.identifier" : "test1"
+          },
+          "tags" : "Element,Component,API Client"
+        } ],
+        "documentation" : { },
+        "id" : "15",
+        "name" : "UserService",
+        "properties" : {
+          "structurizr.dsl.identifier" : "UserService"
+        },
+        "relationships" : [ {
+          "destinationId" : "17",
+          "id" : "22",
+          "sourceId" : "15",
+          "tags" : "Relationship"
+        } ],
+        "tags" : "Element,Container"
       } ],
-      "description" : "Allows users to receive recipes based on their ingriedients and preferences",
       "documentation" : { },
       "id" : "2",
-      "name" : "SpisNemt",
+      "name" : "SpisNemtApp",
       "properties" : {
-        "structurizr.dsl.identifier" : "SpisNemt"
+        "structurizr.dsl.identifier" : "SpisNemtApp"
       },
       "relationships" : [ {
-        "description" : "Fetches recipes from",
-        "destinationId" : "10",
-        "id" : "14",
-        "linkedRelationshipId" : "13",
-        "sourceId" : "2",
-        "technology" : "HTTP/REST"
+        "destinationId" : "17",
+        "id" : "23",
+        "linkedRelationshipId" : "22",
+        "sourceId" : "2"
       }, {
-        "description" : "Reads from and writes to",
-        "destinationId" : "9",
-        "id" : "16",
-        "linkedRelationshipId" : "15",
-        "sourceId" : "2",
-        "technology" : "HTTP/REST"
+        "destinationId" : "18",
+        "id" : "25",
+        "linkedRelationshipId" : "24",
+        "sourceId" : "2"
       } ],
       "tags" : "Element,Software System"
     }, {
-      "description" : "External NoSQL Firebase database for user preferences and saved recipes",
       "documentation" : { },
-      "id" : "9",
+      "id" : "17",
       "name" : "Database",
       "properties" : {
         "structurizr.dsl.identifier" : "Database"
       },
       "tags" : "Element,Software System,External,Database"
     }, {
-      "description" : "External API for recipes",
       "documentation" : { },
-      "id" : "10",
+      "id" : "18",
       "name" : "TheMealDB",
       "properties" : {
         "structurizr.dsl.identifier" : "TheMealDB"
@@ -198,73 +291,153 @@
   },
   "name" : "My System",
   "properties" : {
+    "structurizr.inspection.error" : "87",
+    "structurizr.dsl" : "d29ya3NwYWNlICJNeSBTeXN0ZW0iIHsKCiAgbW9kZWwgewogICAgdXNlciA9IHBlcnNvbiAiVXNlciIKCiAgICBTcGlzTmVtdEFwcCAgPSBzb2Z0d2FyZVN5c3RlbSAiU3Bpc05lbXRBcHAiIHsKCiAgICAgIFVJID0gY29udGFpbmVyICJVSSIgewogICAgICAgIHRhZ3MgIk1vYmlsZSBBcHAiCiAgICAgICAgICBIb21lU2NyZWVuID0gY29tcG9uZW50ICJIb21lU2NyZWVuIiB7CiAgICAgICAgICAgIHRhZ3MgIk1MIE1vZGVsIgogICAgICAgICAgfQoKICAgICAgICAgIEV4cGxvcmVTY3JlZW4gPSBjb21wb25lbnQgIkV4cGxvcmVTY3JlZW4iIHsKICAgICAgICAgICAgdGFncyAiTUwgTW9kZWwiCiAgICAgICAgICB9CgogICAgICAgICAgU2F2ZWRSZWNpcGVzU2NyZWVuID0gY29tcG9uZW50ICJTYXZlZFJlY2lwZXNTY3JlZW4iIHsKICAgICAgICAgICAgdGFncyAiTUwgTW9kZWwiCiAgICAgICAgICB9CgogICAgICAgICAgQWNjb3VudFNjcmVlbiA9IGNvbXBvbmVudCAiQWNjb3VudFNjcmVlbiIgewogICAgICAgICAgICB0YWdzICJNTCBNb2RlbCIKICAgICAgICAgIH0KCiAgICAgICAgICBJbmNlcHRpb25WMyA9IGNvbXBvbmVudCAiQ29tcHV0ZXJWaXNpb24iIHsKICAgICAgICAgICAgdGFncyAiTUwgTW9kZWwiCiAgICAgICAgICB9CiAgICAgIH0KCiAgICAgIEJhY2tlbmQgPSBjb250YWluZXIgIkJhY2tlbmQiIHsKICAgICAgICB0YWdzICJCYWNrZW5kIgogICAgICAgICAgU2lnbkluQ29udHJvbGxlciA9IGNvbXBvbmVudCAiU2lnbkluQ29udHJvbGxlciIgewogICAgICAgICAgICB0YWdzICJBdXRoIgogICAgICAgICAgfQoKICAgICAgICAgIFJlY2lwZVJlY29tbWVuZGVyID0gY29tcG9uZW50ICJSZWNpcGVSZWNvbW1lbmRlciIgewogICAgICAgICAgICB0YWdzICJTZXJ2aWNlIgogICAgICAgICAgfQoKICAgICAgICAgIFByZWZlcmVuY2VTZXJ2aWNlID0gY29tcG9uZW50ICJQcmVmZXJlbmNlU2VydmljZSIgewogICAgICAgICAgICB0YWdzICJTZXJ2aWNlIgogICAgICAgICAgfQogICAgICB9CgogICAgICBNZWFsREJTZXJ2aWNlID0gY29udGFpbmVyICJNZWFsREJTZXJ2aWNlIiB7CiAgICAgICAgdGVzdCA9IGNvbXBvbmVudCAiQVBJIENsaWVudCIgewogICAgICAgICAgdGFncyAiQVBJIENsaWVudCIKICAgICAgICB9CiAgICAgIH0KCiAgICAgIFVzZXJTZXJ2aWNlID0gY29udGFpbmVyICJVc2VyU2VydmljZSIgewogICAgICAgIHRlc3QxID0gY29tcG9uZW50ICJBUEkgQ2xpZW50IiB7CiAgICAgICAgICB0YWdzICJBUEkgQ2xpZW50IgogICAgICAgIH0KICAgICAgfQogICAgfQoKICAgIERhdGFiYXNlID0gc29mdHdhcmVTeXN0ZW0gIkRhdGFiYXNlIiB7CiAgICAgICAgdGFncyAiRXh0ZXJuYWwiLCAiRGF0YWJhc2UiCiAgICB9CgogICAgVGhlTWVhbERCID0gc29mdHdhcmVTeXN0ZW0gIlRoZU1lYWxEQiIgewogICAgICB0YWdzICJFeHRlcm5hbCIKICAgIH0KCiAgICAvL0NvbnRleHQKICAgIHVzZXIgLT4gU3Bpc05lbXRBcHAKCiAgICAvL0NvbnRhaW5lcgogICAgdXNlciAtPiBVSQogICAgVUkgLT4gQmFja2VuZAogICAgVXNlclNlcnZpY2UgLT4gRGF0YWJhc2UKICAgIEJhY2tlbmQgLT4gVGhlTWVhbERCCiAgICBNZWFsREJTZXJ2aWNlIC0+IFRoZU1lYWxEQgoKICAgIC8vQ29tcG9uZW50IC0gIEJhY2tlbmQKICAgIFNpZ25JbkNvbnRyb2xsZXIgLT4gVXNlclNlcnZpY2UKICAgIFJlY2lwZVJlY29tbWVuZGVyIC0+IFByZWZlcmVuY2VTZXJ2aWNlCiAgICBVSSAtPiBTaWduSW5Db250cm9sbGVyCiAgICBSZWNpcGVSZWNvbW1lbmRlciAtPiBVSQogICAgUHJlZmVyZW5jZVNlcnZpY2UgLT4gTWVhbERCU2VydmljZQoKICAgIC8vQ29tcG9uZW50IC0gVUkKICAgIEhvbWVTY3JlZW4gLT4gTWVhbERCU2VydmljZQogICAgRXhwbG9yZVNjcmVlbiAtPiBNZWFsREJTZXJ2aWNlCiAgICBTYXZlZFJlY2lwZXNTY3JlZW4gLT4gTWVhbERCU2VydmljZQogICAgQWNjb3VudFNjcmVlbiAtPiBVc2VyU2VydmljZQogICAgU2F2ZWRSZWNpcGVzU2NyZWVuIC0+IFVzZXJTZXJ2aWNlCiAgICBFeHBsb3JlU2NyZWVuIC0+IEluY2VwdGlvblYzCiAgfQoKICB2aWV3cyB7CiAgICBzeXN0ZW1Db250ZXh0IFNwaXNOZW10QXBwICJTeXN0ZW1Db250ZXh0IiB7CiAgICAgIGluY2x1ZGUgKgogICAgfQogCiAgICBjb250YWluZXIgU3Bpc05lbXRBcHAgIkNvbnRhaW5lcnMiIHsKICAgICAgaW5jbHVkZSAqCiAgICAgIGV4Y2x1ZGUgInJlbGF0aW9uc2hpcC5zb3VyY2U9PVVJICYmIHJlbGF0aW9uc2hpcC5kZXN0aW5hdGlvbj09VXNlclNlcnZpY2UiCiAgICAgIGV4Y2x1ZGUgInJlbGF0aW9uc2hpcC5zb3VyY2U9PUJhY2tlbmQgJiYgcmVsYXRpb25zaGlwLmRlc3RpbmF0aW9uPT1VSSIKICAgIH0KCiAgICBjb21wb25lbnQgVUkgIlVJQ29tcG9uZW50cyIgewogICAgICBpbmNsdWRlICoKICAgICAgaW5jbHVkZSBEYXRhYmFzZQogICAgICBpbmNsdWRlIFRoZU1lYWxEQgogICAgICAKICAgIH0KCiAgICBjb21wb25lbnQgQmFja2VuZCAiQmFja2VuZENvbXBvbmVudHMiIHsKICAgICAgaW5jbHVkZSAqCiAgICAgIGluY2x1ZGUgVXNlclNlcnZpY2UKICAgICAgaW5jbHVkZSBEYXRhYmFzZQogICAgICBpbmNsdWRlIFRoZU1lYWxEQgogICAgICBleGNsdWRlICJyZWxhdGlvbnNoaXAuc291cmNlPT1VSSAmJiByZWxhdGlvbnNoaXAuZGVzdGluYXRpb249PVVzZXJTZXJ2aWNlIgogICAgfQoKICAgIHN0eWxlcyB7CiAgICAgIGVsZW1lbnQgIkV4dGVybmFsIiB7CiAgICAgICAgYmFja2dyb3VuZCBsaWdodGdyZXkKICAgICAgICBjb2xvciBibGFjawogICAgICAgIHN0cm9rZSBncmV5CiAgICAgIH0KICAgICAgZWxlbWVudCAiRGF0YWJhc2UiIHsKICAgICAgICBzaGFwZSBDeWxpbmRlcgogICAgICB9CiAgICAgIGVsZW1lbnQgIkJhY2tlbmQiIHsKICAgICAgICBiYWNrZ3JvdW5kICM0YTkwZTIKICAgICAgICBjb2xvciB3aGl0ZQogICAgICB9CiAgICB9CgogICAgdGhlbWUgZGVmYXVsdAogIH0KfQ==",
     "structurizr.inspection.info" : "0",
     "structurizr.inspection.ignore" : "0",
-    "structurizr.inspection.error" : "5",
-    "structurizr.inspection.warning" : "0",
-    "structurizr.dsl" : "d29ya3NwYWNlICJNeSBTeXN0ZW0iICJDNCBtb2RlbCB2aWEgU3RydWN0dXJpenIgTGl0ZSIgewoKICBtb2RlbCB7CiAgICB1c2VyID0gcGVyc29uICJVc2VyIiAiQSB1c2VyIG9mIFNwaXNOZW10IgoKICAgIFNwaXNOZW10ICA9IHNvZnR3YXJlU3lzdGVtICJTcGlzTmVtdCIgIkFsbG93cyB1c2VycyB0byByZWNlaXZlIHJlY2lwZXMgYmFzZWQgb24gdGhlaXIgaW5ncmllZGllbnRzIGFuZCBwcmVmZXJlbmNlcyIgewoKICAgICAgTW9iaWxlQXBwID0gY29udGFpbmVyICJNb2JpbGUgYXBwIiAiZGVzY3JpcHRpb24iICJFeHBvIGZvciBpT1MgYW5kIEFuZHJvaWQiIHsKICAgICAgICB0YWdzICJNb2JpbGUgQXBwIgogICAgICAgICAgSW5jZXB0aW9uVjMgPSBjb21wb25lbnQgIkluZ3JlZGllbnQgc2Nhbm5lciIgIkluY2VwdGlvbiBWMyBtYWNoaW5lIGxlYXJuaW5nIG1vZGRlbCBmb3IgaW5ncmVkaWVudCByZWNvZ25pdGlvbiIgIlRlbnNvckZsb3cuanMiewogICAgICAgICAgICB0YWdzICJNTCBNb2RlbCIKICAgICAgICAgIH0KCiAgICAgICAgICBNTFAgPSBjb21wb25lbnQgIlJlY2lwZSByZWNvbW1lbmRlciIgIk11bHRpLWxheWVyIHBlcmNlcHRyb24gbWFjaGluZSBsZWFybmluZyBtb2RlbCBmb3IgcmVjaXBlIHJlY29tbWVuZGF0aW9uIiAiVGVuc29yRmxvdy5qcyJ7CiAgICAgICAgICAgIHRhZ3MgIk1MIE1vZGVsIgogICAgICAgICAgfQogICAgICAgICAgCiAgICAgICAgICBPQXV0aFNlcnZpY2UgPSBjb21wb25lbnQgIlNpZ24gaW4gQ29udHJvbGxlciIgIkhhbmRsZXMgdXNlciBhdXRoZW50aWNhdGlvbiIgIkZpcmViYXNlIEF1dGgiewogICAgICAgICAgICB0YWdzICJPQXV0aCBTZXJ2aWNlIgogICAgICAgICAgfQoKICAgICAgICAgIFNhdmVkUmVjaXBlcyA9IGNvbXBvbmVudCAiU2F2ZWQgUmVjaXBlcyBDb250cm9sbGVyIiAiSGFuZGxlcyBzYXZpbmcgYW5kIHJldHJpZXZpbmcgdXNlcidzIHNhdmVkIHJlY2lwZXMiICJzb21ldGhpbmciewogICAgICAgICAgICB0YWdzICJTYXZlZCBSZWNpcGVzIgogICAgICAgICAgfQoKICAgICAgICAgIE5hdGl2ZUhhcmR3YXJlID0gY29tcG9uZW50ICJOYXRpdmUgSGFyZHdhcmUgQ29udHJvbGxlciIgIkhhbmRsZXMgbmF0aXZlIGhhcmR3YXJlIGludGVyYWN0aW9ucyBsaWtlIGNhbWVyYSBhbmQgaGFwdGljIGVuZ2luZSIgInNvbWV0aGluZyJ7CiAgICAgICAgICAgIHRhZ3MgIk5hdGl2ZSBIYXJkd2FyZSIKICAgICAgICAgIH0KICAgICAgfQogICAgfQoKICAgIERhdGFiYXNlID0gc29mdHdhcmVTeXN0ZW0gIkRhdGFiYXNlIiAiRXh0ZXJuYWwgTm9TUUwgRmlyZWJhc2UgZGF0YWJhc2UgZm9yIHVzZXIgcHJlZmVyZW5jZXMgYW5kIHNhdmVkIHJlY2lwZXMiIHsKICAgICAgICB0YWdzICJFeHRlcm5hbCIsICJEYXRhYmFzZSIKICAgIH0KCiAgICBUaGVNZWFsREIgPSBzb2Z0d2FyZVN5c3RlbSAiVGhlTWVhbERCIiAiRXh0ZXJuYWwgQVBJIGZvciByZWNpcGVzIiB7CiAgICAgIHRhZ3MgIkV4dGVybmFsIgogICAgfQoKCiAgICB1c2VyIC0+IFNwaXNOZW10ICJVc2VzIgogICAgdXNlciAtPiBNb2JpbGVBcHAgIlVzZXMiCiAgICBNb2JpbGVBcHAgLT4gVGhlTWVhbERCICJGZXRjaGVzIHJlY2lwZXMgZnJvbSIgIkhUVFAvUkVTVCIKICAgIE1vYmlsZUFwcCAtPiBEYXRhYmFzZSAiUmVhZHMgZnJvbSBhbmQgd3JpdGVzIHRvIiAiSFRUUC9SRVNUIgogICAgU2F2ZWRSZWNpcGVzIC0+IERhdGFiYXNlICJSZWFkcyBmcm9tIGFuZCB3cml0ZXMgdG8iICJIVFRQUy9SRVNUIgogICAgT0F1dGhTZXJ2aWNlIC0+IERhdGFiYXNlICJSZWFkcyBmcm9tIGFuZCB3cml0ZXMgdG8iICJIVFRQUy9SRVNUIgogICAgTUxQIC0+IERhdGFiYXNlICJSZWFkcyB1c2VyIHByZWZlcmVuY2VzIGZyb20iICJIVFRQUy9SRVNUIgogICAgTUxQIC0+IFRoZU1lYWxEQiAiRmV0Y2hlcyByZWNpcGVzIGZyb20iICJIVFRQL1JFU1QiCiAgICBOYXRpdmVIYXJkd2FyZSAtPiBJbmNlcHRpb25WMyAiU2VuZHMgaW5ncmVkaWVudCBpbWFnZXMgdG8iICI/IgogICAgSW5jZXB0aW9uVjMgLT4gTUxQICJTZW5kcyBpbmdyZWRpZW50cyB0byIgIj8iCiAgfQoKICB2aWV3cyB7CiAgICBzeXN0ZW1Db250ZXh0IFNwaXNOZW10ICJTeXN0ZW1Db250ZXh0IiB7CiAgICAgIGluY2x1ZGUgKgogICAgfQogCiAgICBjb250YWluZXIgU3Bpc05lbXQgIkNvbnRhaW5lcnMiIHsKICAgICAgaW5jbHVkZSAqCiAgICB9CgogICAgICBjb21wb25lbnQgTW9iaWxlQXBwICJDb21wb25lbnRzIiB7CiAgICAgICAgaW5jbHVkZSAqCiAgICAgIH0KCiAgICBzdHlsZXMgewogICAgICBlbGVtZW50ICJFeHRlcm5hbCIgewogICAgICAgIGJhY2tncm91bmQgbGlnaHRncmV5CiAgICAgICAgY29sb3IgYmxhY2sKICAgICAgICBzdHJva2UgZ3JleQogICAgICB9CiAgICAgIGVsZW1lbnQgIkRhdGFiYXNlIiB7CiAgICAgICAgc2hhcGUgQ3lsaW5kZXIKICAgICAgfQogICAgfQoKICAgIHRoZW1lIGRlZmF1bHQKICB9Cn0="
+    "structurizr.inspection.warning" : "0"
   },
   "views" : {
     "componentViews" : [ {
       "containerId" : "3",
       "dimensions" : {
-        "height" : 1748,
-        "width" : 2480
+        "height" : 2480,
+        "width" : 3508
       },
       "elements" : [ {
         "id" : "4",
-        "x" : 155,
-        "y" : 185
+        "x" : 1180,
+        "y" : 905
       }, {
         "id" : "5",
-        "x" : 920,
-        "y" : 190
+        "x" : 1190,
+        "y" : 1380
       }, {
         "id" : "6",
-        "x" : 920,
-        "y" : 725
+        "x" : 1535,
+        "y" : 440
       }, {
         "id" : "7",
-        "x" : 920,
-        "y" : 1145
+        "x" : 1890,
+        "y" : 910
       }, {
         "id" : "8",
-        "x" : 140,
-        "y" : 1140
+        "x" : 1900,
+        "y" : 1365
       }, {
-        "id" : "9",
-        "x" : 1835,
-        "y" : 855
+        "id" : "13",
+        "x" : 665,
+        "y" : 435
       }, {
-        "id" : "10",
-        "x" : 1815,
-        "y" : 195
+        "id" : "15",
+        "x" : 2445,
+        "y" : 440
+      }, {
+        "id" : "17",
+        "x" : 3025,
+        "y" : 455
+      }, {
+        "id" : "18",
+        "x" : 65,
+        "y" : 430
       } ],
       "externalContainerBoundariesVisible" : false,
-      "key" : "Components",
-      "name" : "Component View: SpisNemt - Mobile app",
+      "key" : "UIComponents",
+      "name" : "Component View: SpisNemtApp - UI",
       "order" : 3,
-      "paperSize" : "A5_Landscape",
+      "paperSize" : "A4_Landscape",
       "relationships" : [ {
-        "id" : "17"
-      }, {
-        "id" : "18"
-      }, {
-        "id" : "19"
-      }, {
-        "id" : "20"
-      }, {
-        "id" : "21"
-      }, {
         "id" : "22"
+      }, {
+        "id" : "26"
+      }, {
+        "id" : "35"
+      }, {
+        "id" : "37",
+        "vertices" : [ {
+          "x" : 890,
+          "y" : 1085
+        } ]
+      }, {
+        "id" : "38"
+      }, {
+        "id" : "39"
+      }, {
+        "id" : "41"
+      }, {
+        "id" : "42"
+      } ]
+    }, {
+      "containerId" : "9",
+      "dimensions" : {
+        "height" : 2480,
+        "width" : 3508
+      },
+      "elements" : [ {
+        "id" : "3",
+        "x" : 1510,
+        "y" : 635
+      }, {
+        "id" : "10",
+        "x" : 2240,
+        "y" : 1210
+      }, {
+        "id" : "11",
+        "x" : 1525,
+        "y" : 1200
+      }, {
+        "id" : "12",
+        "x" : 715,
+        "y" : 1205
+      }, {
+        "id" : "13",
+        "x" : 700,
+        "y" : 625
+      }, {
+        "id" : "15",
+        "x" : 2250,
+        "y" : 620
+      }, {
+        "id" : "17",
+        "x" : 2960,
+        "y" : 625
+      }, {
+        "id" : "18",
+        "x" : 50,
+        "y" : 630
+      } ],
+      "externalContainerBoundariesVisible" : false,
+      "key" : "BackendComponents",
+      "name" : "Component View: SpisNemtApp - Backend",
+      "order" : 4,
+      "paperSize" : "A4_Landscape",
+      "relationships" : [ {
+        "id" : "22"
+      }, {
+        "id" : "26"
+      }, {
+        "id" : "27"
+      }, {
+        "id" : "29"
+      }, {
+        "id" : "30"
+      }, {
+        "id" : "31"
+      }, {
+        "id" : "33"
+      }, {
+        "id" : "36"
       } ]
     } ],
     "configuration" : {
       "branding" : { },
-      "lastSavedView" : "Components",
-      "metadataSymbols" : "SquareBrackets",
+      "lastSavedView" : "UIComponents",
       "styles" : {
         "elements" : [ {
+          "background" : "#4a90e2",
+          "color" : "#ffffff",
+          "tag" : "Backend"
+        }, {
           "shape" : "Cylinder",
           "tag" : "Database"
         }, {
@@ -279,37 +452,59 @@
     },
     "containerViews" : [ {
       "dimensions" : {
-        "height" : 1748,
-        "width" : 2480
+        "height" : 2480,
+        "width" : 3508
       },
       "elements" : [ {
         "id" : "1",
-        "x" : 880,
-        "y" : 200
+        "x" : 1595,
+        "y" : 30
       }, {
         "id" : "3",
-        "x" : 855,
-        "y" : 910
+        "x" : 1555,
+        "y" : 730
       }, {
         "id" : "9",
-        "x" : 1690,
-        "y" : 910
+        "x" : 1545,
+        "y" : 1240
       }, {
-        "id" : "10",
-        "x" : 1690,
-        "y" : 300
+        "id" : "13",
+        "x" : 915,
+        "y" : 720
+      }, {
+        "id" : "15",
+        "x" : 2125,
+        "y" : 725
+      }, {
+        "id" : "17",
+        "x" : 2825,
+        "y" : 715
+      }, {
+        "id" : "18",
+        "x" : 920,
+        "y" : 1740
       } ],
       "externalSoftwareSystemBoundariesVisible" : false,
       "key" : "Containers",
-      "name" : "Container View: SpisNemt",
+      "name" : "Container View: SpisNemtApp",
       "order" : 2,
-      "paperSize" : "A5_Landscape",
+      "paperSize" : "A4_Landscape",
       "relationships" : [ {
-        "id" : "12"
+        "id" : "20"
       }, {
-        "id" : "13"
+        "id" : "21"
       }, {
-        "id" : "15"
+        "id" : "22"
+      }, {
+        "id" : "24"
+      }, {
+        "id" : "26"
+      }, {
+        "id" : "28"
+      }, {
+        "id" : "34"
+      }, {
+        "id" : "36"
       } ],
       "softwareSystemId" : "2"
     } ],
@@ -321,31 +516,31 @@
       "elements" : [ {
         "id" : "1",
         "x" : 855,
-        "y" : 155
+        "y" : 30
       }, {
         "id" : "2",
         "x" : 830,
-        "y" : 895
+        "y" : 685
       }, {
-        "id" : "9",
-        "x" : 1670,
-        "y" : 895
+        "id" : "17",
+        "x" : 0,
+        "y" : 0
       }, {
-        "id" : "10",
-        "x" : 1670,
-        "y" : 255
+        "id" : "18",
+        "x" : 825,
+        "y" : 1335
       } ],
       "enterpriseBoundaryVisible" : true,
       "key" : "SystemContext",
-      "name" : "System Context View: SpisNemt",
+      "name" : "System Context View: SpisNemtApp",
       "order" : 1,
       "paperSize" : "A5_Landscape",
       "relationships" : [ {
-        "id" : "11"
+        "id" : "19"
       }, {
-        "id" : "14"
+        "id" : "23"
       }, {
-        "id" : "16"
+        "id" : "25"
       } ],
       "softwareSystemId" : "2"
     } ]

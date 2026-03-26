@@ -1,67 +1,120 @@
-workspace "My System" "C4 model via Structurizr Lite" {
+workspace "My System" {
 
   model {
-    user = person "User" "A user of SpisNemt"
+    user = person "User"
 
-    SpisNemt  = softwareSystem "SpisNemt" "Allows users to receive recipes based on their ingriedients and preferences" {
+    SpisNemtApp  = softwareSystem "SpisNemtApp" {
 
-      MobileApp = container "Mobile app" "description" "Expo for iOS and Android" {
+      UI = container "UI" {
         tags "Mobile App"
-          InceptionV3 = component "Ingredient scanner" "Inception V3 machine learning moddel for ingredient recognition" "TensorFlow.js"{
+          HomeScreen = component "HomeScreen" {
             tags "ML Model"
           }
 
-          MLP = component "Recipe recommender" "Multi-layer perceptron machine learning model for recipe recommendation" "TensorFlow.js"{
+          ExploreScreen = component "ExploreScreen" {
             tags "ML Model"
           }
-          
-          OAuthService = component "Sign in Controller" "Handles user authentication" "Firebase Auth"{
-            tags "OAuth Service"
+
+          SavedRecipesScreen = component "SavedRecipesScreen" {
+            tags "ML Model"
           }
 
-          SavedRecipes = component "Saved Recipes Controller" "Handles saving and retrieving user's saved recipes" "something"{
-            tags "Saved Recipes"
+          AccountScreen = component "AccountScreen" {
+            tags "ML Model"
           }
 
-          NativeHardware = component "Native Hardware Controller" "Handles native hardware interactions like camera and haptic engine" "something"{
-            tags "Native Hardware"
+          InceptionV3 = component "ComputerVision" {
+            tags "ML Model"
           }
+      }
+
+      Backend = container "Backend" {
+        tags "Backend"
+          SignInController = component "SignInController" {
+            tags "Auth"
+          }
+
+          RecipeRecommender = component "RecipeRecommender" {
+            tags "Service"
+          }
+
+          PreferenceService = component "PreferenceService" {
+            tags "Service"
+          }
+      }
+
+      MealDBService = container "MealDBService" {
+        test = component "API Client" {
+          tags "API Client"
+        }
+      }
+
+      UserService = container "UserService" {
+        test1 = component "API Client" {
+          tags "API Client"
+        }
       }
     }
 
-    Database = softwareSystem "Database" "External NoSQL Firebase database for user preferences and saved recipes" {
+    Database = softwareSystem "Database" {
         tags "External", "Database"
     }
 
-    TheMealDB = softwareSystem "TheMealDB" "External API for recipes" {
+    TheMealDB = softwareSystem "TheMealDB" {
       tags "External"
     }
 
+    //Context
+    user -> SpisNemtApp
 
-    user -> SpisNemt "Uses"
-    user -> MobileApp "Uses"
-    MobileApp -> TheMealDB "Fetches recipes from" "HTTP/REST"
-    MobileApp -> Database "Reads from and writes to" "HTTP/REST"
-    SavedRecipes -> Database "Reads from and writes to" "HTTPS/REST"
-    OAuthService -> Database "Reads from and writes to" "HTTPS/REST"
-    MLP -> Database "Reads user preferences from" "HTTPS/REST"
-    MLP -> TheMealDB "Fetches recipes from" "HTTP/REST"
-    NativeHardware -> InceptionV3 "Sends ingredient images to" "?"
-    InceptionV3 -> MLP "Sends ingredients to" "?"
+    //Container
+    user -> UI
+    UI -> Backend
+    UserService -> Database
+    Backend -> TheMealDB
+    MealDBService -> TheMealDB
+
+    //Component -  Backend
+    SignInController -> UserService
+    RecipeRecommender -> PreferenceService
+    UI -> SignInController
+    RecipeRecommender -> UI
+    PreferenceService -> MealDBService
+
+    //Component - UI
+    HomeScreen -> MealDBService
+    ExploreScreen -> MealDBService
+    SavedRecipesScreen -> MealDBService
+    AccountScreen -> UserService
+    SavedRecipesScreen -> UserService
+    ExploreScreen -> InceptionV3
   }
 
   views {
-    systemContext SpisNemt "SystemContext" {
+    systemContext SpisNemtApp "SystemContext" {
       include *
     }
  
-    container SpisNemt "Containers" {
+    container SpisNemtApp "Containers" {
       include *
+      exclude "relationship.source==UI && relationship.destination==UserService"
+      exclude "relationship.source==Backend && relationship.destination==UI"
     }
 
-      component MobileApp "Components" {
-        include *
-      }
+    component UI "UIComponents" {
+      include *
+      include Database
+      include TheMealDB
+      
+    }
+
+    component Backend "BackendComponents" {
+      include *
+      include UserService
+      include Database
+      include TheMealDB
+      exclude "relationship.source==UI && relationship.destination==UserService"
+    }
 
     styles {
       element "External" {
@@ -71,6 +124,10 @@ workspace "My System" "C4 model via Structurizr Lite" {
       }
       element "Database" {
         shape Cylinder
+      }
+      element "Backend" {
+        background #4a90e2
+        color white
       }
     }
 
