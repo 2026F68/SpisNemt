@@ -23,7 +23,7 @@ export default function Account() {
     variant: "success" | "warning" | "danger";
   } | null>(null);
 
-  const accountName = user?.name || user?.email || "Guest";
+  const accountName = user?.name || "Guest";
 
   useEffect(() => {
     const fetchPreferences = async () => {
