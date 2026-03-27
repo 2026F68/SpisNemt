@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Alert, Image, Text, View } from "react-native";
 import { useAuth } from "../../context/AuthContext";
 import {
@@ -31,14 +31,45 @@ export default function SingleRecipeInfo({
 }: SingleRecipeInfoProps) {
   const { user } = useAuth();
   const [isSaving, setIsSaving] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
+
+  useEffect(() => {
+    const loadSavedState = async () => {
+      if (!idMeal || !user) {
+        setIsSaved(false);
+        return;
+      }
+
+      const mealId = Number(idMeal);
+
+      if (Number.isNaN(mealId)) {
+        setIsSaved(false);
+        return;
+      }
+
+      try {
+        const userSavedRecipes = await loadUserSavedRecipes(user.id);
+        const savedRecipes = userSavedRecipes?.savedRecipes ?? [];
+        setIsSaved(savedRecipes.some((savedId) => Number(savedId) === mealId));
+      } catch (error) {
+        console.error("Failed to load saved recipes:", error);
+        setIsSaved(false);
+      }
+    };
+
+    void loadSavedState();
+  }, [idMeal, user]);
 
   const handleSave = useCallback(async () => {
-    if (!idMeal) {
-      Alert.alert("Unable to save", "Recipe ID is missing.");
+    if (!idMeal || !user) {
       return;
     }
 
     const mealId = Number(idMeal);
+
+    if (Number.isNaN(mealId)) {
+      return;
+    }
 
     if (isSaving) {
       return;
@@ -46,10 +77,15 @@ export default function SingleRecipeInfo({
 
     try {
       setIsSaving(true);
-      const userSavedRecipes = await loadUserSavedRecipes(user!.id);
+      const userSavedRecipes = await loadUserSavedRecipes(user.id);
       const savedRecipes = userSavedRecipes?.savedRecipes ?? [];
 
-      if (savedRecipes.includes(mealId)) {
+      const isAlreadySaved = savedRecipes.some(
+        (savedId) => Number(savedId) === mealId,
+      );
+
+      if (isAlreadySaved) {
+        setIsSaved(true);
         Alert.alert(
           "Already saved",
           "This recipe is already in your saved list.",
@@ -59,17 +95,16 @@ export default function SingleRecipeInfo({
 
       await saveUserSavedRecipes(
         {
-          id: user!.id,
-          email: user!.email,
-          name: user!.name,
+          id: user.id,
+          email: user.email,
+          name: user.name,
         },
         [...savedRecipes, mealId],
       );
 
-      Alert.alert("Saved", "Recipe added to your saved list.");
+      setIsSaved(true);
     } catch (error) {
       console.error("Failed to save recipe:", error);
-      Alert.alert("Save failed", "Could not save recipe. Please try again.");
     } finally {
       setIsSaving(false);
     }
@@ -77,7 +112,7 @@ export default function SingleRecipeInfo({
 
   return (
     <View style={{ flex: 1 }}>
-      <SaveButton onPress={handleSave} />
+      <SaveButton onPress={handleSave} isSaved={isSaved} />
       <CloseButton />
       <Scrollable>
         <Image

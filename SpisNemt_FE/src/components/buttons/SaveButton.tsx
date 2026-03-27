@@ -1,11 +1,24 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { Pressable, StyleSheet } from "react-native";
+import { globalColors } from "../../theme";
 
-export default function SaveButton({ onPress }: { onPress?: () => void }) {
+interface SaveButtonProps {
+  onPress?: () => void;
+  isSaved?: boolean;
+}
+
+export default function SaveButton({
+  onPress,
+  isSaved = false,
+}: SaveButtonProps) {
   return (
     <Pressable onPress={onPress} style={styles.saveButton}>
-      <Ionicons name="bookmark" size={20} color="#fff" />
+      <Ionicons
+        name={isSaved ? "bookmark" : "bookmark-outline"}
+        size={20}
+        color={isSaved ? globalColors.successColor : "#fff"}
+      />
     </Pressable>
   );
 }
