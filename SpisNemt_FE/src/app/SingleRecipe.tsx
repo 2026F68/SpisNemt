@@ -10,9 +10,9 @@ export default function SingleRecipeInfoScreen() {
 
   return (
     <SingleRecipeInfo
+      idMeal={params.idMeal as string}
       title={params.title as string}
       category={params.category as string}
-      description={params.description as string}
       imageUrl={params.imageUrl as string}
       ingredients={ingredients}
       instructions={params.instructions as string}

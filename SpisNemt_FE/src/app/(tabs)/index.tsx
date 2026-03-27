@@ -42,6 +42,7 @@ export default function Index() {
     router.push({
       pathname: "/SingleRecipe",
       params: {
+        idMeal: meal.idMeal,
         title: meal.strMeal,
         category: meal.strCategory,
         imageUrl: meal.strMealThumb,
