@@ -1,5 +1,6 @@
 import { Image, Text, View } from "react-native";
 import CloseButton from "../buttons/CloseButton";
+import SaveButton from "../buttons/SaveButton";
 import { cardStyle } from "../cards/CardTheme";
 import Container from "../structural/Container";
 import { Scrollable } from "../structural/Scrollable";
@@ -24,6 +25,7 @@ export default function SingleRecipeInfo({
 }: SingleRecipeInfoProps) {
   return (
     <View style={{ flex: 1 }}>
+      <SaveButton />
       <CloseButton />
       <Scrollable>
         <Image
@@ -33,10 +35,6 @@ export default function SingleRecipeInfo({
         <Container>
           <Title>{title}</Title>
           <Text style={cardStyle.cardCategory}>{category}</Text>
-
-          <Section title="Recipe Description">
-            <Text>{description}</Text>
-          </Section>
 
           <Section title="Ingredients">
             <List variant="bullet" items={ingredients} />
