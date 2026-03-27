@@ -23,7 +23,7 @@ export default function Account() {
     variant: "success" | "warning" | "danger";
   } | null>(null);
 
-  const accountName = user?.name || user?.email || "Guest";
+  const accountName = user?.name || "Guest";
 
   useEffect(() => {
     const fetchPreferences = async () => {
@@ -90,6 +90,8 @@ export default function Account() {
         <Title>Account</Title>
 
         <AccountCard accountName={accountName} accountType="User" />
+
+        <Button title="Sign Out" onPress={() => void signOut()} />
 
         {feedback && (
           <Alert variant={feedback.variant}>{feedback.message}</Alert>

@@ -1,18 +1,31 @@
 import {
+  createUserWithEmailAndPassword,
+  signOut as firebaseSignOut,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
+import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
   type ReactNode,
 } from "react";
-import { mockUser } from "../mock/user";
+import { auth } from "../../firebaseConfig";
 
 interface AuthContextValue {
   isAuthenticated: boolean;
   isLoading: boolean;
   user: User | null;
-  signIn: () => Promise<void>;
+  signIn: (email: string, password: string) => Promise<void>;
+  createAccount: (
+    email: string,
+    password: string,
+    name: string,
+  ) => Promise<void>;
   signOut: () => Promise<void>;
 }
 
@@ -20,6 +33,7 @@ interface User {
   id: string;
   name: string;
   email: string;
+  picture?: string;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -30,19 +44,69 @@ interface AuthProviderProps {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const signIn = useCallback(async () => {
-    setIsLoading(true);
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
+        setUser({
+          id: firebaseUser.uid,
+          email: firebaseUser.email || "",
+          name: firebaseUser.displayName || firebaseUser.email || "",
+          picture: firebaseUser.photoURL || undefined,
+        });
+      } else {
+        setUser(null);
+      }
+      setIsLoading(false);
+    });
 
-    setUser(mockUser);
-    setIsLoading(false);
+    return unsubscribe;
   }, []);
 
+  const signIn = useCallback(async (email: string, password: string) => {
+    try {
+      setIsLoading(true);
+      await signInWithEmailAndPassword(auth, email.trim(), password);
+    } catch (error) {
+      console.error("Sign in failed:", error);
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  const createAccount = useCallback(
+    async (email: string, password: string, name: string) => {
+      try {
+        setIsLoading(true);
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          email.trim(),
+          password,
+        );
+        await updateProfile(userCredential.user, { displayName: name });
+      } catch (error) {
+        console.error("Create account failed:", error);
+        throw error;
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [],
+  );
+
   const signOut = useCallback(async () => {
-    setIsLoading(true);
-    setUser(null);
-    setIsLoading(false);
+    try {
+      setIsLoading(true);
+      await firebaseSignOut(auth);
+      setUser(null);
+    } catch (error) {
+      console.error("Sign out failed:", error);
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
 
   const value = useMemo(
@@ -51,9 +115,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
       isLoading,
       user,
       signIn,
+      createAccount,
       signOut,
     }),
-    [isLoading, signIn, signOut, user],
+    [createAccount, isLoading, signIn, signOut, user],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
