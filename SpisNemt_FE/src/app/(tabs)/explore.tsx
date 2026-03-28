@@ -1,5 +1,5 @@
 import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Button from "../../components/buttons/Button";
 import Container from "../../components/structural/Container";
 import Paragraph from "../../components/typograghy/Paragraph";
@@ -11,6 +11,10 @@ import SearchInput from "../../components/forms/SearchInput";
 import Alert from "../../components/typograghy/Alert";
 import { getMealByMultiIngredients } from "../../services/mealDbAPI/getMealByMultiIngredients";
 import { StyleSheet, View } from "react-native";
+import {
+  classifyIngredientFromUri,
+  initIngredientClassifier,
+} from "../../services/ml/ingredientClassifier";
 
 interface MealDbMeal {
   idMeal: string;
@@ -43,6 +47,10 @@ const styles = StyleSheet.create({
   camera: {
     flex: 1,
   },
+  cameraActionRow: {
+    marginTop: 8,
+    marginBottom: 4,
+  },
 });
 
 export default function Explore() {
@@ -57,6 +65,13 @@ export default function Explore() {
   const [facing] = React.useState<CameraType>("back");
   const [permission, requestPermission] = useCameraPermissions();
   const [cameraOpen, setCameraOpen] = React.useState(false);
+  const [isClassifierReady, setIsClassifierReady] = useState(false);
+  const [isClassifying, setIsClassifying] = useState(false);
+  const [classifierError, setClassifierError] = useState<string | null>(null);
+  const [classifierFeedback, setClassifierFeedback] = useState<string | null>(null);
+  const [showSlowLoadHint, setShowSlowLoadHint] = useState(false);
+
+  const cameraRef = useRef<CameraView>(null);
 
   const normalizeTerm = (raw: string) => raw.trim().toLowerCase();
 
@@ -70,6 +85,37 @@ export default function Explore() {
   const removeTerm = (termToRemove: string) => {
     setTerms((prev) => prev.filter((t) => t !== termToRemove));
   };
+
+  const initializeModel = useCallback(async () => {
+    setShowSlowLoadHint(false);
+
+    try {
+      await initIngredientClassifier();
+      setIsClassifierReady(true);
+      setClassifierError(null);
+    } catch (error) {
+      console.error("Ingredient classifier initialization failed:", error);
+      const details = error instanceof Error ? error.message : String(error);
+      setClassifierError(`Could not load ingredient classifier. ${details}`);
+    }
+  }, []);
+
+  useEffect(() => {
+    void initializeModel();
+  }, [initializeModel]);
+
+  useEffect(() => {
+    if (isClassifierReady || classifierError) {
+      setShowSlowLoadHint(false);
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      setShowSlowLoadHint(true);
+    }, 10_000);
+
+    return () => clearTimeout(timeout);
+  }, [classifierError, isClassifierReady]);
 
   const submitSearch = async () => {
     const draftTerm = normalizeTerm(draft);
@@ -114,6 +160,32 @@ export default function Explore() {
     setDraft(text);
   };
 
+  const handleSnapAndClassify = async () => {
+    if (!cameraRef.current || isClassifying || !isClassifierReady) return;
+
+    try {
+      setIsClassifying(true);
+      setClassifierError(null);
+      setClassifierFeedback(null);
+
+      const photo = await cameraRef.current.takePictureAsync({
+        quality: 0.8,
+      });
+
+      const prediction = await classifyIngredientFromUri(photo.uri);
+      addTerm(prediction.normalizedTerm);
+      setClassifierFeedback(
+        `Detected ${prediction.label} (${(prediction.confidence * 100).toFixed(1)}%).`,
+      );
+    } catch (error) {
+      console.error("Ingredient classification failed:", error);
+      const details = error instanceof Error ? error.message : String(error);
+      setClassifierError(`Could not classify the captured image. ${details}`);
+    } finally {
+      setIsClassifying(false);
+    }
+  };
+
   const searchLabel = submittedTerms.join(", ");
 
 
@@ -145,8 +217,6 @@ export default function Explore() {
         }}
       />
 
-
-
       <View style={styles.chipContainer}>
         {terms.length > 0 && (
           <Scrollable horizontal style={styles.chipScroll} contentContainerStyle={styles.chipScrollContent}>
@@ -164,9 +234,35 @@ export default function Explore() {
 
 
       {cameraOpen && (
-        <View style={styles.cameraContainer}>
-          <CameraView style={styles.camera} facing={facing} />
-        </View>
+        <>
+          <View style={styles.cameraContainer}>
+            <CameraView ref={cameraRef} style={styles.camera} facing={facing} />
+          </View>
+
+          <View style={styles.cameraActionRow}>
+            <Button
+              title={isClassifying ? "Classifying..." : "Snap ingredient"}
+              onPress={handleSnapAndClassify}
+              disabled={isClassifying || !isClassifierReady}
+            />
+            {!isClassifierReady && (
+              <Paragraph>Loading ingredient classifier...</Paragraph>
+            )}
+            {!isClassifierReady && showSlowLoadHint && !classifierError && (
+              <Paragraph>
+                First load can take up to a minute on some phones.
+              </Paragraph>
+            )}
+            {classifierFeedback && <Alert variant="success">{classifierFeedback}</Alert>}
+            {classifierError && <Alert variant="danger">{classifierError}</Alert>}
+            {classifierError && (
+              <Button
+                title="Retry classifier load"
+                onPress={() => void initializeModel()}
+              />
+            )}
+          </View>
+        </>
       )}
 
       {hasSubmittedSearch && (
@@ -188,7 +284,7 @@ export default function Explore() {
             ))
           ) : (
             <>
-              <Alert variant="danger">No recipes found for "{searchLabel}".</Alert>
+              <Alert variant="danger">No recipes found for: {searchLabel}.</Alert>
             </>
           )}
         </Scrollable>

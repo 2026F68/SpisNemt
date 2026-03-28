@@ -11,9 +11,9 @@ export default function RootLayout() {
 }
 
 function RootNavigator() {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isInitializing } = useAuth();
 
-  if (isLoading) {
+  if (isInitializing) {
     return (
       <View
         style={{

@@ -1,10 +1,19 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { Tabs } from "expo-router";
+import { useEffect } from "react";
 
 import { globalColors } from "../../theme";
+import { initIngredientClassifier } from "../../services/ml/ingredientClassifier";
 
 export default function TabLayout() {
+  useEffect(() => {
+    // Warm up the model in the background to reduce first-use delay in Explore.
+    initIngredientClassifier().catch((error) => {
+      console.warn("Classifier prewarm failed:", error);
+    });
+  }, []);
+
   return (
     <Tabs
       screenOptions={{
