@@ -3,7 +3,8 @@
   "description" : "Description",
   "documentation" : { },
   "id" : 1,
-  "lastModifiedDate" : "2026-03-26T17:52:25Z",
+  "lastModifiedAgent" : "structurizr-ui",
+  "lastModifiedDate" : "2026-03-29T08:17:54Z",
   "model" : {
     "people" : [ {
       "id" : "1",
@@ -35,7 +36,7 @@
           },
           "relationships" : [ {
             "destinationId" : "13",
-            "id" : "35",
+            "id" : "34",
             "sourceId" : "4",
             "tags" : "Relationship"
           } ],
@@ -49,12 +50,12 @@
           },
           "relationships" : [ {
             "destinationId" : "13",
-            "id" : "37",
+            "id" : "36",
             "sourceId" : "5",
             "tags" : "Relationship"
           }, {
             "destinationId" : "8",
-            "id" : "42",
+            "id" : "41",
             "sourceId" : "5",
             "tags" : "Relationship"
           } ],
@@ -68,12 +69,12 @@
           },
           "relationships" : [ {
             "destinationId" : "13",
-            "id" : "38",
+            "id" : "37",
             "sourceId" : "6",
             "tags" : "Relationship"
           }, {
             "destinationId" : "15",
-            "id" : "41",
+            "id" : "40",
             "sourceId" : "6",
             "tags" : "Relationship"
           } ],
@@ -87,7 +88,7 @@
           },
           "relationships" : [ {
             "destinationId" : "15",
-            "id" : "39",
+            "id" : "38",
             "sourceId" : "7",
             "tags" : "Relationship"
           } ],
@@ -114,18 +115,18 @@
           "tags" : "Relationship"
         }, {
           "destinationId" : "10",
-          "id" : "30",
+          "id" : "29",
           "sourceId" : "3",
           "tags" : "Relationship"
         }, {
           "destinationId" : "13",
-          "id" : "36",
-          "linkedRelationshipId" : "35",
+          "id" : "35",
+          "linkedRelationshipId" : "34",
           "sourceId" : "3"
         }, {
           "destinationId" : "15",
-          "id" : "40",
-          "linkedRelationshipId" : "39",
+          "id" : "39",
+          "linkedRelationshipId" : "38",
           "sourceId" : "3"
         } ],
         "tags" : "Element,Container,Mobile App"
@@ -139,7 +140,7 @@
           },
           "relationships" : [ {
             "destinationId" : "15",
-            "id" : "27",
+            "id" : "26",
             "sourceId" : "10",
             "tags" : "Relationship"
           } ],
@@ -153,12 +154,12 @@
           },
           "relationships" : [ {
             "destinationId" : "12",
-            "id" : "29",
+            "id" : "28",
             "sourceId" : "11",
             "tags" : "Relationship"
           }, {
             "destinationId" : "3",
-            "id" : "31",
+            "id" : "30",
             "sourceId" : "11",
             "tags" : "Relationship"
           } ],
@@ -172,7 +173,7 @@
           },
           "relationships" : [ {
             "destinationId" : "13",
-            "id" : "33",
+            "id" : "32",
             "sourceId" : "12",
             "tags" : "Relationship"
           } ],
@@ -185,24 +186,19 @@
           "structurizr.dsl.identifier" : "Backend"
         },
         "relationships" : [ {
-          "destinationId" : "18",
-          "id" : "24",
-          "sourceId" : "9",
-          "tags" : "Relationship"
-        }, {
           "destinationId" : "15",
-          "id" : "28",
-          "linkedRelationshipId" : "27",
+          "id" : "27",
+          "linkedRelationshipId" : "26",
           "sourceId" : "9"
         }, {
           "destinationId" : "3",
-          "id" : "32",
-          "linkedRelationshipId" : "31",
+          "id" : "31",
+          "linkedRelationshipId" : "30",
           "sourceId" : "9"
         }, {
           "destinationId" : "13",
-          "id" : "34",
-          "linkedRelationshipId" : "33",
+          "id" : "33",
+          "linkedRelationshipId" : "32",
           "sourceId" : "9"
         } ],
         "tags" : "Element,Container,Backend"
@@ -224,7 +220,7 @@
         },
         "relationships" : [ {
           "destinationId" : "18",
-          "id" : "26",
+          "id" : "24",
           "sourceId" : "13",
           "tags" : "Relationship"
         } ],
@@ -291,147 +287,150 @@
   },
   "name" : "My System",
   "properties" : {
-    "structurizr.inspection.error" : "87",
-    "structurizr.dsl" : "d29ya3NwYWNlICJNeSBTeXN0ZW0iIHsKCiAgbW9kZWwgewogICAgdXNlciA9IHBlcnNvbiAiVXNlciIKCiAgICBTcGlzTmVtdEFwcCAgPSBzb2Z0d2FyZVN5c3RlbSAiU3Bpc05lbXRBcHAiIHsKCiAgICAgIFVJID0gY29udGFpbmVyICJVSSIgewogICAgICAgIHRhZ3MgIk1vYmlsZSBBcHAiCiAgICAgICAgICBIb21lU2NyZWVuID0gY29tcG9uZW50ICJIb21lU2NyZWVuIiB7CiAgICAgICAgICAgIHRhZ3MgIk1MIE1vZGVsIgogICAgICAgICAgfQoKICAgICAgICAgIEV4cGxvcmVTY3JlZW4gPSBjb21wb25lbnQgIkV4cGxvcmVTY3JlZW4iIHsKICAgICAgICAgICAgdGFncyAiTUwgTW9kZWwiCiAgICAgICAgICB9CgogICAgICAgICAgU2F2ZWRSZWNpcGVzU2NyZWVuID0gY29tcG9uZW50ICJTYXZlZFJlY2lwZXNTY3JlZW4iIHsKICAgICAgICAgICAgdGFncyAiTUwgTW9kZWwiCiAgICAgICAgICB9CgogICAgICAgICAgQWNjb3VudFNjcmVlbiA9IGNvbXBvbmVudCAiQWNjb3VudFNjcmVlbiIgewogICAgICAgICAgICB0YWdzICJNTCBNb2RlbCIKICAgICAgICAgIH0KCiAgICAgICAgICBJbmNlcHRpb25WMyA9IGNvbXBvbmVudCAiQ29tcHV0ZXJWaXNpb24iIHsKICAgICAgICAgICAgdGFncyAiTUwgTW9kZWwiCiAgICAgICAgICB9CiAgICAgIH0KCiAgICAgIEJhY2tlbmQgPSBjb250YWluZXIgIkJhY2tlbmQiIHsKICAgICAgICB0YWdzICJCYWNrZW5kIgogICAgICAgICAgU2lnbkluQ29udHJvbGxlciA9IGNvbXBvbmVudCAiU2lnbkluQ29udHJvbGxlciIgewogICAgICAgICAgICB0YWdzICJBdXRoIgogICAgICAgICAgfQoKICAgICAgICAgIFJlY2lwZVJlY29tbWVuZGVyID0gY29tcG9uZW50ICJSZWNpcGVSZWNvbW1lbmRlciIgewogICAgICAgICAgICB0YWdzICJTZXJ2aWNlIgogICAgICAgICAgfQoKICAgICAgICAgIFByZWZlcmVuY2VTZXJ2aWNlID0gY29tcG9uZW50ICJQcmVmZXJlbmNlU2VydmljZSIgewogICAgICAgICAgICB0YWdzICJTZXJ2aWNlIgogICAgICAgICAgfQogICAgICB9CgogICAgICBNZWFsREJTZXJ2aWNlID0gY29udGFpbmVyICJNZWFsREJTZXJ2aWNlIiB7CiAgICAgICAgdGVzdCA9IGNvbXBvbmVudCAiQVBJIENsaWVudCIgewogICAgICAgICAgdGFncyAiQVBJIENsaWVudCIKICAgICAgICB9CiAgICAgIH0KCiAgICAgIFVzZXJTZXJ2aWNlID0gY29udGFpbmVyICJVc2VyU2VydmljZSIgewogICAgICAgIHRlc3QxID0gY29tcG9uZW50ICJBUEkgQ2xpZW50IiB7CiAgICAgICAgICB0YWdzICJBUEkgQ2xpZW50IgogICAgICAgIH0KICAgICAgfQogICAgfQoKICAgIERhdGFiYXNlID0gc29mdHdhcmVTeXN0ZW0gIkRhdGFiYXNlIiB7CiAgICAgICAgdGFncyAiRXh0ZXJuYWwiLCAiRGF0YWJhc2UiCiAgICB9CgogICAgVGhlTWVhbERCID0gc29mdHdhcmVTeXN0ZW0gIlRoZU1lYWxEQiIgewogICAgICB0YWdzICJFeHRlcm5hbCIKICAgIH0KCiAgICAvL0NvbnRleHQKICAgIHVzZXIgLT4gU3Bpc05lbXRBcHAKCiAgICAvL0NvbnRhaW5lcgogICAgdXNlciAtPiBVSQogICAgVUkgLT4gQmFja2VuZAogICAgVXNlclNlcnZpY2UgLT4gRGF0YWJhc2UKICAgIEJhY2tlbmQgLT4gVGhlTWVhbERCCiAgICBNZWFsREJTZXJ2aWNlIC0+IFRoZU1lYWxEQgoKICAgIC8vQ29tcG9uZW50IC0gIEJhY2tlbmQKICAgIFNpZ25JbkNvbnRyb2xsZXIgLT4gVXNlclNlcnZpY2UKICAgIFJlY2lwZVJlY29tbWVuZGVyIC0+IFByZWZlcmVuY2VTZXJ2aWNlCiAgICBVSSAtPiBTaWduSW5Db250cm9sbGVyCiAgICBSZWNpcGVSZWNvbW1lbmRlciAtPiBVSQogICAgUHJlZmVyZW5jZVNlcnZpY2UgLT4gTWVhbERCU2VydmljZQoKICAgIC8vQ29tcG9uZW50IC0gVUkKICAgIEhvbWVTY3JlZW4gLT4gTWVhbERCU2VydmljZQogICAgRXhwbG9yZVNjcmVlbiAtPiBNZWFsREJTZXJ2aWNlCiAgICBTYXZlZFJlY2lwZXNTY3JlZW4gLT4gTWVhbERCU2VydmljZQogICAgQWNjb3VudFNjcmVlbiAtPiBVc2VyU2VydmljZQogICAgU2F2ZWRSZWNpcGVzU2NyZWVuIC0+IFVzZXJTZXJ2aWNlCiAgICBFeHBsb3JlU2NyZWVuIC0+IEluY2VwdGlvblYzCiAgfQoKICB2aWV3cyB7CiAgICBzeXN0ZW1Db250ZXh0IFNwaXNOZW10QXBwICJTeXN0ZW1Db250ZXh0IiB7CiAgICAgIGluY2x1ZGUgKgogICAgfQogCiAgICBjb250YWluZXIgU3Bpc05lbXRBcHAgIkNvbnRhaW5lcnMiIHsKICAgICAgaW5jbHVkZSAqCiAgICAgIGV4Y2x1ZGUgInJlbGF0aW9uc2hpcC5zb3VyY2U9PVVJICYmIHJlbGF0aW9uc2hpcC5kZXN0aW5hdGlvbj09VXNlclNlcnZpY2UiCiAgICAgIGV4Y2x1ZGUgInJlbGF0aW9uc2hpcC5zb3VyY2U9PUJhY2tlbmQgJiYgcmVsYXRpb25zaGlwLmRlc3RpbmF0aW9uPT1VSSIKICAgIH0KCiAgICBjb21wb25lbnQgVUkgIlVJQ29tcG9uZW50cyIgewogICAgICBpbmNsdWRlICoKICAgICAgaW5jbHVkZSBEYXRhYmFzZQogICAgICBpbmNsdWRlIFRoZU1lYWxEQgogICAgICAKICAgIH0KCiAgICBjb21wb25lbnQgQmFja2VuZCAiQmFja2VuZENvbXBvbmVudHMiIHsKICAgICAgaW5jbHVkZSAqCiAgICAgIGluY2x1ZGUgVXNlclNlcnZpY2UKICAgICAgaW5jbHVkZSBEYXRhYmFzZQogICAgICBpbmNsdWRlIFRoZU1lYWxEQgogICAgICBleGNsdWRlICJyZWxhdGlvbnNoaXAuc291cmNlPT1VSSAmJiByZWxhdGlvbnNoaXAuZGVzdGluYXRpb249PVVzZXJTZXJ2aWNlIgogICAgfQoKICAgIHN0eWxlcyB7CiAgICAgIGVsZW1lbnQgIkV4dGVybmFsIiB7CiAgICAgICAgYmFja2dyb3VuZCBsaWdodGdyZXkKICAgICAgICBjb2xvciBibGFjawogICAgICAgIHN0cm9rZSBncmV5CiAgICAgIH0KICAgICAgZWxlbWVudCAiRGF0YWJhc2UiIHsKICAgICAgICBzaGFwZSBDeWxpbmRlcgogICAgICB9CiAgICAgIGVsZW1lbnQgIkJhY2tlbmQiIHsKICAgICAgICBiYWNrZ3JvdW5kICM0YTkwZTIKICAgICAgICBjb2xvciB3aGl0ZQogICAgICB9CiAgICB9CgogICAgdGhlbWUgZGVmYXVsdAogIH0KfQ==",
     "structurizr.inspection.info" : "0",
     "structurizr.inspection.ignore" : "0",
-    "structurizr.inspection.warning" : "0"
+    "structurizr.inspection.error" : "85",
+    "structurizr.inspection.warning" : "0",
+    "structurizr.dsl" : "d29ya3NwYWNlICJNeSBTeXN0ZW0iIHsKCiAgbW9kZWwgewogICAgdXNlciA9IHBlcnNvbiAiVXNlciIKCiAgICBTcGlzTmVtdEFwcCAgPSBzb2Z0d2FyZVN5c3RlbSAiU3Bpc05lbXRBcHAiIHsKCiAgICAgIFVJID0gY29udGFpbmVyICJVSSIgewogICAgICAgIHRhZ3MgIk1vYmlsZSBBcHAiCiAgICAgICAgICBIb21lU2NyZWVuID0gY29tcG9uZW50ICJIb21lU2NyZWVuIiB7CiAgICAgICAgICAgIHRhZ3MgIk1MIE1vZGVsIgogICAgICAgICAgfQoKICAgICAgICAgIEV4cGxvcmVTY3JlZW4gPSBjb21wb25lbnQgIkV4cGxvcmVTY3JlZW4iIHsKICAgICAgICAgICAgdGFncyAiTUwgTW9kZWwiCiAgICAgICAgICB9CgogICAgICAgICAgU2F2ZWRSZWNpcGVzU2NyZWVuID0gY29tcG9uZW50ICJTYXZlZFJlY2lwZXNTY3JlZW4iIHsKICAgICAgICAgICAgdGFncyAiTUwgTW9kZWwiCiAgICAgICAgICB9CgogICAgICAgICAgQWNjb3VudFNjcmVlbiA9IGNvbXBvbmVudCAiQWNjb3VudFNjcmVlbiIgewogICAgICAgICAgICB0YWdzICJNTCBNb2RlbCIKICAgICAgICAgIH0KCiAgICAgICAgICBJbmNlcHRpb25WMyA9IGNvbXBvbmVudCAiQ29tcHV0ZXJWaXNpb24iIHsKICAgICAgICAgICAgdGFncyAiTUwgTW9kZWwiCiAgICAgICAgICB9CiAgICAgIH0KCiAgICAgIEJhY2tlbmQgPSBjb250YWluZXIgIkJhY2tlbmQiIHsKICAgICAgICB0YWdzICJCYWNrZW5kIgogICAgICAgICAgU2lnbkluQ29udHJvbGxlciA9IGNvbXBvbmVudCAiU2lnbkluQ29udHJvbGxlciIgewogICAgICAgICAgICB0YWdzICJBdXRoIgogICAgICAgICAgfQoKICAgICAgICAgIFJlY2lwZVJlY29tbWVuZGVyID0gY29tcG9uZW50ICJSZWNpcGVSZWNvbW1lbmRlciIgewogICAgICAgICAgICB0YWdzICJTZXJ2aWNlIgogICAgICAgICAgfQoKICAgICAgICAgIFByZWZlcmVuY2VTZXJ2aWNlID0gY29tcG9uZW50ICJQcmVmZXJlbmNlU2VydmljZSIgewogICAgICAgICAgICB0YWdzICJTZXJ2aWNlIgogICAgICAgICAgfQogICAgICB9CgogICAgICBNZWFsREJTZXJ2aWNlID0gY29udGFpbmVyICJNZWFsREJTZXJ2aWNlIiB7CiAgICAgICAgdGVzdCA9IGNvbXBvbmVudCAiQVBJIENsaWVudCIgewogICAgICAgICAgdGFncyAiQVBJIENsaWVudCIKICAgICAgICB9CiAgICAgIH0KCiAgICAgIFVzZXJTZXJ2aWNlID0gY29udGFpbmVyICJVc2VyU2VydmljZSIgewogICAgICAgIHRlc3QxID0gY29tcG9uZW50ICJBUEkgQ2xpZW50IiB7CiAgICAgICAgICB0YWdzICJBUEkgQ2xpZW50IgogICAgICAgIH0KICAgICAgfQogICAgfQoKICAgIERhdGFiYXNlID0gc29mdHdhcmVTeXN0ZW0gIkRhdGFiYXNlIiB7CiAgICAgICAgdGFncyAiRXh0ZXJuYWwiLCAiRGF0YWJhc2UiCiAgICB9CgogICAgVGhlTWVhbERCID0gc29mdHdhcmVTeXN0ZW0gIlRoZU1lYWxEQiIgewogICAgICB0YWdzICJFeHRlcm5hbCIKICAgIH0KCiAgICAvL0NvbnRleHQKICAgIHVzZXIgLT4gU3Bpc05lbXRBcHAKCiAgICAvL0NvbnRhaW5lcgogICAgdXNlciAtPiBVSQogICAgVUkgLT4gQmFja2VuZAogICAgVXNlclNlcnZpY2UgLT4gRGF0YWJhc2UKICAgIE1lYWxEQlNlcnZpY2UgLT4gVGhlTWVhbERCCgogICAgLy9Db21wb25lbnQgLSAgQmFja2VuZAogICAgU2lnbkluQ29udHJvbGxlciAtPiBVc2VyU2VydmljZQogICAgUmVjaXBlUmVjb21tZW5kZXIgLT4gUHJlZmVyZW5jZVNlcnZpY2UKICAgIFVJIC0+IFNpZ25JbkNvbnRyb2xsZXIKICAgIFJlY2lwZVJlY29tbWVuZGVyIC0+IFVJCiAgICBQcmVmZXJlbmNlU2VydmljZSAtPiBNZWFsREJTZXJ2aWNlCgogICAgLy9Db21wb25lbnQgLSBVSQogICAgSG9tZVNjcmVlbiAtPiBNZWFsREJTZXJ2aWNlCiAgICBFeHBsb3JlU2NyZWVuIC0+IE1lYWxEQlNlcnZpY2UKICAgIFNhdmVkUmVjaXBlc1NjcmVlbiAtPiBNZWFsREJTZXJ2aWNlCiAgICBBY2NvdW50U2NyZWVuIC0+IFVzZXJTZXJ2aWNlCiAgICBTYXZlZFJlY2lwZXNTY3JlZW4gLT4gVXNlclNlcnZpY2UKICAgIEV4cGxvcmVTY3JlZW4gLT4gSW5jZXB0aW9uVjMKICB9CgogIHZpZXdzIHsKICAgIHN5c3RlbUNvbnRleHQgU3Bpc05lbXRBcHAgIlN5c3RlbUNvbnRleHQiIHsKICAgICAgaW5jbHVkZSAqCiAgICB9CiAKICAgIGNvbnRhaW5lciBTcGlzTmVtdEFwcCAiQ29udGFpbmVycyIgewogICAgICBpbmNsdWRlICoKICAgICAgZXhjbHVkZSAicmVsYXRpb25zaGlwLnNvdXJjZT09VUkgJiYgcmVsYXRpb25zaGlwLmRlc3RpbmF0aW9uPT1Vc2VyU2VydmljZSIKICAgICAgZXhjbHVkZSAicmVsYXRpb25zaGlwLnNvdXJjZT09QmFja2VuZCAmJiByZWxhdGlvbnNoaXAuZGVzdGluYXRpb249PVVJIgogICAgfQoKICAgIGNvbXBvbmVudCBVSSAiVUlDb21wb25lbnRzIiB7CiAgICAgIGluY2x1ZGUgKgogICAgICBpbmNsdWRlIEJhY2tlbmQKICAgICAgaW5jbHVkZSBEYXRhYmFzZQogICAgICBpbmNsdWRlIFRoZU1lYWxEQgogICAgICAKICAgIH0KCiAgICBjb21wb25lbnQgQmFja2VuZCAiQmFja2VuZENvbXBvbmVudHMiIHsKICAgICAgaW5jbHVkZSAqCiAgICAgIGluY2x1ZGUgVXNlclNlcnZpY2UKICAgICAgaW5jbHVkZSBEYXRhYmFzZQogICAgICBpbmNsdWRlIFRoZU1lYWxEQgogICAgICBleGNsdWRlICJyZWxhdGlvbnNoaXAuc291cmNlPT1VSSAmJiByZWxhdGlvbnNoaXAuZGVzdGluYXRpb249PVVzZXJTZXJ2aWNlIgogICAgfQoKICAgIHN0eWxlcyB7CiAgICAgIGVsZW1lbnQgIkV4dGVybmFsIiB7CiAgICAgICAgYmFja2dyb3VuZCBsaWdodGdyZXkKICAgICAgICBjb2xvciBibGFjawogICAgICAgIHN0cm9rZSBncmV5CiAgICAgIH0KICAgICAgZWxlbWVudCAiRGF0YWJhc2UiIHsKICAgICAgICBzaGFwZSBDeWxpbmRlcgogICAgICB9CiAgICAgIGVsZW1lbnQgIkJhY2tlbmQiIHsKICAgICAgICBiYWNrZ3JvdW5kICM0YTkwZTIKICAgICAgICBjb2xvciB3aGl0ZQogICAgICB9CiAgICB9CgogICAgdGhlbWUgZGVmYXVsdAogIH0KfQ=="
   },
   "views" : {
     "componentViews" : [ {
       "containerId" : "3",
       "dimensions" : {
-        "height" : 2480,
-        "width" : 3508
+        "height" : 2093,
+        "width" : 3575
       },
       "elements" : [ {
         "id" : "4",
-        "x" : 1180,
-        "y" : 905
+        "x" : 920,
+        "y" : 199
       }, {
         "id" : "5",
-        "x" : 1190,
-        "y" : 1380
+        "x" : 920,
+        "y" : 569
       }, {
         "id" : "6",
-        "x" : 1535,
-        "y" : 440
+        "x" : 925,
+        "y" : 954
       }, {
         "id" : "7",
-        "x" : 1890,
-        "y" : 910
+        "x" : 925,
+        "y" : 1335
       }, {
         "id" : "8",
-        "x" : 1900,
-        "y" : 1365
+        "x" : 240,
+        "y" : 579
+      }, {
+        "id" : "9",
+        "x" : 1640,
+        "y" : 1345
       }, {
         "id" : "13",
-        "x" : 665,
-        "y" : 435
+        "x" : 1645,
+        "y" : 555
       }, {
         "id" : "15",
-        "x" : 2445,
-        "y" : 440
+        "x" : 2285,
+        "y" : 950
       }, {
         "id" : "17",
-        "x" : 3025,
-        "y" : 455
+        "x" : 2925,
+        "y" : 934
       }, {
         "id" : "18",
-        "x" : 65,
-        "y" : 430
+        "x" : 2910,
+        "y" : 194
       } ],
       "externalContainerBoundariesVisible" : false,
       "key" : "UIComponents",
       "name" : "Component View: SpisNemtApp - UI",
       "order" : 3,
-      "paperSize" : "A4_Landscape",
       "relationships" : [ {
         "id" : "22"
       }, {
-        "id" : "26"
+        "id" : "24"
       }, {
-        "id" : "35"
+        "id" : "27"
       }, {
-        "id" : "37",
-        "vertices" : [ {
-          "x" : 890,
-          "y" : 1085
-        } ]
+        "id" : "33"
+      }, {
+        "id" : "34"
+      }, {
+        "id" : "36"
+      }, {
+        "id" : "37"
       }, {
         "id" : "38"
       }, {
-        "id" : "39"
+        "id" : "40"
       }, {
         "id" : "41"
-      }, {
-        "id" : "42"
       } ]
     }, {
       "containerId" : "9",
       "dimensions" : {
-        "height" : 2480,
-        "width" : 3508
+        "height" : 1993,
+        "width" : 2905
       },
       "elements" : [ {
         "id" : "3",
-        "x" : 1510,
-        "y" : 635
+        "x" : 245,
+        "y" : 190
       }, {
         "id" : "10",
-        "x" : 2240,
-        "y" : 1210
+        "x" : 1609,
+        "y" : 1255
       }, {
         "id" : "11",
-        "x" : 1525,
-        "y" : 1200
+        "x" : 239,
+        "y" : 1255
       }, {
         "id" : "12",
-        "x" : 715,
-        "y" : 1205
+        "x" : 944,
+        "y" : 1255
       }, {
         "id" : "13",
-        "x" : 700,
-        "y" : 625
+        "x" : 934,
+        "y" : 185
       }, {
         "id" : "15",
-        "x" : 2250,
-        "y" : 620
+        "x" : 1610,
+        "y" : 730
       }, {
         "id" : "17",
-        "x" : 2960,
-        "y" : 625
+        "x" : 2250,
+        "y" : 735
       }, {
         "id" : "18",
-        "x" : 50,
-        "y" : 630
+        "x" : 2254,
+        "y" : 190
       } ],
       "externalContainerBoundariesVisible" : false,
       "key" : "BackendComponents",
       "name" : "Component View: SpisNemtApp - Backend",
       "order" : 4,
-      "paperSize" : "A4_Landscape",
       "relationships" : [ {
         "id" : "22"
       }, {
+        "id" : "24"
+      }, {
         "id" : "26"
       }, {
-        "id" : "27"
+        "id" : "28"
       }, {
         "id" : "29"
       }, {
         "id" : "30"
       }, {
-        "id" : "31"
+        "id" : "32"
       }, {
-        "id" : "33"
-      }, {
-        "id" : "36"
+        "id" : "35"
       } ]
     } ],
     "configuration" : {
       "branding" : { },
       "lastSavedView" : "UIComponents",
+      "metadataSymbols" : "SquareBrackets",
       "styles" : {
         "elements" : [ {
           "background" : "#4a90e2",
@@ -452,43 +451,42 @@
     },
     "containerViews" : [ {
       "dimensions" : {
-        "height" : 2480,
-        "width" : 3508
+        "height" : 2144,
+        "width" : 2795
       },
       "elements" : [ {
         "id" : "1",
-        "x" : 1595,
-        "y" : 30
+        "x" : 244,
+        "y" : 159
       }, {
         "id" : "3",
-        "x" : 1555,
-        "y" : 730
+        "x" : 180,
+        "y" : 910
       }, {
         "id" : "9",
-        "x" : 1545,
-        "y" : 1240
+        "x" : 885,
+        "y" : 1500
       }, {
         "id" : "13",
-        "x" : 915,
-        "y" : 720
+        "x" : 884,
+        "y" : 899
       }, {
         "id" : "15",
-        "x" : 2125,
-        "y" : 725
+        "x" : 1564,
+        "y" : 1499
       }, {
         "id" : "17",
-        "x" : 2825,
-        "y" : 715
+        "x" : 2144,
+        "y" : 1509
       }, {
         "id" : "18",
-        "x" : 920,
-        "y" : 1740
+        "x" : 2129,
+        "y" : 904
       } ],
       "externalSoftwareSystemBoundariesVisible" : false,
       "key" : "Containers",
       "name" : "Container View: SpisNemtApp",
       "order" : 2,
-      "paperSize" : "A4_Landscape",
       "relationships" : [ {
         "id" : "20"
       }, {
@@ -498,43 +496,40 @@
       }, {
         "id" : "24"
       }, {
-        "id" : "26"
+        "id" : "27"
       }, {
-        "id" : "28"
+        "id" : "33"
       }, {
-        "id" : "34"
-      }, {
-        "id" : "36"
+        "id" : "35"
       } ],
       "softwareSystemId" : "2"
     } ],
     "systemContextViews" : [ {
       "dimensions" : {
-        "height" : 1748,
-        "width" : 2480
+        "height" : 1356,
+        "width" : 1690
       },
       "elements" : [ {
         "id" : "1",
-        "x" : 855,
-        "y" : 30
+        "x" : 225,
+        "y" : 159
       }, {
         "id" : "2",
-        "x" : 830,
-        "y" : 685
+        "x" : 200,
+        "y" : 814
       }, {
         "id" : "17",
-        "x" : 0,
-        "y" : 0
+        "x" : 1035,
+        "y" : 285
       }, {
         "id" : "18",
-        "x" : 825,
-        "y" : 1335
+        "x" : 1040,
+        "y" : 815
       } ],
       "enterpriseBoundaryVisible" : true,
       "key" : "SystemContext",
       "name" : "System Context View: SpisNemtApp",
       "order" : 1,
-      "paperSize" : "A5_Landscape",
       "relationships" : [ {
         "id" : "19"
       }, {

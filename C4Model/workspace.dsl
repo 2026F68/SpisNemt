@@ -71,7 +71,6 @@ workspace "My System" {
     user -> UI
     UI -> Backend
     UserService -> Database
-    Backend -> TheMealDB
     MealDBService -> TheMealDB
 
     //Component -  Backend
@@ -103,6 +102,7 @@ workspace "My System" {
 
     component UI "UIComponents" {
       include *
+      include Backend
       include Database
       include TheMealDB
       
