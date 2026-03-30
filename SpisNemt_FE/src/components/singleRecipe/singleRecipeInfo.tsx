@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Alert, Image, Text, View } from "react-native";
+import { Image, Text, View } from "react-native";
 import { useAuth } from "../../context/AuthContext";
 import {
   loadUserSavedRecipes,
@@ -67,10 +67,6 @@ export default function SingleRecipeInfo({
 
     const mealId = Number(idMeal);
 
-    if (Number.isNaN(mealId)) {
-      return;
-    }
-
     if (isSaving) {
       return;
     }
@@ -84,14 +80,9 @@ export default function SingleRecipeInfo({
         (savedId) => Number(savedId) === mealId,
       );
 
-      if (isAlreadySaved) {
-        setIsSaved(true);
-        Alert.alert(
-          "Already saved",
-          "This recipe is already in your saved list.",
-        );
-        return;
-      }
+      const nextSavedRecipes = isAlreadySaved
+        ? savedRecipes.filter((savedId) => Number(savedId) !== mealId)
+        : [...savedRecipes, mealId];
 
       await saveUserSavedRecipes(
         {
@@ -99,10 +90,11 @@ export default function SingleRecipeInfo({
           email: user.email,
           name: user.name,
         },
-        [...savedRecipes, mealId],
+        nextSavedRecipes,
       );
 
-      setIsSaved(true);
+      setIsSaved(!isAlreadySaved);
+
     } catch (error) {
       console.error("Failed to save recipe:", error);
     } finally {
