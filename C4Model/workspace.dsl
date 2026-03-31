@@ -1,67 +1,74 @@
 workspace "My System" {
 
   model {
-    user = person "User"
+    user = person "User"{
+      tags "FontStyle"
+    }
 
     SpisNemtApp  = softwareSystem "SpisNemtApp" {
+      tags "FontStyle"
 
       UI = container "UI" {
-        tags "Mobile App"
+        tags "FontStyle"
           HomeScreen = component "HomeScreen" {
-            tags "ML Model"
+            tags "FontStyle"
           }
 
           ExploreScreen = component "ExploreScreen" {
-            tags "ML Model"
+            tags "FontStyle"
           }
 
           SavedRecipesScreen = component "SavedRecipesScreen" {
-            tags "ML Model"
+            tags "FontStyle"
           }
 
           AccountScreen = component "AccountScreen" {
-            tags "ML Model"
+            tags "FontStyle"
           }
 
           InceptionV3 = component "ComputerVision" {
-            tags "ML Model"
+            tags "FontStyle"
+          }
+
+          LoginScreen = component "LoginScreen" {
+            tags "FontStyle"
+          }
+
+          CreateAccountScreen = component "CreateAccountScreen" {
+            tags "FontStyle"
           }
       }
 
       Backend = container "Backend" {
-        tags "Backend"
+        tags "FontStyle"
           SignInController = component "SignInController" {
-            tags "Auth"
+            tags "FontStyle"
           }
 
           RecipeRecommender = component "RecipeRecommender" {
-            tags "Service"
+            tags "FontStyle"
           }
 
           PreferenceService = component "PreferenceService" {
-            tags "Service"
+            tags "FontStyle"
           }
       }
 
       MealDBService = container "MealDBService" {
-        test = component "API Client" {
-          tags "API Client"
-        }
+        tags "FontStyle"
       }
 
       UserService = container "UserService" {
-        test1 = component "API Client" {
-          tags "API Client"
-        }
+        tags "FontStyle"
       }
     }
 
     Database = softwareSystem "Database" {
-        tags "External", "Database"
+        tags "External", "Database", "FontStyle"
     }
 
     TheMealDB = softwareSystem "TheMealDB" {
-      tags "External"
+      tags "External", "FontStyle"
     }
 
     //Context
@@ -70,15 +77,17 @@ workspace "My System" {
     //Container
     user -> UI
     UI -> Backend
-    UserService -> Database
     MealDBService -> TheMealDB
+    UserService -> Database
 
     //Component -  Backend
-    SignInController -> UserService
+    //SignInController -> UserService
     RecipeRecommender -> PreferenceService
     UI -> SignInController
+    UI -> UserService
     RecipeRecommender -> UI
-    PreferenceService -> MealDBService
+    UserService -> SignInController
+    //PreferenceService -> MealDBService
 
     //Component - UI
     HomeScreen -> MealDBService
@@ -87,6 +96,9 @@ workspace "My System" {
     AccountScreen -> UserService
     SavedRecipesScreen -> UserService
     ExploreScreen -> InceptionV3
+    Backend ->  Database
+    LoginScreen -> Backend
+    CreateAccountScreen -> Backend
   }
 
   views {
@@ -105,7 +117,6 @@ workspace "My System" {
       include Backend
       include Database
       include TheMealDB
-      
     }
 
     component Backend "BackendComponents" {
@@ -113,7 +124,7 @@ workspace "My System" {
       include UserService
       include Database
       include TheMealDB
-      exclude "relationship.source==UI && relationship.destination==UserService"
+      include MealDBService
     }
 
     styles {
@@ -129,6 +140,10 @@ workspace "My System" {
         background #4a90e2
         color white
       }
+      element "FontStyle" {
+        fontsize 40
+      }
+
     }
 
     theme default
