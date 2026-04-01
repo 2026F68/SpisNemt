@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { View } from "react-native";
 import Button from "../../components/buttons/Button";
 import AccountCard from "../../components/cards/AccountCard";
 import SelectableCard from "../../components/cards/SelectableCard";
@@ -18,6 +19,8 @@ export default function Account() {
   const { user, signOut } = useAuth();
   const [preferences, setArea] = useState<string[]>([]);
   const [category, setCategory] = useState<string[]>([]);
+  const [isEditingPreferences, setIsEditingPreferences] = useState(false);
+  const [saveSuccessPulse, setSaveSuccessPulse] = useState(0);
   const [feedback, setFeedback] = useState<{
     message: string;
     variant: "success" | "warning" | "danger";
@@ -64,23 +67,37 @@ export default function Account() {
     );
   };
 
-  const saveSelections = async () => {
+  const saveSelections = async (): Promise<boolean> => {
     if (!user) {
-      return;
+      return false;
     }
 
     try {
       await saveUserPreferences(user, preferences, category);
-      setFeedback({
-        message: "Preferences saved.",
-        variant: "success",
-      });
+      setFeedback(null);
+      return true;
     } catch (error) {
       console.error(error);
       setFeedback({
         message: "Could not save your preferences.",
         variant: "danger",
       });
+      return false;
+    }
+  };
+
+  const handlePreferencesButtonPress = async () => {
+    if (!isEditingPreferences) {
+      setIsEditingPreferences(true);
+      setFeedback(null);
+      return;
+    }
+
+    const didSave = await saveSelections();
+
+    if (didSave) {
+      setSaveSuccessPulse((current) => current + 1);
+      setIsEditingPreferences(false);
     }
   };
 
@@ -97,16 +114,34 @@ export default function Account() {
           <Alert variant={feedback.variant}>{feedback.message}</Alert>
         )}
 
-        <Button title="Save Preferences" onPress={saveSelections} />
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Subtitle>Area</Subtitle>
+          <Button
+            title={
+              isEditingPreferences ? "Save Preferences" : "Edit Preferences"
+            }
+            onPress={() => void handlePreferencesButtonPress()}
+          />
+        </View>
 
-        <Subtitle>Preferences</Subtitle>
         <Scrollable horizontal>
           {PREFERENCE_OPTIONS.map((preference) => (
             <SelectableCard
               key={preference}
               title={preference}
               selected={preferences.includes(preference)}
-              onToggle={() => toggleSelection(preferences, setArea, preference)}
+              blinkSignal={saveSuccessPulse}
+              onToggle={
+                isEditingPreferences
+                  ? () => toggleSelection(preferences, setArea, preference)
+                  : undefined
+              }
             />
           ))}
         </Scrollable>
@@ -118,8 +153,11 @@ export default function Account() {
               key={categoryOption}
               title={categoryOption}
               selected={category.includes(categoryOption)}
-              onToggle={() =>
-                toggleSelection(category, setCategory, categoryOption)
+              blinkSignal={saveSuccessPulse}
+              onToggle={
+                isEditingPreferences
+                  ? () => toggleSelection(category, setCategory, categoryOption)
+                  : undefined
               }
             />
           ))}
