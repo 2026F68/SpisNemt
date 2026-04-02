@@ -13,7 +13,7 @@ export interface UserPreferences {
   category: string[];
 }
 
-let modelPromise: Promise<tf.GraphModel> | null = null;
+let modelPromise: Promise<tf.LayersModel> | null = null;
 const INIT_TIMEOUT_MS = 10_000;
 
 const modelJson = require("../../ml/MLP/model.json");
@@ -83,7 +83,7 @@ export async function initPreferencesMatcher() {
     try {
       validateBundledModelAssets();
       await tf.ready();
-      return tf.loadGraphModel(
+      return tf.loadLayersModel(
         tfReactNative.bundleResourceIO(
           modelJson,
           modelWeights as unknown as number[],
