@@ -1,11 +1,55 @@
-import { Stack, Tabs } from "expo-router";
-import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { Stack } from "expo-router";
+import { ActivityIndicator, View } from "react-native";
+import { AuthProvider, useAuth } from "../context/AuthContext";
 
-export default function TabLayout() {
-  return <Tabs screenOptions={{ headerShown: false }}>
-      <Tabs.Screen name="index" options={{ title: 'Home', tabBarIcon: ({ color, size }) => <FontAwesome name="home" color={color} size={size} /> }} />
-      <Tabs.Screen name="explore" options={{ title: 'Explore', tabBarIcon: ({ color, size }) => <FontAwesome name="search" color={color} size={size} /> }} />
-      <Tabs.Screen name="saved" options={{ title: 'Saved', tabBarIcon: ({ color, size }) => <FontAwesome name="bookmark" color={color} size={size} /> }} />
-      <Tabs.Screen name="account" options={{ title: 'Account', tabBarIcon: ({ color, size }) => <FontAwesome name="user" color={color} size={size} /> }} />
-    </Tabs>;
+export default function RootLayout() {
+  return (
+    <AuthProvider>
+      <RootNavigator />
+    </AuthProvider>
+  );
+}
+
+function RootNavigator() {
+  const { isAuthenticated, isInitializing } = useAuth();
+
+  if (isInitializing) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <ActivityIndicator />
+      </View>
+    );
+  }
+
+  return (
+    <Stack>
+      <Stack.Protected guard={!isAuthenticated}>
+        <Stack.Screen
+          name="(auth)"
+          options={{
+            headerShown: false,
+            presentation: "fullScreenModal",
+          }}
+        />
+      </Stack.Protected>
+
+      <Stack.Protected guard={isAuthenticated}>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+
+        <Stack.Screen
+          name="SingleRecipe"
+          options={{
+            headerShown: false,
+            presentation: "modal",
+          }}
+        />
+      </Stack.Protected>
+    </Stack>
+  );
 }
