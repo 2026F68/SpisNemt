@@ -358,7 +358,7 @@ export default function Explore() {
                 key={meal.idMeal}
                 variant="saved"
                 title={meal.strMeal}
-                category="MealDB"
+                category={meal.strCategory}
                 description="Found by selected ingredients"
                 imageUrl={meal.strMealThumb}
               />
