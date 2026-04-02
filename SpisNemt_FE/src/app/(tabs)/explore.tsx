@@ -10,16 +10,19 @@ import PillFilter from "../../components/buttons/PillFilter";
 import SearchInput from "../../components/forms/SearchInput";
 import Alert from "../../components/typograghy/Alert";
 import { getMealByMultiIngredients } from "../../services/mealDbAPI/getMealByMultiIngredients";
+import { get10RandomMeals } from "@/src/services/mealDbAPI/get10RandomMeals";
 import { StyleSheet, View } from "react-native";
 import {
   classifyIngredientFromUri,
   initIngredientClassifier,
 } from "../../services/ml/ingredientClassifier";
+import Subtitle from "../../components/typograghy/Subtitle";
 
 interface MealDbMeal {
   idMeal: string;
   strMeal: string;
   strMealThumb: string;
+  strCategory: string;
 }
 
 const styles = StyleSheet.create({
@@ -62,9 +65,24 @@ export default function Explore() {
   const [isLoadingResults, setIsLoadingResults] = useState(false);
   const [searchError, setSearchError] = useState<string | null>(null);
 
+  const [randomRecipe, setRandomRecipe] = useState<MealDbMeal[]>([]);
+
   const [facing] = React.useState<CameraType>("back");
   const [permission, requestPermission] = useCameraPermissions();
   const [cameraOpen, setCameraOpen] = React.useState(false);
+
+  useEffect(() => {
+    const fetchRandomRecipe = async () => {
+      try {
+        const meals = await get10RandomMeals();
+        setRandomRecipe(meals || []);
+      } catch (error) {
+        console.error("Error fetching random recipe:", error);
+      }
+    };
+
+    fetchRandomRecipe();
+  }, []);
   const [isClassifierReady, setIsClassifierReady] = useState(false);
   const [isClassifying, setIsClassifying] = useState(false);
   const [classifierError, setClassifierError] = useState<string | null>(null);
@@ -188,6 +206,29 @@ export default function Explore() {
 
   const searchLabel = submittedTerms.join(", ");
 
+  {/* Helper function to render random recommendations, avoiding duplicates */}
+  const renderRandomRecommendations = (heading: string) => (
+    <>
+      <Subtitle>{heading}</Subtitle>
+      <Scrollable>
+        {randomRecipe.length > 0 ? (
+          randomRecipe.map((meal) => (
+            <RecipeCard
+              key={meal.idMeal}
+              variant="saved"
+              title={meal.strMeal}
+              category={meal.strCategory}
+              description="Recommended for you"
+              imageUrl={meal.strMealThumb}
+            />
+          ))
+        ) : (
+          <Paragraph>Loading recommendations...</Paragraph>
+        )}
+      </Scrollable>
+    </>
+  );
+
 
   if (!permission) {
     return <Paragraph>Requesting camera permission...</Paragraph>;
@@ -217,21 +258,23 @@ export default function Explore() {
         }}
       />
 
-      <View style={styles.chipContainer}>
-        {terms.length > 0 && (
-          <Scrollable horizontal style={styles.chipScroll} contentContainerStyle={styles.chipScrollContent}>
-            {terms.map((term) => (
-              <PillFilter
-                key={term}
-                title={term}
-                onPress={() => removeTerm(term)}
-                active
-              />
-            ))}
-          </Scrollable>
-        )}
-      </View>
 
+      {terms.length > 0 && (
+        <View style={styles.chipContainer}>
+          {terms.length > 0 && (
+            <Scrollable horizontal style={styles.chipScroll} contentContainerStyle={styles.chipScrollContent}>
+              {terms.map((term) => (
+                <PillFilter
+                  key={term}
+                  title={term}
+                  onPress={() => removeTerm(term)}
+                  active
+                />
+              ))}
+            </Scrollable>
+          )}
+        </View>
+      )}
 
       {cameraOpen && (
         <>
@@ -265,7 +308,7 @@ export default function Explore() {
         </>
       )}
 
-      {hasSubmittedSearch && (
+      {hasSubmittedSearch ? (
         <Scrollable>
           {isLoadingResults ? (
             <Paragraph>Searching recipes...</Paragraph>
@@ -284,14 +327,14 @@ export default function Explore() {
             ))
           ) : (
             <>
-              <Alert variant="danger">No recipes found for: {searchLabel}.</Alert>
+              <Alert variant="danger">No recipes found for "{searchLabel}".</Alert>
+              {renderRandomRecommendations("Try one of these instead")}
             </>
           )}
         </Scrollable>
+      ) : (
+        renderRandomRecommendations("Need inspiration?")
       )}
-
-
-
     </Container>
   );
 }
