@@ -16,6 +16,9 @@ import {
   classifyIngredientFromUri,
   initIngredientClassifier,
 } from "../../services/ml/ingredientClassifier";
+import { scoreRecipeMatch } from "../../services/ml/preferencesMatcher";
+import { loadUserPreferences } from "../../services/databaseAPI/Preferences";
+import { useAuth } from "../../context/AuthContext";
 import Subtitle from "../../components/typograghy/Subtitle";
 
 interface MealDbMeal {
@@ -57,6 +60,7 @@ const styles = StyleSheet.create({
 });
 
 export default function Explore() {
+  const { user } = useAuth();
   const [draft, setDraft] = useState("");
   const [terms, setTerms] = useState<string[]>([]);
   const [submittedTerms, setSubmittedTerms] = useState<string[]>([]);
@@ -66,6 +70,8 @@ export default function Explore() {
   const [searchError, setSearchError] = useState<string | null>(null);
 
   const [randomRecipe, setRandomRecipe] = useState<MealDbMeal[]>([]);
+  const [randomMatchScores, setRandomMatchScores] = useState<Map<string, number>>(new Map());
+  const [userPrefs, setUserPrefs] = useState<{ area: string[]; category: string[] } | null>(null);
 
   const [facing] = React.useState<CameraType>("back");
   const [permission, requestPermission] = useCameraPermissions();
@@ -83,6 +89,32 @@ export default function Explore() {
 
     fetchRandomRecipe();
   }, []);
+
+  useEffect(() => {
+    if (!user) return;
+    loadUserPreferences(user.id)
+      .then((prefs) => setUserPrefs(prefs))
+      .catch(() => setUserPrefs(null));
+  }, [user]);
+
+  useEffect(() => {
+    if (randomRecipe.length === 0 || !userPrefs) return;
+    if (userPrefs.area.length === 0 && userPrefs.category.length === 0) return;
+
+    void (async () => {
+      const entries = await Promise.all(
+        randomRecipe.map(async (meal) => {
+          try {
+            const score = await scoreRecipeMatch(meal, userPrefs);
+            return [meal.idMeal, score] as [string, number];
+          } catch {
+            return [meal.idMeal, 0] as [string, number];
+          }
+        }),
+      );
+      setRandomMatchScores(new Map(entries));
+    })();
+  }, [randomRecipe, userPrefs]);
   const [isClassifierReady, setIsClassifierReady] = useState(false);
   const [isClassifying, setIsClassifying] = useState(false);
   const [classifierError, setClassifierError] = useState<string | null>(null);
@@ -206,13 +238,18 @@ export default function Explore() {
 
   const searchLabel = submittedTerms.join(", ");
 
-  {/* Helper function to render random recommendations, avoiding duplicates */}
+  const sortedRandomRecipe = randomMatchScores.size > 0
+    ? [...randomRecipe].sort(
+        (a, b) => (randomMatchScores.get(b.idMeal) ?? 0) - (randomMatchScores.get(a.idMeal) ?? 0),
+      )
+    : randomRecipe;
+
   const renderRandomRecommendations = (heading: string) => (
     <>
       <Subtitle>{heading}</Subtitle>
       <Scrollable>
-        {randomRecipe.length > 0 ? (
-          randomRecipe.map((meal) => (
+        {sortedRandomRecipe.length > 0 ? (
+          sortedRandomRecipe.map((meal) => (
             <RecipeCard
               key={meal.idMeal}
               variant="saved"
@@ -220,6 +257,7 @@ export default function Explore() {
               category={meal.strCategory}
               description="Recommended for you"
               imageUrl={meal.strMealThumb}
+              matchScore={randomMatchScores.get(meal.idMeal)}
             />
           ))
         ) : (

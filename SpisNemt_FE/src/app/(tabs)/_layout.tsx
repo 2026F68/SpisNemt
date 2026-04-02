@@ -5,12 +5,16 @@ import { useEffect } from "react";
 
 import { globalColors } from "../../theme";
 import { initIngredientClassifier } from "../../services/ml/ingredientClassifier";
+import { initPreferencesMatcher } from "../../services/ml/preferencesMatcher";
 
 export default function TabLayout() {
   useEffect(() => {
-    // Warm up the model in the background to reduce first-use delay in Explore.
+    // Warm up models in the background to reduce first-use delay.
     initIngredientClassifier().catch((error) => {
       console.warn("Classifier prewarm failed:", error);
+    });
+    initPreferencesMatcher().catch((error) => {
+      console.warn("Preference matcher prewarm failed:", error);
     });
   }, []);
 

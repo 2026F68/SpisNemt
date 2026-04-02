@@ -11,8 +11,15 @@ import { useAuth } from "../../context/AuthContext";
 import { getUserProfile } from "../../services/databaseAPI/getUserProfile";
 import { saveUserPreferences } from "../../services/databaseAPI/saveUserPreferences";
 
-const PREFERENCE_OPTIONS = ["Italian", "Spanish", "French", "Mexican"];
-const CATEGORY_OPTIONS = ["Gluten", "Dairy", "Nuts", "Soy"];
+const PREFERENCE_OPTIONS = [
+  "Italian", "Mexican", "Indian", "Chinese", "French",
+  "Thai", "Japanese", "American", "British", "Greek",
+  "Spanish", "Turkish", "Moroccan", "Malaysian",
+];
+const CATEGORY_OPTIONS = [
+  "Chicken", "Beef", "Pasta", "Seafood", "Vegetarian",
+  "Vegan", "Dessert", "Lamb", "Breakfast", "Pork", "Starter",
+];
 
 export default function Account() {
   const { user, signOut } = useAuth();
@@ -99,7 +106,7 @@ export default function Account() {
 
         <Button title="Save Preferences" onPress={saveSelections} />
 
-        <Subtitle>Preferences</Subtitle>
+        <Subtitle>Cuisine</Subtitle>
         <Scrollable horizontal>
           {PREFERENCE_OPTIONS.map((preference) => (
             <SelectableCard
