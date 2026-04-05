@@ -8,7 +8,7 @@ interface RecipeCardProps {
   description?: string;
   imageUrl?: string;
   variant?: "default" | "saved";
-  matchScore?: number;
+  isRecommended?: boolean;
 }
 
 export default function RecipeCard({
@@ -17,7 +17,7 @@ export default function RecipeCard({
   description,
   imageUrl,
   variant,
-  matchScore,
+  isRecommended,
 }: RecipeCardProps) {
   const containerStyles =
     variant === "saved"
@@ -25,11 +25,6 @@ export default function RecipeCard({
       : cardStyle.cardContainer;
   const imageStyles =
     variant === "saved" ? cardStyle.SavedRecipeCardImage : cardStyle.cardImage;
-
-  const badgeColor =
-    matchScore !== undefined && matchScore >= 0.75
-      ? globalColors.successColor
-      : globalColors.secondaryColor;
 
   return (
     <View style={containerStyles}>
@@ -41,11 +36,9 @@ export default function RecipeCard({
       <Text style={cardStyle.cardTitle}>{title}</Text>
       <Text style={cardStyle.cardCategory}>{category}</Text>
       <Text style={cardStyle.cardParagraph}>{description}</Text>
-      {matchScore !== undefined && matchScore >= 0.45 && (
-        <View style={[cardStyle.matchBadge, { backgroundColor: badgeColor }]}>
-          <Text style={cardStyle.matchBadgeText}>
-            {Math.round(matchScore * 100)}%
-          </Text>
+      {isRecommended && (
+        <View style={[cardStyle.matchBadge, { backgroundColor: globalColors.successColor }]}>
+          <Text style={cardStyle.matchBadgeText}>Recommended</Text>
         </View>
       )}
     </View>

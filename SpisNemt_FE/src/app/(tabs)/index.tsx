@@ -1,3 +1,4 @@
+import { useFocusEffect } from "@react-navigation/native";
 import React from "react";
 import PillFilter from "../../components/buttons/PillFilter";
 import RecipeCard from "../../components/cards/RecipeCard";
@@ -23,12 +24,14 @@ export default function Index() {
       .catch(() => setRandomMeals([]));
   }, []);
 
-  React.useEffect(() => {
-    if (!user) return;
-    loadUserPreferences(user.id)
-      .then((prefs) => setUserPrefs(prefs))
-      .catch(() => setUserPrefs(null));
-  }, [user]);
+  useFocusEffect(
+    React.useCallback(() => {
+      if (!user) return;
+      loadUserPreferences(user.id)
+        .then((prefs) => setUserPrefs(prefs))
+        .catch(() => setUserPrefs(null));
+    }, [user]),
+  );
 
   React.useEffect(() => {
     if (randomMeals.length === 0 || !userPrefs) return;
@@ -49,13 +52,12 @@ export default function Index() {
     })();
   }, [randomMeals, userPrefs]);
 
-  const sortedMeals = React.useMemo(
-    () =>
-      matchScores.size > 0
-        ? [...randomMeals].sort(
-            (a, b) => (matchScores.get(b.idMeal) ?? 0) - (matchScores.get(a.idMeal) ?? 0),
-          )
-        : randomMeals,
+  const hasPrefs =
+    userPrefs !== null &&
+    (userPrefs.area.length > 0 || userPrefs.category.length > 0);
+
+  const recommendedMeals = React.useMemo(
+    () => randomMeals.filter((m) => (matchScores.get(m.idMeal) ?? 0) >= 0.45),
     [randomMeals, matchScores],
   );
 
@@ -64,10 +66,10 @@ export default function Index() {
     [randomMeals],
   );
 
-  const filteredMeals =
+  const discoveryMeals =
     category.length === 0
-      ? sortedMeals
-      : sortedMeals.filter((m) => category.includes(m.strCategory));
+      ? randomMeals
+      : randomMeals.filter((m) => category.includes(m.strCategory));
 
   return (
     <>
@@ -75,42 +77,42 @@ export default function Index() {
         <Title>Home</Title>
         <Subtitle>Recommended</Subtitle>
         <Scrollable horizontal>
-          {sortedMeals.map((meal) => (
+          {(hasPrefs ? recommendedMeals : randomMeals).map((meal) => (
             <RecipeCard
               key={meal.idMeal}
               title={meal.strMeal}
               category={meal.strCategory}
               imageUrl={meal.strMealThumb}
-              matchScore={matchScores.get(meal.idMeal)}
+              isRecommended={hasPrefs}
             />
           ))}
         </Scrollable>
 
         <Subtitle>Categories</Subtitle>
         <Scrollable horizontal>
-          {categories.map((category, index) => (
+          {categories.map((cat, index) => (
             <PillFilter
               key={index}
-              title={category}
+              title={cat}
               onPress={() => {
                 setCategory((prev) =>
-                  prev.includes(category)
-                    ? prev.filter((c) => c !== category)
-                    : [...prev, category],
+                  prev.includes(cat)
+                    ? prev.filter((c) => c !== cat)
+                    : [...prev, cat],
                 );
               }}
-              active={category.includes(category)}
+              active={category.includes(cat)}
             />
           ))}
         </Scrollable>
         <Scrollable horizontal>
-          {filteredMeals.map((meal) => (
+          {discoveryMeals.map((meal) => (
             <RecipeCard
               key={meal.idMeal}
               title={meal.strMeal}
               category={meal.strCategory}
               imageUrl={meal.strMealThumb}
-              matchScore={matchScores.get(meal.idMeal)}
+              isRecommended={(matchScores.get(meal.idMeal) ?? 0) >= 0.45}
             />
           ))}
         </Scrollable>
