@@ -18,10 +18,15 @@ export default function Account() {
   const { user, signOut } = useAuth();
   const [preferences, setArea] = useState<string[]>([]);
   const [category, setCategory] = useState<string[]>([]);
+  const [forceError, setForceError] = useState(false);
   const [feedback, setFeedback] = useState<{
     message: string;
     variant: "success" | "warning" | "danger";
   } | null>(null);
+
+  if (forceError) {
+    throw new Error("Forced test error from Account screen");
+  }
 
   const accountName = user?.name || "Guest";
 
@@ -98,6 +103,10 @@ export default function Account() {
         )}
 
         <Button title="Save Preferences" onPress={saveSelections} />
+
+        {__DEV__ && (
+          <Button title="Force error" onPress={() => setForceError(true)} />
+        )}
 
         <Subtitle>Preferences</Subtitle>
         <Scrollable horizontal>

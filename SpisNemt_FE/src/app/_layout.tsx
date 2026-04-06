@@ -1,11 +1,14 @@
 import { Stack } from "expo-router";
 import { ActivityIndicator, View } from "react-native";
 import { AuthProvider, useAuth } from "../context/AuthContext";
+import { ErrorBoundary } from "../components/structural/ErrorBoundary";
 
 export default function RootLayout() {
   return (
     <AuthProvider>
-      <RootNavigator />
+      <ErrorBoundary>
+        <RootNavigator />
+      </ErrorBoundary>
     </AuthProvider>
   );
 }
