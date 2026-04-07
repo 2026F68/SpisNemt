@@ -11,6 +11,7 @@ import Title from "../../components/typograghy/Title";
 import { useAuth } from "../../context/AuthContext";
 import { getUserProfile } from "../../services/databaseAPI/getUserProfile";
 import { saveUserPreferences } from "../../services/databaseAPI/saveUserPreferences";
+import Toast from "react-native-toast-message";
 
 const PREFERENCE_OPTIONS = ["Italian", "Spanish", "French", "Mexican"];
 const CATEGORY_OPTIONS = ["Gluten", "Dairy", "Nuts", "Soy"];
@@ -68,20 +69,25 @@ export default function Account() {
   };
 
   const saveSelections = async (): Promise<boolean> => {
-    if (!user) {
-      return false;
-    }
+    if (!user) return false;
 
     try {
       await saveUserPreferences(user, preferences, category);
-      setFeedback(null);
+
+      Toast.show({
+        type: "success",
+        text1: "Preferences Saved",
+        text2: "Your dietary choices have been updated.",
+      });
+
       return true;
     } catch (error) {
-      console.error(error);
-      setFeedback({
-        message: "Could not save your preferences.",
-        variant: "danger",
+      Toast.show({
+        type: "error",
+        text1: "Update Failed",
+        text2: "Could not save your preferences.",
       });
+
       return false;
     }
   };
