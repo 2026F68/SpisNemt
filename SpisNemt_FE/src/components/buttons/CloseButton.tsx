@@ -9,11 +9,22 @@ export default function CloseButton({
   title?: string;
   onPress?: () => void;
 }) {
+  const handlePress = () => {
+    if (onPress) {
+      onPress();
+      return;
+    }
+
+    if (router.canGoBack()) {
+      router.back();
+      return;
+    }
+
+    router.replace("/(tabs)");
+  };
+
   return (
-    <Pressable
-      onPress={onPress || (() => router.back())}
-      style={styles.closeButton}
-    >
+    <Pressable onPress={handlePress} style={styles.closeButton}>
       <Text style={styles.closeButtonText}>{title || "✕"}</Text>
     </Pressable>
   );
@@ -36,6 +47,5 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 20,
     fontWeight: "bold",
-    paddingBottom: 2,
   },
 });

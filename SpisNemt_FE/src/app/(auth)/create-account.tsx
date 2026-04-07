@@ -29,7 +29,7 @@ export default function CreateAccountScreen() {
       }
 
       await createAccount(email, password, name);
-      router.back();
+      router.replace("/(tabs)");
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "Unknown error";
       if (errorMessage.includes("email-already-in-use")) {
@@ -78,7 +78,7 @@ export default function CreateAccountScreen() {
         />
         <Button
           title="Back to Sign In"
-          onPress={() => router.back()}
+          onPress={() => router.replace("/(auth)")}
           disabled={isLoading}
         />
       </View>
