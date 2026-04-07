@@ -1,4 +1,6 @@
+import { router } from "expo-router";
 import React from "react";
+import { Pressable } from "react-native";
 import PillFilter from "../../components/buttons/PillFilter";
 import RecipeCard from "../../components/cards/RecipeCard";
 import Container from "../../components/structural/Container";
@@ -28,6 +30,28 @@ export default function Index() {
       ? randomMeals
       : randomMeals.filter((m) => category.includes(m.strCategory));
 
+  const getIngredients = (meal: any) =>
+    Array.from(
+      { length: 20 },
+      (_, i) => meal[`strIngredient${i + 1}`] as string,
+    )
+      .map((ingredient) => ingredient?.trim())
+      .filter(Boolean) as string[];
+
+  const openMeal = (meal: any) => {
+    router.push({
+      pathname: "/SingleRecipe",
+      params: {
+        idMeal: meal.idMeal,
+        title: meal.strMeal,
+        category: meal.strCategory,
+        imageUrl: meal.strMealThumb,
+        ingredients: JSON.stringify(getIngredients(meal)),
+        instructions: meal.strInstructions || "",
+      },
+    });
+  };
+
   return (
     <>
       <Container>
@@ -35,12 +59,13 @@ export default function Index() {
         <Subtitle>Recommended</Subtitle>
         <Scrollable horizontal>
           {randomMeals.map((meal) => (
-            <RecipeCard
-              key={meal.idMeal}
-              title={meal.strMeal}
-              category={meal.strCategory}
-              imageUrl={meal.strMealThumb}
-            />
+            <Pressable key={meal.idMeal} onPress={() => openMeal(meal)}>
+              <RecipeCard
+                title={meal.strMeal}
+                category={meal.strCategory}
+                imageUrl={meal.strMealThumb}
+              />
+            </Pressable>
           ))}
         </Scrollable>
 
@@ -63,12 +88,13 @@ export default function Index() {
         </Scrollable>
         <Scrollable horizontal>
           {filteredMeals.map((meal) => (
-            <RecipeCard
-              key={meal.idMeal}
-              title={meal.strMeal}
-              category={meal.strCategory}
-              imageUrl={meal.strMealThumb}
-            />
+            <Pressable key={meal.idMeal} onPress={() => openMeal(meal)}>
+              <RecipeCard
+                title={meal.strMeal}
+                category={meal.strCategory}
+                imageUrl={meal.strMealThumb}
+              />
+            </Pressable>
           ))}
         </Scrollable>
       </Container>
