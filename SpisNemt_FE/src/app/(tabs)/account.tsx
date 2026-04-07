@@ -16,7 +16,7 @@ const PREFERENCE_OPTIONS = ["Italian", "Spanish", "French", "Mexican"];
 const CATEGORY_OPTIONS = ["Gluten", "Dairy", "Nuts", "Soy"];
 
 export default function Account() {
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
   const [preferences, setArea] = useState<string[]>([]);
   const [category, setCategory] = useState<string[]>([]);
   const [isEditingPreferences, setIsEditingPreferences] = useState(false);
@@ -107,8 +107,6 @@ export default function Account() {
         <Title>Account</Title>
 
         <AccountCard accountName={accountName} accountType="User" />
-
-        <Button title="Sign Out" onPress={() => void signOut()} />
 
         {feedback && (
           <Alert variant={feedback.variant}>{feedback.message}</Alert>
