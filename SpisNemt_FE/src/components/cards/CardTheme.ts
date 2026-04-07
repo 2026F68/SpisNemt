@@ -131,6 +131,19 @@ export const cardStyle = StyleSheet.create({
     shadowRadius: shadowRadius,
     elevation: elevation,
   },
+  matchBadge: {
+    position: "absolute" as const,
+    top: 8,
+    right: 8,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 10,
+  },
+  matchBadgeText: {
+    fontSize: 11,
+    fontWeight: "700" as const,
+    color: globalColors.whiteColor,
+  },
   SavedRecipeCardImage: {
     width: "100%",
     height: 220,

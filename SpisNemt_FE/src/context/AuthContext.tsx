@@ -18,6 +18,7 @@ import { auth } from "../../firebaseConfig";
 
 interface AuthContextValue {
   isAuthenticated: boolean;
+  isInitializing: boolean;
   isLoading: boolean;
   user: User | null;
   signIn: (email: string, password: string) => Promise<void>;
@@ -44,7 +45,8 @@ interface AuthProviderProps {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isInitializing, setIsInitializing] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
@@ -58,7 +60,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       } else {
         setUser(null);
       }
-      setIsLoading(false);
+      setIsInitializing(false);
     });
 
     return unsubscribe;
@@ -112,13 +114,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const value = useMemo(
     () => ({
       isAuthenticated: Boolean(user),
+      isInitializing,
       isLoading,
       user,
       signIn,
       createAccount,
       signOut,
     }),
-    [createAccount, isLoading, signIn, signOut, user],
+    [createAccount, isInitializing, isLoading, signIn, signOut, user],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

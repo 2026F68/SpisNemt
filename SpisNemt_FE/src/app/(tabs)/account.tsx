@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { View } from "react-native";
 import Button from "../../components/buttons/Button";
 import AccountCard from "../../components/cards/AccountCard";
 import SelectableCard from "../../components/cards/SelectableCard";
@@ -12,15 +11,20 @@ import { useAuth } from "../../context/AuthContext";
 import { getUserProfile } from "../../services/databaseAPI/getUserProfile";
 import { saveUserPreferences } from "../../services/databaseAPI/saveUserPreferences";
 
-const PREFERENCE_OPTIONS = ["Italian", "Spanish", "French", "Mexican"];
-const CATEGORY_OPTIONS = ["Gluten", "Dairy", "Nuts", "Soy"];
+const PREFERENCE_OPTIONS = [
+  "Italian", "Mexican", "Indian", "Chinese", "French",
+  "Thai", "Japanese", "American", "British", "Greek",
+  "Spanish", "Turkish", "Moroccan", "Malaysian",
+];
+const CATEGORY_OPTIONS = [
+  "Chicken", "Beef", "Pasta", "Seafood", "Vegetarian",
+  "Vegan", "Dessert", "Lamb", "Breakfast", "Pork", "Starter",
+];
 
 export default function Account() {
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   const [preferences, setArea] = useState<string[]>([]);
   const [category, setCategory] = useState<string[]>([]);
-  const [isEditingPreferences, setIsEditingPreferences] = useState(false);
-  const [saveSuccessPulse, setSaveSuccessPulse] = useState(0);
   const [feedback, setFeedback] = useState<{
     message: string;
     variant: "success" | "warning" | "danger";
@@ -67,37 +71,23 @@ export default function Account() {
     );
   };
 
-  const saveSelections = async (): Promise<boolean> => {
+  const saveSelections = async () => {
     if (!user) {
-      return false;
+      return;
     }
 
     try {
       await saveUserPreferences(user, preferences, category);
-      setFeedback(null);
-      return true;
+      setFeedback({
+        message: "Preferences saved.",
+        variant: "success",
+      });
     } catch (error) {
       console.error(error);
       setFeedback({
         message: "Could not save your preferences.",
         variant: "danger",
       });
-      return false;
-    }
-  };
-
-  const handlePreferencesButtonPress = async () => {
-    if (!isEditingPreferences) {
-      setIsEditingPreferences(true);
-      setFeedback(null);
-      return;
-    }
-
-    const didSave = await saveSelections();
-
-    if (didSave) {
-      setSaveSuccessPulse((current) => current + 1);
-      setIsEditingPreferences(false);
     }
   };
 
@@ -108,38 +98,22 @@ export default function Account() {
 
         <AccountCard accountName={accountName} accountType="User" />
 
+        <Button title="Sign Out" onPress={() => void signOut()} />
+
         {feedback && (
           <Alert variant={feedback.variant}>{feedback.message}</Alert>
         )}
 
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <Subtitle>Area</Subtitle>
-          <Button
-            title={
-              isEditingPreferences ? "Save Preferences" : "Edit Preferences"
-            }
-            onPress={() => void handlePreferencesButtonPress()}
-          />
-        </View>
+        <Button title="Save Preferences" onPress={saveSelections} />
 
+        <Subtitle>Cuisine</Subtitle>
         <Scrollable horizontal>
           {PREFERENCE_OPTIONS.map((preference) => (
             <SelectableCard
               key={preference}
               title={preference}
               selected={preferences.includes(preference)}
-              blinkSignal={saveSuccessPulse}
-              onToggle={
-                isEditingPreferences
-                  ? () => toggleSelection(preferences, setArea, preference)
-                  : undefined
-              }
+              onToggle={() => toggleSelection(preferences, setArea, preference)}
             />
           ))}
         </Scrollable>
@@ -151,11 +125,8 @@ export default function Account() {
               key={categoryOption}
               title={categoryOption}
               selected={category.includes(categoryOption)}
-              blinkSignal={saveSuccessPulse}
-              onToggle={
-                isEditingPreferences
-                  ? () => toggleSelection(category, setCategory, categoryOption)
-                  : undefined
+              onToggle={() =>
+                toggleSelection(category, setCategory, categoryOption)
               }
             />
           ))}
