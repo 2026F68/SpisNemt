@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { Image, Text, View } from "react-native";
+import Toast from "react-native-toast-message";
 import { useAuth } from "../../context/AuthContext";
 import {
   loadUserSavedRecipes,
@@ -94,6 +95,20 @@ export default function SingleRecipeInfo({
       );
 
       setIsSaved(!isAlreadySaved);
+
+      if (!isAlreadySaved) {
+        Toast.show({
+          type: "success",
+          text1: "Recipe saved",
+          text2: "Added to your saved recipes.",
+        });
+      } else {
+        Toast.show({
+          type: "success",
+          text1: "Recipe removed",
+          text2: "Removed from your saved recipes.",
+        });
+      }
     } catch (error) {
       console.error("Failed to save recipe:", error);
     } finally {
