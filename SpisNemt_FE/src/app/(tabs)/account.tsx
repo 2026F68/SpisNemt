@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { View } from "react-native";
+import Toast from "react-native-toast-message";
 import Button from "../../components/buttons/Button";
 import AccountCard from "../../components/cards/AccountCard";
 import SelectableCard from "../../components/cards/SelectableCard";
@@ -11,7 +12,6 @@ import Title from "../../components/typograghy/Title";
 import { useAuth } from "../../context/AuthContext";
 import { getUserProfile } from "../../services/databaseAPI/getUserProfile";
 import { saveUserPreferences } from "../../services/databaseAPI/saveUserPreferences";
-import Toast from "react-native-toast-message";
 
 const PREFERENCE_OPTIONS = ["Italian", "Spanish", "French", "Mexican"];
 const CATEGORY_OPTIONS = ["Gluten", "Dairy", "Nuts", "Soy"];
@@ -21,7 +21,6 @@ export default function Account() {
   const [preferences, setArea] = useState<string[]>([]);
   const [category, setCategory] = useState<string[]>([]);
   const [isEditingPreferences, setIsEditingPreferences] = useState(false);
-  const [saveSuccessPulse, setSaveSuccessPulse] = useState(0);
   const [feedback, setFeedback] = useState<{
     message: string;
     variant: "success" | "warning" | "danger";
@@ -102,7 +101,6 @@ export default function Account() {
     const didSave = await saveSelections();
 
     if (didSave) {
-      setSaveSuccessPulse((current) => current + 1);
       setIsEditingPreferences(false);
     }
   };
@@ -140,7 +138,6 @@ export default function Account() {
               key={preference}
               title={preference}
               selected={preferences.includes(preference)}
-              blinkSignal={saveSuccessPulse}
               onToggle={
                 isEditingPreferences
                   ? () => toggleSelection(preferences, setArea, preference)
@@ -157,7 +154,6 @@ export default function Account() {
               key={categoryOption}
               title={categoryOption}
               selected={category.includes(categoryOption)}
-              blinkSignal={saveSuccessPulse}
               onToggle={
                 isEditingPreferences
                   ? () => toggleSelection(category, setCategory, categoryOption)

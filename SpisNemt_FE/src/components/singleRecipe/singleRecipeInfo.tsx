@@ -94,7 +94,6 @@ export default function SingleRecipeInfo({
       );
 
       setIsSaved(!isAlreadySaved);
-
     } catch (error) {
       console.error("Failed to save recipe:", error);
     } finally {

@@ -1,14 +1,14 @@
 import { Stack } from "expo-router";
 import { ActivityIndicator, View } from "react-native";
 import Toast from "react-native-toast-message";
+import { toastConfig } from "../components/toast/ToastConfig";
 import { AuthProvider, useAuth } from "../context/AuthContext";
-
 
 export default function RootLayout() {
   return (
     <AuthProvider>
       <RootNavigator />
-      <Toast />
+      <Toast config={toastConfig} />
     </AuthProvider>
   );
 }
