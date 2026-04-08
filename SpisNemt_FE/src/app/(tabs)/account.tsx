@@ -21,12 +21,17 @@ export default function Account() {
   const [preferences, setArea] = useState<string[]>([]);
   const [category, setCategory] = useState<string[]>([]);
   const [isEditingPreferences, setIsEditingPreferences] = useState(false);
+  const [shouldForceCrash, setShouldForceCrash] = useState(false);
   const [feedback, setFeedback] = useState<{
     message: string;
     variant: "success" | "warning" | "danger";
   } | null>(null);
 
   const accountName = user?.name || "Guest";
+
+  if (shouldForceCrash) {
+    throw new Error("Forced crash for ErrorBoundary testing.");
+  }
 
   useEffect(() => {
     const fetchPreferences = async () => {
@@ -162,6 +167,15 @@ export default function Account() {
             />
           ))}
         </Scrollable>
+
+        {__DEV__ && (
+          <View style={{ marginTop: 12 }}>
+            <Button
+              title="Force Crash"
+              onPress={() => setShouldForceCrash(true)}
+            />
+          </View>
+        )}
       </Container>
     </>
   );
