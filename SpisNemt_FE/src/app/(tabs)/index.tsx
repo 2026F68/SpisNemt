@@ -57,7 +57,7 @@ export default function Index() {
     (userPrefs.area.length > 0 || userPrefs.category.length > 0);
 
   const recommendedMeals = React.useMemo(
-    () => randomMeals.filter((m) => (matchScores.get(m.idMeal) ?? 0) >= 0.45),
+    () => randomMeals.filter((m) => (matchScores.get(m.idMeal) ?? 0) >= 0.25),
     [randomMeals, matchScores],
   );
 
@@ -83,7 +83,7 @@ export default function Index() {
               title={meal.strMeal}
               category={meal.strCategory}
               imageUrl={meal.strMealThumb}
-              isRecommended={hasPrefs}
+              matchScore={matchScores.get(meal.idMeal)}
             />
           ))}
         </Scrollable>
@@ -112,7 +112,7 @@ export default function Index() {
               title={meal.strMeal}
               category={meal.strCategory}
               imageUrl={meal.strMealThumb}
-              isRecommended={(matchScores.get(meal.idMeal) ?? 0) >= 0.45}
+              matchScore={matchScores.get(meal.idMeal)}
             />
           ))}
         </Scrollable>

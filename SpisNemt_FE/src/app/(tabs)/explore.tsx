@@ -257,7 +257,7 @@ export default function Explore() {
               category={meal.strCategory}
               description="Recommended for you"
               imageUrl={meal.strMealThumb}
-              isRecommended={(randomMatchScores.get(meal.idMeal) ?? 0) >= 0.45}
+              matchScore={randomMatchScores.get(meal.idMeal)}
             />
           ))
         ) : (
