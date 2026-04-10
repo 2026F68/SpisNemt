@@ -23,8 +23,18 @@ export default function LoginScreen() {
       }
 
       await signIn(email, password);
-    } catch {
-      setError("Sign in failed. Check your credentials.");
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      if (errorMessage.includes("auth/network-request-failed")) {
+        setError("Network error. Check your internet connection and try again.");
+      } else if (
+        errorMessage.includes("auth/invalid-credential") ||
+        errorMessage.includes("auth/invalid-login-credentials")
+      ) {
+        setError("Sign in failed. Check your email and password.");
+      } else {
+        setError("Sign in failed. Please try again.");
+      }
     }
   };
 

@@ -1,4 +1,5 @@
 import { Image, Text, View } from "react-native";
+import { globalColors } from "../../theme";
 import { cardStyle } from "./CardTheme";
 
 interface RecipeCardProps {
@@ -7,6 +8,7 @@ interface RecipeCardProps {
   description?: string;
   imageUrl?: string;
   variant?: "default" | "saved";
+  isRecommended?: boolean;
 }
 
 export default function RecipeCard({
@@ -15,6 +17,7 @@ export default function RecipeCard({
   description,
   imageUrl,
   variant,
+  isRecommended,
 }: RecipeCardProps) {
   const containerStyles =
     variant === "saved"
@@ -22,6 +25,7 @@ export default function RecipeCard({
       : cardStyle.cardContainer;
   const imageStyles =
     variant === "saved" ? cardStyle.SavedRecipeCardImage : cardStyle.cardImage;
+
   return (
     <View style={containerStyles}>
       {imageUrl ? (
@@ -32,6 +36,11 @@ export default function RecipeCard({
       <Text style={cardStyle.cardTitle}>{title}</Text>
       <Text style={cardStyle.cardCategory}>{category}</Text>
       <Text style={cardStyle.cardParagraph}>{description}</Text>
+      {isRecommended && (
+        <View style={[cardStyle.matchBadge, { backgroundColor: globalColors.successColor }]}>
+          <Text style={cardStyle.matchBadgeText}>Recommended</Text>
+        </View>
+      )}
     </View>
   );
 }

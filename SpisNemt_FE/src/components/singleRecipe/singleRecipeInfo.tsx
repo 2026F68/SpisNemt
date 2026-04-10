@@ -1,4 +1,3 @@
-import { useCallback, useEffect, useState } from "react";
 import { Image, Text, View } from "react-native";
 import Toast from "react-native-toast-message";
 import { useAuth } from "../../context/AuthContext";
@@ -7,25 +6,24 @@ import {
   saveUserSavedRecipes,
 } from "../../services/databaseAPI/SavedRecipes";
 import CloseButton from "../buttons/CloseButton";
-import SaveButton from "../buttons/SaveButton";
 import { cardStyle } from "../cards/CardTheme";
 import Container from "../structural/Container";
 import { Scrollable } from "../structural/Scrollable";
 import { List, Section, Title } from "../typograghy";
 
 interface SingleRecipeInfoProps {
-  idMeal?: string;
   title?: string;
   category?: string;
+  description?: string;
   ingredients?: string[];
   instructions?: string;
   imageUrl?: string;
 }
 
 export default function SingleRecipeInfo({
-  idMeal,
   title,
   category,
+  description,
   ingredients,
   instructions,
   imageUrl,
@@ -118,7 +116,6 @@ export default function SingleRecipeInfo({
 
   return (
     <View style={{ flex: 1 }}>
-      <SaveButton onPress={handleSave} isSaved={isSaved} />
       <CloseButton />
       <Scrollable>
         <Image
@@ -128,6 +125,10 @@ export default function SingleRecipeInfo({
         <Container>
           <Title>{title}</Title>
           <Text style={cardStyle.cardCategory}>{category}</Text>
+
+          <Section title="Recipe Description">
+            <Text>{description}</Text>
+          </Section>
 
           <Section title="Ingredients">
             <List variant="bullet" items={ingredients} />

@@ -1,5 +1,5 @@
 import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Button from "../../components/buttons/Button";
 import Container from "../../components/structural/Container";
 import Paragraph from "../../components/typograghy/Paragraph";
@@ -12,6 +12,13 @@ import Alert from "../../components/typograghy/Alert";
 import { getMealByMultiIngredients } from "../../services/mealDbAPI/getMealByMultiIngredients";
 import { get10RandomMeals } from "@/src/services/mealDbAPI/get10RandomMeals";
 import { StyleSheet, View } from "react-native";
+import {
+  classifyIngredientFromUri,
+  initIngredientClassifier,
+} from "../../services/ml/ingredientClassifier";
+import { scoreRecipeMatch } from "../../services/ml/preferencesMatcher";
+import { loadUserPreferences } from "../../services/databaseAPI/Preferences";
+import { useAuth } from "../../context/AuthContext";
 import Subtitle from "../../components/typograghy/Subtitle";
 
 interface MealDbMeal {
@@ -46,9 +53,14 @@ const styles = StyleSheet.create({
   camera: {
     flex: 1,
   },
+  cameraActionRow: {
+    marginTop: 8,
+    marginBottom: 4,
+  },
 });
 
 export default function Explore() {
+  const { user } = useAuth();
   const [draft, setDraft] = useState("");
   const [terms, setTerms] = useState<string[]>([]);
   const [submittedTerms, setSubmittedTerms] = useState<string[]>([]);
@@ -58,6 +70,8 @@ export default function Explore() {
   const [searchError, setSearchError] = useState<string | null>(null);
 
   const [randomRecipe, setRandomRecipe] = useState<MealDbMeal[]>([]);
+  const [randomMatchScores, setRandomMatchScores] = useState<Map<string, number>>(new Map());
+  const [userPrefs, setUserPrefs] = useState<{ area: string[]; category: string[] } | null>(null);
 
   const [facing] = React.useState<CameraType>("back");
   const [permission, requestPermission] = useCameraPermissions();
@@ -76,6 +90,39 @@ export default function Explore() {
     fetchRandomRecipe();
   }, []);
 
+  useEffect(() => {
+    if (!user) return;
+    loadUserPreferences(user.id)
+      .then((prefs) => setUserPrefs(prefs))
+      .catch(() => setUserPrefs(null));
+  }, [user]);
+
+  useEffect(() => {
+    if (randomRecipe.length === 0 || !userPrefs) return;
+    if (userPrefs.area.length === 0 && userPrefs.category.length === 0) return;
+
+    void (async () => {
+      const entries = await Promise.all(
+        randomRecipe.map(async (meal) => {
+          try {
+            const score = await scoreRecipeMatch(meal, userPrefs);
+            return [meal.idMeal, score] as [string, number];
+          } catch {
+            return [meal.idMeal, 0] as [string, number];
+          }
+        }),
+      );
+      setRandomMatchScores(new Map(entries));
+    })();
+  }, [randomRecipe, userPrefs]);
+  const [isClassifierReady, setIsClassifierReady] = useState(false);
+  const [isClassifying, setIsClassifying] = useState(false);
+  const [classifierError, setClassifierError] = useState<string | null>(null);
+  const [classifierFeedback, setClassifierFeedback] = useState<string | null>(null);
+  const [showSlowLoadHint, setShowSlowLoadHint] = useState(false);
+
+  const cameraRef = useRef<CameraView>(null);
+
   const normalizeTerm = (raw: string) => raw.trim().toLowerCase();
 
   const addTerm = (raw: string) => {
@@ -88,6 +135,37 @@ export default function Explore() {
   const removeTerm = (termToRemove: string) => {
     setTerms((prev) => prev.filter((t) => t !== termToRemove));
   };
+
+  const initializeModel = useCallback(async () => {
+    setShowSlowLoadHint(false);
+
+    try {
+      await initIngredientClassifier();
+      setIsClassifierReady(true);
+      setClassifierError(null);
+    } catch (error) {
+      console.error("Ingredient classifier initialization failed:", error);
+      const details = error instanceof Error ? error.message : String(error);
+      setClassifierError(`Could not load ingredient classifier. ${details}`);
+    }
+  }, []);
+
+  useEffect(() => {
+    void initializeModel();
+  }, [initializeModel]);
+
+  useEffect(() => {
+    if (isClassifierReady || classifierError) {
+      setShowSlowLoadHint(false);
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      setShowSlowLoadHint(true);
+    }, 10_000);
+
+    return () => clearTimeout(timeout);
+  }, [classifierError, isClassifierReady]);
 
   const submitSearch = async () => {
     const draftTerm = normalizeTerm(draft);
@@ -132,15 +210,46 @@ export default function Explore() {
     setDraft(text);
   };
 
+  const handleSnapAndClassify = async () => {
+    if (!cameraRef.current || isClassifying || !isClassifierReady) return;
+
+    try {
+      setIsClassifying(true);
+      setClassifierError(null);
+      setClassifierFeedback(null);
+
+      const photo = await cameraRef.current.takePictureAsync({
+        quality: 0.8,
+      });
+
+      const prediction = await classifyIngredientFromUri(photo.uri);
+      addTerm(prediction.normalizedTerm);
+      setClassifierFeedback(
+        `Detected ${prediction.label} (${(prediction.confidence * 100).toFixed(1)}%).`,
+      );
+    } catch (error) {
+      console.error("Ingredient classification failed:", error);
+      const details = error instanceof Error ? error.message : String(error);
+      setClassifierError(`Could not classify the captured image. ${details}`);
+    } finally {
+      setIsClassifying(false);
+    }
+  };
+
   const searchLabel = submittedTerms.join(", ");
 
-  {/* Helper function to render random recommendations, avoiding duplicates */}
+  const sortedRandomRecipe = randomMatchScores.size > 0
+    ? [...randomRecipe].sort(
+        (a, b) => (randomMatchScores.get(b.idMeal) ?? 0) - (randomMatchScores.get(a.idMeal) ?? 0),
+      )
+    : randomRecipe;
+
   const renderRandomRecommendations = (heading: string) => (
     <>
       <Subtitle>{heading}</Subtitle>
       <Scrollable>
-        {randomRecipe.length > 0 ? (
-          randomRecipe.map((meal) => (
+        {sortedRandomRecipe.length > 0 ? (
+          sortedRandomRecipe.map((meal) => (
             <RecipeCard
               key={meal.idMeal}
               variant="saved"
@@ -148,6 +257,7 @@ export default function Explore() {
               category={meal.strCategory}
               description="Recommended for you"
               imageUrl={meal.strMealThumb}
+              isRecommended={(randomMatchScores.get(meal.idMeal) ?? 0) >= 0.45}
             />
           ))
         ) : (
@@ -205,9 +315,35 @@ export default function Explore() {
       )}
 
       {cameraOpen && (
-        <View style={styles.cameraContainer}>
-          <CameraView style={styles.camera} facing={facing} />
-        </View>
+        <>
+          <View style={styles.cameraContainer}>
+            <CameraView ref={cameraRef} style={styles.camera} facing={facing} />
+          </View>
+
+          <View style={styles.cameraActionRow}>
+            <Button
+              title={isClassifying ? "Classifying..." : "Snap ingredient"}
+              onPress={handleSnapAndClassify}
+              disabled={isClassifying || !isClassifierReady}
+            />
+            {!isClassifierReady && (
+              <Paragraph>Loading ingredient classifier...</Paragraph>
+            )}
+            {!isClassifierReady && showSlowLoadHint && !classifierError && (
+              <Paragraph>
+                First load can take up to a minute on some phones.
+              </Paragraph>
+            )}
+            {classifierFeedback && <Alert variant="success">{classifierFeedback}</Alert>}
+            {classifierError && <Alert variant="danger">{classifierError}</Alert>}
+            {classifierError && (
+              <Button
+                title="Retry classifier load"
+                onPress={() => void initializeModel()}
+              />
+            )}
+          </View>
+        </>
       )}
 
       {hasSubmittedSearch ? (
@@ -222,7 +358,7 @@ export default function Explore() {
                 key={meal.idMeal}
                 variant="saved"
                 title={meal.strMeal}
-                category="MealDB"
+                category={meal.strCategory}
                 description="Found by selected ingredients"
                 imageUrl={meal.strMealThumb}
               />

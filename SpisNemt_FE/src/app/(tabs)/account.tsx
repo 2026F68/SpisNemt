@@ -13,15 +13,23 @@ import { useAuth } from "../../context/AuthContext";
 import { getUserProfile } from "../../services/databaseAPI/getUserProfile";
 import { saveUserPreferences } from "../../services/databaseAPI/saveUserPreferences";
 
-const PREFERENCE_OPTIONS = ["Italian", "Spanish", "French", "Mexican"];
-const CATEGORY_OPTIONS = ["Gluten", "Dairy", "Nuts", "Soy"];
+const PREFERENCE_OPTIONS = [
+  "Italian", "Mexican", "Indian", "Chinese", "French",
+  "Thai", "Japanese", "American", "British", "Greek",
+  "Spanish", "Turkish", "Moroccan", "Malaysian",
+];
+const CATEGORY_OPTIONS = [
+  "Chicken", "Beef", "Pasta", "Seafood", "Vegetarian",
+  "Vegan", "Dessert", "Lamb", "Breakfast", "Pork", "Starter",
+];
 
 export default function Account() {
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   const [preferences, setArea] = useState<string[]>([]);
   const [category, setCategory] = useState<string[]>([]);
+
   const [isEditingPreferences, setIsEditingPreferences] = useState(false);
-  const [shouldForceCrash, setShouldForceCrash] = useState(false);
+
   const [feedback, setFeedback] = useState<{
     message: string;
     variant: "success" | "warning" | "danger";
@@ -117,26 +125,15 @@ export default function Account() {
 
         <AccountCard accountName={accountName} accountType="User" />
 
+        <Button title="Sign Out" onPress={() => void signOut()} />
+
         {feedback && (
           <Alert variant={feedback.variant}>{feedback.message}</Alert>
         )}
 
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <Subtitle>Area</Subtitle>
-          <Button
-            title={
-              isEditingPreferences ? "Save Preferences" : "Edit Preferences"
-            }
-            onPress={() => void handlePreferencesButtonPress()}
-          />
-        </View>
+        <Button title="Save Preferences" onPress={saveSelections} />
 
+        <Subtitle>Cuisine</Subtitle>
         <Scrollable horizontal>
           {PREFERENCE_OPTIONS.map((preference) => (
             <SelectableCard

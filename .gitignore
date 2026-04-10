@@ -1,0 +1,31 @@
+# ML datasets and model artifacts
+ML/grocery_dataset/
+ML/tmp/
+ML/legacy_models/
+*.keras
+*.h5
+*.bin
+*.pt
+*.pth
+*.pkl
+
+# Jupyter artifacts
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+
+# Python cache and environments
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+
+# Common build artifacts
+build/
+dist/
+*.egg-info/
+
+# OS noise
+.DS_Store
+Thumbs.db
