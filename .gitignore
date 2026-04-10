@@ -1,0 +1,8 @@
+# Prevent accidental temp/editor artifacts at repo root
+DEADJOE
+
+# Jupyter checkpoint noise
+**/.ipynb_checkpoints/
+
+# Local ML scratch outputs
+ML/tmp/
