@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
+import type { io } from "@tensorflow/tfjs";
 import * as tf from "@tensorflow/tfjs";
 import * as tfReactNative from "@tensorflow/tfjs-react-native";
-import type { io } from "@tensorflow/tfjs";
 
 export interface MealForScoring {
   strCategory?: string;
