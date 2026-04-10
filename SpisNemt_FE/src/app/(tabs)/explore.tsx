@@ -1,6 +1,5 @@
 import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import React, { useCallback, useEffect, useRef, useState } from "react";
 import Button from "../../components/buttons/Button";
 import Container from "../../components/structural/Container";
 import Paragraph from "../../components/typograghy/Paragraph";
@@ -13,13 +12,6 @@ import Alert from "../../components/typograghy/Alert";
 import { getMealByMultiIngredients } from "../../services/mealDbAPI/getMealByMultiIngredients";
 import { get10RandomMeals } from "@/src/services/mealDbAPI/get10RandomMeals";
 import { StyleSheet, View } from "react-native";
-import {
-  classifyIngredientFromUri,
-  initIngredientClassifier,
-} from "../../services/ml/ingredientClassifier";
-import { scoreRecipeMatch } from "../../services/ml/preferencesMatcher";
-import { loadUserPreferences } from "../../services/databaseAPI/Preferences";
-import { useAuth } from "../../context/AuthContext";
 import {
   classifyIngredientFromUri,
   initIngredientClassifier,
@@ -65,14 +57,9 @@ const styles = StyleSheet.create({
     marginTop: 8,
     marginBottom: 4,
   },
-  cameraActionRow: {
-    marginTop: 8,
-    marginBottom: 4,
-  },
 });
 
 export default function Explore() {
-  const { user } = useAuth();
   const { user } = useAuth();
   const [draft, setDraft] = useState("");
   const [terms, setTerms] = useState<string[]>([]);
@@ -83,8 +70,6 @@ export default function Explore() {
   const [searchError, setSearchError] = useState<string | null>(null);
 
   const [randomRecipe, setRandomRecipe] = useState<MealDbMeal[]>([]);
-  const [randomMatchScores, setRandomMatchScores] = useState<Map<string, number>>(new Map());
-  const [userPrefs, setUserPrefs] = useState<{ area: string[]; category: string[] } | null>(null);
   const [randomMatchScores, setRandomMatchScores] = useState<Map<string, number>>(new Map());
   const [userPrefs, setUserPrefs] = useState<{ area: string[]; category: string[] } | null>(null);
 
@@ -130,39 +115,7 @@ export default function Explore() {
       setRandomMatchScores(new Map(entries));
     })();
   }, [randomRecipe, userPrefs]);
-  const [isClassifierReady, setIsClassifierReady] = useState(false);
-  const [isClassifying, setIsClassifying] = useState(false);
-  const [classifierError, setClassifierError] = useState<string | null>(null);
-  const [classifierFeedback, setClassifierFeedback] = useState<string | null>(null);
-  const [showSlowLoadHint, setShowSlowLoadHint] = useState(false);
 
-  const cameraRef = useRef<CameraView>(null);
-
-  useEffect(() => {
-    if (!user) return;
-    loadUserPreferences(user.id)
-      .then((prefs) => setUserPrefs(prefs))
-      .catch(() => setUserPrefs(null));
-  }, [user]);
-
-  useEffect(() => {
-    if (randomRecipe.length === 0 || !userPrefs) return;
-    if (userPrefs.area.length === 0 && userPrefs.category.length === 0) return;
-
-    void (async () => {
-      const entries = await Promise.all(
-        randomRecipe.map(async (meal) => {
-          try {
-            const score = await scoreRecipeMatch(meal, userPrefs);
-            return [meal.idMeal, score] as [string, number];
-          } catch {
-            return [meal.idMeal, 0] as [string, number];
-          }
-        }),
-      );
-      setRandomMatchScores(new Map(entries));
-    })();
-  }, [randomRecipe, userPrefs]);
   const [isClassifierReady, setIsClassifierReady] = useState(false);
   const [isClassifying, setIsClassifying] = useState(false);
   const [classifierError, setClassifierError] = useState<string | null>(null);
@@ -183,37 +136,6 @@ export default function Explore() {
   const removeTerm = (termToRemove: string) => {
     setTerms((prev) => prev.filter((t) => t !== termToRemove));
   };
-
-  const initializeModel = useCallback(async () => {
-    setShowSlowLoadHint(false);
-
-    try {
-      await initIngredientClassifier();
-      setIsClassifierReady(true);
-      setClassifierError(null);
-    } catch (error) {
-      console.error("Ingredient classifier initialization failed:", error);
-      const details = error instanceof Error ? error.message : String(error);
-      setClassifierError(`Could not load ingredient classifier. ${details}`);
-    }
-  }, []);
-
-  useEffect(() => {
-    void initializeModel();
-  }, [initializeModel]);
-
-  useEffect(() => {
-    if (isClassifierReady || classifierError) {
-      setShowSlowLoadHint(false);
-      return;
-    }
-
-    const timeout = setTimeout(() => {
-      setShowSlowLoadHint(true);
-    }, 10_000);
-
-    return () => clearTimeout(timeout);
-  }, [classifierError, isClassifierReady]);
 
   const initializeModel = useCallback(async () => {
     setShowSlowLoadHint(false);
@@ -315,39 +237,7 @@ export default function Explore() {
     }
   };
 
-  const handleSnapAndClassify = async () => {
-    if (!cameraRef.current || isClassifying || !isClassifierReady) return;
-
-    try {
-      setIsClassifying(true);
-      setClassifierError(null);
-      setClassifierFeedback(null);
-
-      const photo = await cameraRef.current.takePictureAsync({
-        quality: 0.8,
-      });
-
-      const prediction = await classifyIngredientFromUri(photo.uri);
-      addTerm(prediction.normalizedTerm);
-      setClassifierFeedback(
-        `Detected ${prediction.label} (${(prediction.confidence * 100).toFixed(1)}%).`,
-      );
-    } catch (error) {
-      console.error("Ingredient classification failed:", error);
-      const details = error instanceof Error ? error.message : String(error);
-      setClassifierError(`Could not classify the captured image. ${details}`);
-    } finally {
-      setIsClassifying(false);
-    }
-  };
-
   const searchLabel = submittedTerms.join(", ");
-
-  const sortedRandomRecipe = randomMatchScores.size > 0
-    ? [...randomRecipe].sort(
-        (a, b) => (randomMatchScores.get(b.idMeal) ?? 0) - (randomMatchScores.get(a.idMeal) ?? 0),
-      )
-    : randomRecipe;
 
   const sortedRandomRecipe = randomMatchScores.size > 0
     ? [...randomRecipe].sort(
@@ -359,8 +249,6 @@ export default function Explore() {
     <>
       <Subtitle>{heading}</Subtitle>
       <Scrollable>
-        {sortedRandomRecipe.length > 0 ? (
-          sortedRandomRecipe.map((meal) => (
         {sortedRandomRecipe.length > 0 ? (
           sortedRandomRecipe.map((meal) => (
             <RecipeCard
@@ -409,54 +297,22 @@ export default function Explore() {
         }}
       />
 
-
       {terms.length > 0 && (
         <View style={styles.chipContainer}>
-          {terms.length > 0 && (
-            <Scrollable horizontal style={styles.chipScroll} contentContainerStyle={styles.chipScrollContent}>
-              {terms.map((term) => (
-                <PillFilter
-                  key={term}
-                  title={term}
-                  onPress={() => removeTerm(term)}
-                  active
-                />
-              ))}
-            </Scrollable>
-          )}
+          <Scrollable horizontal style={styles.chipScroll} contentContainerStyle={styles.chipScrollContent}>
+            {terms.map((term) => (
+              <PillFilter
+                key={term}
+                title={term}
+                onPress={() => removeTerm(term)}
+                active
+              />
+            ))}
+          </Scrollable>
         </View>
       )}
 
       {cameraOpen && (
-        <>
-          <View style={styles.cameraContainer}>
-            <CameraView ref={cameraRef} style={styles.camera} facing={facing} />
-          </View>
-
-          <View style={styles.cameraActionRow}>
-            <Button
-              title={isClassifying ? "Classifying..." : "Snap ingredient"}
-              onPress={handleSnapAndClassify}
-              disabled={isClassifying || !isClassifierReady}
-            />
-            {!isClassifierReady && (
-              <Paragraph>Loading ingredient classifier...</Paragraph>
-            )}
-            {!isClassifierReady && showSlowLoadHint && !classifierError && (
-              <Paragraph>
-                First load can take up to a minute on some phones.
-              </Paragraph>
-            )}
-            {classifierFeedback && <Alert variant="success">{classifierFeedback}</Alert>}
-            {classifierError && <Alert variant="danger">{classifierError}</Alert>}
-            {classifierError && (
-              <Button
-                title="Retry classifier load"
-                onPress={() => void initializeModel()}
-              />
-            )}
-          </View>
-        </>
         <>
           <View style={styles.cameraContainer}>
             <CameraView ref={cameraRef} style={styles.camera} facing={facing} />
@@ -501,14 +357,13 @@ export default function Explore() {
                 variant="saved"
                 title={meal.strMeal}
                 category={meal.strCategory}
-                category={meal.strCategory}
                 description="Found by selected ingredients"
                 imageUrl={meal.strMealThumb}
               />
             ))
           ) : (
             <>
-              <Alert variant="danger">No recipes found for "{searchLabel}".</Alert>
+              <Alert variant="danger">No recipes found for &quot;{searchLabel}&quot;.</Alert>
               {renderRandomRecommendations("Try one of these instead")}
             </>
           )}
