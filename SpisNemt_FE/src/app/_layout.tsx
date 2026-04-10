@@ -1,11 +1,18 @@
 import { Stack } from "expo-router";
+import { ErrorBoundary } from "react-error-boundary";
 import { ActivityIndicator, View } from "react-native";
+import Toast from "react-native-toast-message";
+import ErrorScreen from "../components/error/ErrorScreen";
+import { toastConfig } from "../components/toast/ToastConfig";
 import { AuthProvider, useAuth } from "../context/AuthContext";
 
 export default function RootLayout() {
   return (
     <AuthProvider>
-      <RootNavigator />
+      <Toast config={toastConfig} />
+      <ErrorBoundary FallbackComponent={ErrorScreen}>
+        <RootNavigator />
+      </ErrorBoundary>
     </AuthProvider>
   );
 }

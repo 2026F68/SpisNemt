@@ -15,19 +15,14 @@ export default function SelectableCard({
   onToggle,
 }: SelectableCardProps) {
   const isSelected = selected ?? false;
+  const cardDynamicStyle = {
+    borderColor: isSelected ? globalColors.primaryColor : "transparent",
+    backgroundColor: globalColors.whiteColor,
+  };
 
   return (
     <Pressable onPress={onToggle}>
-      <View
-        style={
-          isSelected
-            ? [
-                cardStyle.SelectableCard,
-                { borderColor: globalColors.primaryColor },
-              ]
-            : cardStyle.SelectableCard
-        }
-      >
+      <View style={[cardStyle.SelectableCard, cardDynamicStyle]}>
         {isSelected && (
           <View style={cardStyle.selectedIndicator}>
             <Text style={cardStyle.SelectableCheckMark}>✓</Text>
