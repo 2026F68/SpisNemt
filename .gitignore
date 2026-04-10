@@ -5,8 +5,7 @@ DEADJOE
 **/.ipynb_checkpoints/
 ML/.ipynb_checkpoints/
 ML/legacy_models/.ipynb_checkpoints/
-ML\legacy_models
+ML/legacy_models/
 
 # Local ML scratch outputs
 ML/tmp/
-ML
