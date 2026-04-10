@@ -3,6 +3,8 @@ DEADJOE
 
 # Jupyter checkpoint noise
 **/.ipynb_checkpoints/
+ML/.ipynb_checkpoints/
+ML/legacy_models/.ipynb_checkpoints/
 
 # Local ML scratch outputs
 ML/tmp/
