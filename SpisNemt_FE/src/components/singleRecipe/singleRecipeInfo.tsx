@@ -1,4 +1,10 @@
 import { Image, Text, View } from "react-native";
+import Toast from "react-native-toast-message";
+import { useAuth } from "../../context/AuthContext";
+import {
+  loadUserSavedRecipes,
+  saveUserSavedRecipes,
+} from "../../services/databaseAPI/SavedRecipes";
 import CloseButton from "../buttons/CloseButton";
 import { cardStyle } from "../cards/CardTheme";
 import Container from "../structural/Container";
@@ -22,6 +28,92 @@ export default function SingleRecipeInfo({
   instructions,
   imageUrl,
 }: SingleRecipeInfoProps) {
+  const { user } = useAuth();
+  const [isSaving, setIsSaving] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
+
+  useEffect(() => {
+    const loadSavedState = async () => {
+      if (!idMeal || !user) {
+        setIsSaved(false);
+        return;
+      }
+
+      const mealId = Number(idMeal);
+
+      if (Number.isNaN(mealId)) {
+        setIsSaved(false);
+        return;
+      }
+
+      try {
+        const userSavedRecipes = await loadUserSavedRecipes(user.id);
+        const savedRecipes = userSavedRecipes?.savedRecipes ?? [];
+        setIsSaved(savedRecipes.some((savedId) => Number(savedId) === mealId));
+      } catch (error) {
+        console.error("Failed to load saved recipes:", error);
+        setIsSaved(false);
+      }
+    };
+
+    void loadSavedState();
+  }, [idMeal, user]);
+
+  const handleSave = useCallback(async () => {
+    if (!idMeal || !user) {
+      return;
+    }
+
+    const mealId = Number(idMeal);
+
+    if (isSaving) {
+      return;
+    }
+
+    try {
+      setIsSaving(true);
+      const userSavedRecipes = await loadUserSavedRecipes(user.id);
+      const savedRecipes = userSavedRecipes?.savedRecipes ?? [];
+
+      const isAlreadySaved = savedRecipes.some(
+        (savedId) => Number(savedId) === mealId,
+      );
+
+      const nextSavedRecipes = isAlreadySaved
+        ? savedRecipes.filter((savedId) => Number(savedId) !== mealId)
+        : [...savedRecipes, mealId];
+
+      await saveUserSavedRecipes(
+        {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+        },
+        nextSavedRecipes,
+      );
+
+      setIsSaved(!isAlreadySaved);
+
+      if (!isAlreadySaved) {
+        Toast.show({
+          type: "success",
+          text1: "Recipe saved",
+          text2: "Added to your saved recipes.",
+        });
+      } else {
+        Toast.show({
+          type: "success",
+          text1: "Recipe removed",
+          text2: "Removed from your saved recipes.",
+        });
+      }
+    } catch (error) {
+      console.error("Failed to save recipe:", error);
+    } finally {
+      setIsSaving(false);
+    }
+  }, [idMeal, isSaving, user]);
+
   return (
     <View style={{ flex: 1 }}>
       <CloseButton />

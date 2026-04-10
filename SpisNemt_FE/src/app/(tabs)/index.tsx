@@ -1,4 +1,5 @@
 import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
 import React from "react";
 import PillFilter from "../../components/buttons/PillFilter";
 import RecipeCard from "../../components/cards/RecipeCard";
@@ -8,13 +9,19 @@ import Subtitle from "../../components/typograghy/Subtitle";
 import Title from "../../components/typograghy/Title";
 import { useAuth } from "../../context/AuthContext";
 import { loadUserPreferences } from "../../services/databaseAPI/Preferences";
+import { useAuth } from "../../context/AuthContext";
+import { loadUserPreferences } from "../../services/databaseAPI/Preferences";
 import { get10RandomMeals } from "../../services/mealDbAPI/get10RandomMeals";
+import { scoreRecipeMatch } from "../../services/ml/preferencesMatcher";
 import { scoreRecipeMatch } from "../../services/ml/preferencesMatcher";
 
 export default function Index() {
   const { user } = useAuth();
+  const { user } = useAuth();
   const [category, setCategory] = React.useState<string[]>([]);
   const [randomMeals, setRandomMeals] = React.useState<any[]>([]);
+  const [matchScores, setMatchScores] = React.useState<Map<string, number>>(new Map());
+  const [userPrefs, setUserPrefs] = React.useState<{ area: string[]; category: string[] } | null>(null);
   const [matchScores, setMatchScores] = React.useState<Map<string, number>>(new Map());
   const [userPrefs, setUserPrefs] = React.useState<{ area: string[]; category: string[] } | null>(null);
 
@@ -78,6 +85,7 @@ export default function Index() {
         <Subtitle>Recommended</Subtitle>
         <Scrollable horizontal>
           {(hasPrefs ? recommendedMeals : randomMeals).map((meal) => (
+          {(hasPrefs ? recommendedMeals : randomMeals).map((meal) => (
             <RecipeCard
               key={meal.idMeal}
               title={meal.strMeal}
@@ -91,21 +99,28 @@ export default function Index() {
         <Subtitle>Categories</Subtitle>
         <Scrollable horizontal>
           {categories.map((cat, index) => (
+          {categories.map((cat, index) => (
             <PillFilter
               key={index}
+              title={cat}
               title={cat}
               onPress={() => {
                 setCategory((prev) =>
                   prev.includes(cat)
                     ? prev.filter((c) => c !== cat)
                     : [...prev, cat],
+                  prev.includes(cat)
+                    ? prev.filter((c) => c !== cat)
+                    : [...prev, cat],
                 );
               }}
+              active={category.includes(cat)}
               active={category.includes(cat)}
             />
           ))}
         </Scrollable>
         <Scrollable horizontal>
+          {discoveryMeals.map((meal) => (
           {discoveryMeals.map((meal) => (
             <RecipeCard
               key={meal.idMeal}

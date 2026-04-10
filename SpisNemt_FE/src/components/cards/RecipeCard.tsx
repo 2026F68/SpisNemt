@@ -26,6 +26,7 @@ export default function RecipeCard({
   const imageStyles =
     variant === "saved" ? cardStyle.SavedRecipeCardImage : cardStyle.cardImage;
 
+
   return (
     <View style={containerStyles}>
       {imageUrl ? (

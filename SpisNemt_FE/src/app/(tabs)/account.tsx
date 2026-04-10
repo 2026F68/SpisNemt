@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { View } from "react-native";
+import Toast from "react-native-toast-message";
 import Button from "../../components/buttons/Button";
 import AccountCard from "../../components/cards/AccountCard";
 import SelectableCard from "../../components/cards/SelectableCard";
@@ -25,12 +27,19 @@ export default function Account() {
   const { user, signOut } = useAuth();
   const [preferences, setArea] = useState<string[]>([]);
   const [category, setCategory] = useState<string[]>([]);
+
+  const [isEditingPreferences, setIsEditingPreferences] = useState(false);
+
   const [feedback, setFeedback] = useState<{
     message: string;
     variant: "success" | "warning" | "danger";
   } | null>(null);
 
   const accountName = user?.name || "Guest";
+
+  if (shouldForceCrash) {
+    throw new Error("Forced crash for ErrorBoundary testing.");
+  }
 
   useEffect(() => {
     const fetchPreferences = async () => {
@@ -71,23 +80,41 @@ export default function Account() {
     );
   };
 
-  const saveSelections = async () => {
-    if (!user) {
-      return;
-    }
+  const saveSelections = async (): Promise<boolean> => {
+    if (!user) return false;
 
     try {
       await saveUserPreferences(user, preferences, category);
-      setFeedback({
-        message: "Preferences saved.",
-        variant: "success",
+
+      Toast.show({
+        type: "success",
+        text1: "Preferences Saved",
+        text2: "Your dietary choices have been updated.",
       });
+
+      return true;
     } catch (error) {
-      console.error(error);
-      setFeedback({
-        message: "Could not save your preferences.",
-        variant: "danger",
+      Toast.show({
+        type: "error",
+        text1: "Update Failed",
+        text2: "Could not save your preferences.",
       });
+
+      return false;
+    }
+  };
+
+  const handlePreferencesButtonPress = async () => {
+    if (!isEditingPreferences) {
+      setIsEditingPreferences(true);
+      setFeedback(null);
+      return;
+    }
+
+    const didSave = await saveSelections();
+
+    if (didSave) {
+      setIsEditingPreferences(false);
     }
   };
 
@@ -113,7 +140,11 @@ export default function Account() {
               key={preference}
               title={preference}
               selected={preferences.includes(preference)}
-              onToggle={() => toggleSelection(preferences, setArea, preference)}
+              onToggle={
+                isEditingPreferences
+                  ? () => toggleSelection(preferences, setArea, preference)
+                  : undefined
+              }
             />
           ))}
         </Scrollable>
@@ -125,12 +156,23 @@ export default function Account() {
               key={categoryOption}
               title={categoryOption}
               selected={category.includes(categoryOption)}
-              onToggle={() =>
-                toggleSelection(category, setCategory, categoryOption)
+              onToggle={
+                isEditingPreferences
+                  ? () => toggleSelection(category, setCategory, categoryOption)
+                  : undefined
               }
             />
           ))}
         </Scrollable>
+
+        {__DEV__ && (
+          <View style={{ marginTop: 12 }}>
+            <Button
+              title="Force Crash"
+              onPress={() => setShouldForceCrash(true)}
+            />
+          </View>
+        )}
       </Container>
     </>
   );
