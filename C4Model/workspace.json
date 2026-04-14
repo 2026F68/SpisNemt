@@ -4,7 +4,7 @@
   "documentation" : { },
   "id" : 1,
   "lastModifiedAgent" : "structurizr-ui",
-  "lastModifiedDate" : "2026-03-31T08:57:34Z",
+  "lastModifiedDate" : "2026-04-14T10:29:06Z",
   "model" : {
     "people" : [ {
       "id" : "1",
@@ -14,12 +14,12 @@
       },
       "relationships" : [ {
         "destinationId" : "2",
-        "id" : "19",
+        "id" : "20",
         "sourceId" : "1",
         "tags" : "Relationship"
       }, {
         "destinationId" : "3",
-        "id" : "20",
+        "id" : "21",
         "sourceId" : "1",
         "tags" : "Relationship"
       } ],
@@ -30,13 +30,13 @@
         "components" : [ {
           "documentation" : { },
           "id" : "4",
-          "name" : "HomeScreen",
+          "name" : "Home\nScreen",
           "properties" : {
             "structurizr.dsl.identifier" : "HomeScreen"
           },
           "relationships" : [ {
             "destinationId" : "15",
-            "id" : "33",
+            "id" : "35",
             "sourceId" : "4",
             "tags" : "Relationship"
           } ],
@@ -44,37 +44,42 @@
         }, {
           "documentation" : { },
           "id" : "5",
-          "name" : "ExploreScreen",
+          "name" : "Explore\nScreen",
           "properties" : {
             "structurizr.dsl.identifier" : "ExploreScreen"
           },
           "relationships" : [ {
             "destinationId" : "15",
-            "id" : "35",
+            "id" : "37",
             "sourceId" : "5",
             "tags" : "Relationship"
           }, {
-            "destinationId" : "8",
-            "id" : "39",
+            "destinationId" : "14",
+            "id" : "41",
             "sourceId" : "5",
             "tags" : "Relationship"
+          }, {
+            "destinationId" : "10",
+            "id" : "42",
+            "linkedRelationshipId" : "41",
+            "sourceId" : "5"
           } ],
           "tags" : "Element,Component,FontStyle"
         }, {
           "documentation" : { },
           "id" : "6",
-          "name" : "SavedRecipesScreen",
+          "name" : "SavedRecipes\nScreen",
           "properties" : {
             "structurizr.dsl.identifier" : "SavedRecipesScreen"
           },
           "relationships" : [ {
             "destinationId" : "15",
-            "id" : "36",
+            "id" : "38",
             "sourceId" : "6",
             "tags" : "Relationship"
           }, {
             "destinationId" : "16",
-            "id" : "38",
+            "id" : "40",
             "sourceId" : "6",
             "tags" : "Relationship"
           } ],
@@ -82,13 +87,13 @@
         }, {
           "documentation" : { },
           "id" : "7",
-          "name" : "AccountScreen",
+          "name" : "Account\nScreen",
           "properties" : {
             "structurizr.dsl.identifier" : "AccountScreen"
           },
           "relationships" : [ {
             "destinationId" : "16",
-            "id" : "37",
+            "id" : "39",
             "sourceId" : "7",
             "tags" : "Relationship"
           } ],
@@ -96,36 +101,28 @@
         }, {
           "documentation" : { },
           "id" : "8",
-          "name" : "ComputerVision",
-          "properties" : {
-            "structurizr.dsl.identifier" : "InceptionV3"
-          },
-          "tags" : "Element,Component,FontStyle"
-        }, {
-          "documentation" : { },
-          "id" : "9",
-          "name" : "LoginScreen",
+          "name" : "Login\nScreen",
           "properties" : {
             "structurizr.dsl.identifier" : "LoginScreen"
           },
           "relationships" : [ {
-            "destinationId" : "11",
-            "id" : "41",
-            "sourceId" : "9",
+            "destinationId" : "10",
+            "id" : "45",
+            "sourceId" : "8",
             "tags" : "Relationship"
           } ],
           "tags" : "Element,Component,FontStyle"
         }, {
           "documentation" : { },
-          "id" : "10",
-          "name" : "CreateAccountScreen",
+          "id" : "9",
+          "name" : "CreateAccount\nScreen",
           "properties" : {
             "structurizr.dsl.identifier" : "CreateAccountScreen"
           },
           "relationships" : [ {
-            "destinationId" : "11",
-            "id" : "42",
-            "sourceId" : "10",
+            "destinationId" : "10",
+            "id" : "46",
+            "sourceId" : "9",
             "tags" : "Relationship"
           } ],
           "tags" : "Element,Component,FontStyle"
@@ -137,82 +134,101 @@
           "structurizr.dsl.identifier" : "UI"
         },
         "relationships" : [ {
+          "destinationId" : "10",
+          "id" : "22",
+          "sourceId" : "3",
+          "tags" : "Relationship"
+        }, {
           "destinationId" : "11",
-          "id" : "21",
-          "sourceId" : "3",
-          "tags" : "Relationship"
-        }, {
-          "destinationId" : "12",
-          "id" : "27",
-          "sourceId" : "3",
-          "tags" : "Relationship"
-        }, {
-          "destinationId" : "16",
           "id" : "28",
           "sourceId" : "3",
           "tags" : "Relationship"
         }, {
+          "destinationId" : "16",
+          "id" : "29",
+          "sourceId" : "3",
+          "tags" : "Relationship"
+        }, {
           "destinationId" : "15",
-          "id" : "34",
-          "linkedRelationshipId" : "33",
+          "id" : "36",
+          "linkedRelationshipId" : "35",
+          "sourceId" : "3"
+        }, {
+          "destinationId" : "14",
+          "id" : "43",
+          "linkedRelationshipId" : "41",
           "sourceId" : "3"
         } ],
-        "tags" : "Element,Container,FontStyle"
+        "tags" : "Element,Container,FontStyle,Boundary"
       }, {
         "components" : [ {
           "documentation" : { },
-          "id" : "12",
-          "name" : "SignInController",
+          "id" : "11",
+          "name" : "SignIn\nController",
           "properties" : {
             "structurizr.dsl.identifier" : "SignInController"
           },
-          "tags" : "Element,Component,FontStyle"
-        }, {
-          "documentation" : { },
-          "id" : "13",
-          "name" : "RecipeRecommender",
-          "properties" : {
-            "structurizr.dsl.identifier" : "RecipeRecommender"
-          },
           "relationships" : [ {
-            "destinationId" : "14",
-            "id" : "26",
-            "sourceId" : "13",
-            "tags" : "Relationship"
-          }, {
-            "destinationId" : "3",
-            "id" : "29",
-            "sourceId" : "13",
+            "destinationId" : "17",
+            "id" : "32",
+            "sourceId" : "11",
             "tags" : "Relationship"
           } ],
           "tags" : "Element,Component,FontStyle"
         }, {
           "documentation" : { },
-          "id" : "14",
-          "name" : "PreferenceService",
+          "id" : "12",
+          "name" : "Recipe\nRecommender",
+          "properties" : {
+            "structurizr.dsl.identifier" : "RecipeRecommender"
+          },
+          "relationships" : [ {
+            "destinationId" : "13",
+            "id" : "27",
+            "sourceId" : "12",
+            "tags" : "Relationship"
+          }, {
+            "destinationId" : "3",
+            "id" : "30",
+            "sourceId" : "12",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component,FontStyle"
+        }, {
+          "documentation" : { },
+          "id" : "13",
+          "name" : "Preference\nService",
           "properties" : {
             "structurizr.dsl.identifier" : "PreferenceService"
           },
           "tags" : "Element,Component,FontStyle"
+        }, {
+          "documentation" : { },
+          "id" : "14",
+          "name" : "Computer\nVision",
+          "properties" : {
+            "structurizr.dsl.identifier" : "InceptionV3"
+          },
+          "tags" : "Element,Component,FontStyle"
         } ],
         "documentation" : { },
-        "id" : "11",
+        "id" : "10",
         "name" : "Backend",
         "properties" : {
           "structurizr.dsl.identifier" : "Backend"
         },
         "relationships" : [ {
           "destinationId" : "3",
-          "id" : "30",
-          "linkedRelationshipId" : "29",
-          "sourceId" : "11"
+          "id" : "31",
+          "linkedRelationshipId" : "30",
+          "sourceId" : "10"
         }, {
           "destinationId" : "17",
-          "id" : "40",
-          "sourceId" : "11",
-          "tags" : "Relationship"
+          "id" : "33",
+          "linkedRelationshipId" : "32",
+          "sourceId" : "10"
         } ],
-        "tags" : "Element,Container,FontStyle"
+        "tags" : "Element,Container,FontStyle,Boundary"
       }, {
         "documentation" : { },
         "id" : "15",
@@ -221,8 +237,8 @@
           "structurizr.dsl.identifier" : "MealDBService"
         },
         "relationships" : [ {
-          "destinationId" : "18",
-          "id" : "22",
+          "destinationId" : "19",
+          "id" : "23",
           "sourceId" : "15",
           "tags" : "Relationship"
         } ],
@@ -235,20 +251,29 @@
           "structurizr.dsl.identifier" : "UserService"
         },
         "relationships" : [ {
-          "destinationId" : "17",
-          "id" : "24",
+          "destinationId" : "18",
+          "id" : "25",
           "sourceId" : "16",
           "tags" : "Relationship"
-        }, {
-          "destinationId" : "12",
-          "id" : "31",
-          "sourceId" : "16",
+        } ],
+        "tags" : "Element,Container,FontStyle"
+      }, {
+        "documentation" : { },
+        "id" : "17",
+        "name" : "FirebaseAuth",
+        "properties" : {
+          "structurizr.dsl.identifier" : "FirebaseAuth"
+        },
+        "relationships" : [ {
+          "destinationId" : "16",
+          "id" : "34",
+          "sourceId" : "17",
           "tags" : "Relationship"
         }, {
-          "destinationId" : "11",
-          "id" : "32",
-          "linkedRelationshipId" : "31",
-          "sourceId" : "16"
+          "destinationId" : "18",
+          "id" : "44",
+          "sourceId" : "17",
+          "tags" : "Relationship"
         } ],
         "tags" : "Element,Container,FontStyle"
       } ],
@@ -259,20 +284,20 @@
         "structurizr.dsl.identifier" : "SpisNemtApp"
       },
       "relationships" : [ {
-        "destinationId" : "18",
-        "id" : "23",
-        "linkedRelationshipId" : "22",
+        "destinationId" : "19",
+        "id" : "24",
+        "linkedRelationshipId" : "23",
         "sourceId" : "2"
       }, {
-        "destinationId" : "17",
-        "id" : "25",
-        "linkedRelationshipId" : "24",
+        "destinationId" : "18",
+        "id" : "26",
+        "linkedRelationshipId" : "25",
         "sourceId" : "2"
       } ],
       "tags" : "Element,Software System,FontStyle"
     }, {
       "documentation" : { },
-      "id" : "17",
+      "id" : "18",
       "name" : "Database",
       "properties" : {
         "structurizr.dsl.identifier" : "Database"
@@ -280,7 +305,7 @@
       "tags" : "Element,Software System,External,Database,FontStyle"
     }, {
       "documentation" : { },
-      "id" : "18",
+      "id" : "19",
       "name" : "TheMealDB",
       "properties" : {
         "structurizr.dsl.identifier" : "TheMealDB"
@@ -292,82 +317,80 @@
   "properties" : {
     "structurizr.inspection.info" : "0",
     "structurizr.inspection.ignore" : "0",
-    "structurizr.inspection.error" : "83",
+    "structurizr.inspection.error" : "91",
     "structurizr.inspection.warning" : "0",
-    "structurizr.dsl" : "d29ya3NwYWNlICJNeSBTeXN0ZW0iIHsKCiAgbW9kZWwgewogICAgdXNlciA9IHBlcnNvbiAiVXNlciJ7CiAgICAgIHRhZ3MgIkZvbnRTdHlsZSIKICAgIH0KCiAgICBTcGlzTmVtdEFwcCAgPSBzb2Z0d2FyZVN5c3RlbSAiU3Bpc05lbXRBcHAiIHsKICAgICAgdGFncyAiRm9udFN0eWxlIgoKICAgICAgVUkgPSBjb250YWluZXIgIlVJIiB7CiAgICAgICAgdGFncyAiRm9udFN0eWxlIgogICAgICAgICAgSG9tZVNjcmVlbiA9IGNvbXBvbmVudCAiSG9tZVNjcmVlbiIgewogICAgICAgICAgICB0YWdzICJGb250U3R5bGUiCiAgICAgICAgICB9CgogICAgICAgICAgRXhwbG9yZVNjcmVlbiA9IGNvbXBvbmVudCAiRXhwbG9yZVNjcmVlbiIgewogICAgICAgICAgICB0YWdzICJGb250U3R5bGUiCiAgICAgICAgICB9CgogICAgICAgICAgU2F2ZWRSZWNpcGVzU2NyZWVuID0gY29tcG9uZW50ICJTYXZlZFJlY2lwZXNTY3JlZW4iIHsKICAgICAgICAgICAgdGFncyAiRm9udFN0eWxlIgogICAgICAgICAgfQoKICAgICAgICAgIEFjY291bnRTY3JlZW4gPSBjb21wb25lbnQgIkFjY291bnRTY3JlZW4iIHsKICAgICAgICAgICAgdGFncyAiRm9udFN0eWxlIgogICAgICAgICAgfQoKICAgICAgICAgIEluY2VwdGlvblYzID0gY29tcG9uZW50ICJDb21wdXRlclZpc2lvbiIgewogICAgICAgICAgICB0YWdzICJGb250U3R5bGUiCiAgICAgICAgICB9CgogICAgICAgICAgTG9naW5TY3JlZW4gPSBjb21wb25lbnQgIkxvZ2luU2NyZWVuIiB7CiAgICAgICAgICAgIHRhZ3MgIkZvbnRTdHlsZSIKICAgICAgICAgIH0KCiAgICAgICAgICBDcmVhdGVBY2NvdW50U2NyZWVuID0gY29tcG9uZW50ICJDcmVhdGVBY2NvdW50U2NyZWVuIiB7CiAgICAgICAgICAgIHRhZ3MgIkZvbnRTdHlsZSIKICAgICAgICAgIH0KICAgICAgfQoKICAgICAgQmFja2VuZCA9IGNvbnRhaW5lciAiQmFja2VuZCIgewogICAgICAgIHRhZ3MgIkZvbnRTdHlsZSIKICAgICAgICAgIFNpZ25JbkNvbnRyb2xsZXIgPSBjb21wb25lbnQgIlNpZ25JbkNvbnRyb2xsZXIiIHsKICAgICAgICAgICAgdGFncyAiRm9udFN0eWxlIgogICAgICAgICAgfQoKICAgICAgICAgIFJlY2lwZVJlY29tbWVuZGVyID0gY29tcG9uZW50ICJSZWNpcGVSZWNvbW1lbmRlciIgewogICAgICAgICAgICB0YWdzICJGb250U3R5bGUiCiAgICAgICAgICB9CgogICAgICAgICAgUHJlZmVyZW5jZVNlcnZpY2UgPSBjb21wb25lbnQgIlByZWZlcmVuY2VTZXJ2aWNlIiB7CiAgICAgICAgICAgIHRhZ3MgIkZvbnRTdHlsZSIKICAgICAgICAgIH0KICAgICAgfQoKICAgICAgTWVhbERCU2VydmljZSA9IGNvbnRhaW5lciAiTWVhbERCU2VydmljZSIgewogICAgICAgIHRhZ3MgIkZvbnRTdHlsZSIKICAgICAgfQoKICAgICAgVXNlclNlcnZpY2UgPSBjb250YWluZXIgIlVzZXJTZXJ2aWNlIiB7CiAgICAgICAgdGFncyAiRm9udFN0eWxlIgogICAgICB9CiAgICB9CgogICAgRGF0YWJhc2UgPSBzb2Z0d2FyZVN5c3RlbSAiRGF0YWJhc2UiIHsKICAgICAgICB0YWdzICJFeHRlcm5hbCIsICJEYXRhYmFzZSIsICJGb250U3R5bGUiCiAgICB9CgogICAgVGhlTWVhbERCID0gc29mdHdhcmVTeXN0ZW0gIlRoZU1lYWxEQiIgewogICAgICB0YWdzICJFeHRlcm5hbCIsICJGb250U3R5bGUiCiAgICB9CgogICAgLy9Db250ZXh0CiAgICB1c2VyIC0+IFNwaXNOZW10QXBwCgogICAgLy9Db250YWluZXIKICAgIHVzZXIgLT4gVUkKICAgIFVJIC0+IEJhY2tlbmQKICAgIE1lYWxEQlNlcnZpY2UgLT4gVGhlTWVhbERCCiAgICBVc2VyU2VydmljZSAtPiBEYXRhYmFzZQoKICAgIC8vQ29tcG9uZW50IC0gIEJhY2tlbmQKICAgIC8vU2lnbkluQ29udHJvbGxlciAtPiBVc2VyU2VydmljZQogICAgUmVjaXBlUmVjb21tZW5kZXIgLT4gUHJlZmVyZW5jZVNlcnZpY2UKICAgIFVJIC0+IFNpZ25JbkNvbnRyb2xsZXIKICAgIFVJIC0+IFVzZXJTZXJ2aWNlCiAgICBSZWNpcGVSZWNvbW1lbmRlciAtPiBVSQogICAgVXNlclNlcnZpY2UgLT4gU2lnbkluQ29udHJvbGxlcgogICAgLy9QcmVmZXJlbmNlU2VydmljZSAtPiBNZWFsREJTZXJ2aWNlCgogICAgLy9Db21wb25lbnQgLSBVSQogICAgSG9tZVNjcmVlbiAtPiBNZWFsREJTZXJ2aWNlCiAgICBFeHBsb3JlU2NyZWVuIC0+IE1lYWxEQlNlcnZpY2UKICAgIFNhdmVkUmVjaXBlc1NjcmVlbiAtPiBNZWFsREJTZXJ2aWNlCiAgICBBY2NvdW50U2NyZWVuIC0+IFVzZXJTZXJ2aWNlCiAgICBTYXZlZFJlY2lwZXNTY3JlZW4gLT4gVXNlclNlcnZpY2UKICAgIEV4cGxvcmVTY3JlZW4gLT4gSW5jZXB0aW9uVjMKICAgIEJhY2tlbmQgLT4gIERhdGFiYXNlCiAgICBMb2dpblNjcmVlbiAtPiBCYWNrZW5kCiAgICBDcmVhdGVBY2NvdW50U2NyZWVuIC0+IEJhY2tlbmQKICB9CgogIHZpZXdzIHsKICAgIHN5c3RlbUNvbnRleHQgU3Bpc05lbXRBcHAgIlN5c3RlbUNvbnRleHQiIHsKICAgICAgaW5jbHVkZSAqCiAgICB9CiAKICAgIGNvbnRhaW5lciBTcGlzTmVtdEFwcCAiQ29udGFpbmVycyIgewogICAgICBpbmNsdWRlICoKICAgICAgZXhjbHVkZSAicmVsYXRpb25zaGlwLnNvdXJjZT09VUkgJiYgcmVsYXRpb25zaGlwLmRlc3RpbmF0aW9uPT1Vc2VyU2VydmljZSIKICAgICAgZXhjbHVkZSAicmVsYXRpb25zaGlwLnNvdXJjZT09QmFja2VuZCAmJiByZWxhdGlvbnNoaXAuZGVzdGluYXRpb249PVVJIgogICAgfQoKICAgIGNvbXBvbmVudCBVSSAiVUlDb21wb25lbnRzIiB7CiAgICAgIGluY2x1ZGUgKgogICAgICBpbmNsdWRlIEJhY2tlbmQKICAgICAgaW5jbHVkZSBEYXRhYmFzZQogICAgICBpbmNsdWRlIFRoZU1lYWxEQgogICAgfQoKICAgIGNvbXBvbmVudCBCYWNrZW5kICJCYWNrZW5kQ29tcG9uZW50cyIgewogICAgICBpbmNsdWRlICoKICAgICAgaW5jbHVkZSBVc2VyU2VydmljZQogICAgICBpbmNsdWRlIERhdGFiYXNlCiAgICAgIGluY2x1ZGUgVGhlTWVhbERCCiAgICAgIGluY2x1ZGUgTWVhbERCU2VydmljZQogICAgfQoKICAgIHN0eWxlcyB7CiAgICAgIGVsZW1lbnQgIkV4dGVybmFsIiB7CiAgICAgICAgYmFja2dyb3VuZCBsaWdodGdyZXkKICAgICAgICBjb2xvciBibGFjawogICAgICAgIHN0cm9rZSBncmV5CiAgICAgIH0KICAgICAgZWxlbWVudCAiRGF0YWJhc2UiIHsKICAgICAgICBzaGFwZSBDeWxpbmRlcgogICAgICB9CiAgICAgIGVsZW1lbnQgIkJhY2tlbmQiIHsKICAgICAgICBiYWNrZ3JvdW5kICM0YTkwZTIKICAgICAgICBjb2xvciB3aGl0ZQogICAgICB9CiAgICAgIGVsZW1lbnQgIkZvbnRTdHlsZSIgewogICAgICAgIGZvbnRzaXplIDQwCiAgICAgIH0KCiAgICB9CgogICAgdGhlbWUgZGVmYXVsdAogIH0KfQ=="
+    "structurizr.dsl" : "d29ya3NwYWNlICJNeSBTeXN0ZW0iIHsKCiAgbW9kZWwgewogICAgdXNlciA9IHBlcnNvbiAiVXNlciJ7CiAgICAgIHRhZ3MgIkZvbnRTdHlsZSIKICAgIH0KCiAgICBTcGlzTmVtdEFwcCAgPSBzb2Z0d2FyZVN5c3RlbSAiU3Bpc05lbXRBcHAiIHsKICAgICAgdGFncyAiRm9udFN0eWxlIgoKICAgICAgVUkgPSBjb250YWluZXIgIlVJIiB7CiAgICAgICAgdGFncyAiRm9udFN0eWxlIiwgLCAiQm91bmRhcnkiCiAgICAgICAgICBIb21lU2NyZWVuID0gY29tcG9uZW50ICJIb21lXG5TY3JlZW4iIHsKICAgICAgICAgICAgdGFncyAiRm9udFN0eWxlIgogICAgICAgICAgfQoKICAgICAgICAgIEV4cGxvcmVTY3JlZW4gPSBjb21wb25lbnQgIkV4cGxvcmVcblNjcmVlbiIgewogICAgICAgICAgICB0YWdzICJGb250U3R5bGUiCiAgICAgICAgICB9CgogICAgICAgICAgU2F2ZWRSZWNpcGVzU2NyZWVuID0gY29tcG9uZW50ICJTYXZlZFJlY2lwZXNcblNjcmVlbiIgewogICAgICAgICAgICB0YWdzICJGb250U3R5bGUiCiAgICAgICAgICB9CgogICAgICAgICAgQWNjb3VudFNjcmVlbiA9IGNvbXBvbmVudCAiQWNjb3VudFxuU2NyZWVuIiB7CiAgICAgICAgICAgIHRhZ3MgIkZvbnRTdHlsZSIKICAgICAgICAgIH0KCiAgICAgICAgICBMb2dpblNjcmVlbiA9IGNvbXBvbmVudCAiTG9naW5cblNjcmVlbiIgewogICAgICAgICAgICB0YWdzICJGb250U3R5bGUiCiAgICAgICAgICB9CgogICAgICAgICAgQ3JlYXRlQWNjb3VudFNjcmVlbiA9IGNvbXBvbmVudCAiQ3JlYXRlQWNjb3VudFxuU2NyZWVuIiB7CiAgICAgICAgICAgIHRhZ3MgIkZvbnRTdHlsZSIKICAgICAgICAgIH0KICAgICAgfQoKICAgICAgQmFja2VuZCA9IGNvbnRhaW5lciAiQmFja2VuZCIgewogICAgICAgIHRhZ3MgIkZvbnRTdHlsZSIsICJCb3VuZGFyeSIKICAgICAgICAgIFNpZ25JbkNvbnRyb2xsZXIgPSBjb21wb25lbnQgIlNpZ25JblxuQ29udHJvbGxlciIgewogICAgICAgICAgICB0YWdzICJGb250U3R5bGUiCiAgICAgICAgICB9CgogICAgICAgICAgUmVjaXBlUmVjb21tZW5kZXIgPSBjb21wb25lbnQgIlJlY2lwZVxuUmVjb21tZW5kZXIiIHsKICAgICAgICAgICAgdGFncyAiRm9udFN0eWxlIgogICAgICAgICAgfQoKICAgICAgICAgIFByZWZlcmVuY2VTZXJ2aWNlID0gY29tcG9uZW50ICJQcmVmZXJlbmNlXG5TZXJ2aWNlIiB7CiAgICAgICAgICAgIHRhZ3MgIkZvbnRTdHlsZSIKICAgICAgICAgIH0KCiAgICAgICAgICBJbmNlcHRpb25WMyA9IGNvbXBvbmVudCAiQ29tcHV0ZXJcblZpc2lvbiIgewogICAgICAgICAgICB0YWdzICJGb250U3R5bGUiCiAgICAgICAgICB9CiAgICAgIH0KCiAgICAgIE1lYWxEQlNlcnZpY2UgPSBjb250YWluZXIgIk1lYWxEQlNlcnZpY2UiIHsKICAgICAgICB0YWdzICJGb250U3R5bGUiCiAgICAgIH0KCiAgICAgIFVzZXJTZXJ2aWNlID0gY29udGFpbmVyICJVc2VyU2VydmljZSIgewogICAgICAgIHRhZ3MgIkZvbnRTdHlsZSIKICAgICAgfQoKICAgICAgRmlyZWJhc2VBdXRoID0gY29udGFpbmVyICJGaXJlYmFzZUF1dGgiIHsKICAgICAgICB0YWdzICJGb250U3R5bGUiCiAgICAgIH0KICAgIH0KCiAgICBEYXRhYmFzZSA9IHNvZnR3YXJlU3lzdGVtICJEYXRhYmFzZSIgewogICAgICAgIHRhZ3MgIkV4dGVybmFsIiwgIkRhdGFiYXNlIiwgIkZvbnRTdHlsZSIKICAgIH0KCiAgICBUaGVNZWFsREIgPSBzb2Z0d2FyZVN5c3RlbSAiVGhlTWVhbERCIiB7CiAgICAgIHRhZ3MgIkV4dGVybmFsIiwgIkZvbnRTdHlsZSIKICAgIH0KCiAgICAvL0NvbnRleHQKICAgIHVzZXIgLT4gU3Bpc05lbXRBcHAKCiAgICAvL0NvbnRhaW5lcgogICAgdXNlciAtPiBVSQogICAgVUkgLT4gQmFja2VuZAogICAgTWVhbERCU2VydmljZSAtPiBUaGVNZWFsREIKICAgIFVzZXJTZXJ2aWNlIC0+IERhdGFiYXNlCgogICAgLy9Db21wb25lbnQgLSAgQmFja2VuZAogICAgUmVjaXBlUmVjb21tZW5kZXIgLT4gUHJlZmVyZW5jZVNlcnZpY2UKICAgIFVJIC0+IFNpZ25JbkNvbnRyb2xsZXIKICAgIFVJIC0+IFVzZXJTZXJ2aWNlCiAgICBSZWNpcGVSZWNvbW1lbmRlciAtPiBVSQogICAgU2lnbkluQ29udHJvbGxlciAtPiBGaXJlYmFzZUF1dGgKICAgIEZpcmViYXNlQXV0aCAtPiBVc2VyU2VydmljZQoKICAgIC8vQ29tcG9uZW50IC0gVUkKICAgIEhvbWVTY3JlZW4gLT4gTWVhbERCU2VydmljZQogICAgRXhwbG9yZVNjcmVlbiAtPiBNZWFsREJTZXJ2aWNlCiAgICBTYXZlZFJlY2lwZXNTY3JlZW4gLT4gTWVhbERCU2VydmljZQogICAgQWNjb3VudFNjcmVlbiAtPiBVc2VyU2VydmljZQogICAgU2F2ZWRSZWNpcGVzU2NyZWVuIC0+IFVzZXJTZXJ2aWNlCiAgICBFeHBsb3JlU2NyZWVuIC0+IEluY2VwdGlvblYzCiAgICBGaXJlYmFzZUF1dGggLT4gRGF0YWJhc2UKICAgIExvZ2luU2NyZWVuIC0+IEJhY2tlbmQKICAgIENyZWF0ZUFjY291bnRTY3JlZW4gLT4gQmFja2VuZAogIH0KCiAgdmlld3MgewogICAgc3lzdGVtQ29udGV4dCBTcGlzTmVtdEFwcCAiU3lzdGVtQ29udGV4dCIgewogICAgICBpbmNsdWRlICoKICAgIH0KIAogICAgY29udGFpbmVyIFNwaXNOZW10QXBwICJDb250YWluZXJzIiB7CiAgICAgIGluY2x1ZGUgKgogICAgICBleGNsdWRlICJyZWxhdGlvbnNoaXAuc291cmNlPT1VSSAmJiByZWxhdGlvbnNoaXAuZGVzdGluYXRpb249PVVzZXJTZXJ2aWNlIgogICAgICBleGNsdWRlICJyZWxhdGlvbnNoaXAuc291cmNlPT1CYWNrZW5kICYmIHJlbGF0aW9uc2hpcC5kZXN0aW5hdGlvbj09VUkiCiAgICB9CgogICAgY29tcG9uZW50IFVJICJVSUNvbXBvbmVudHMiIHsKICAgICAgaW5jbHVkZSAqCiAgICAgIGluY2x1ZGUgQmFja2VuZAogICAgICBpbmNsdWRlIERhdGFiYXNlCiAgICAgIGluY2x1ZGUgVGhlTWVhbERCCiAgICAgIGluY2x1ZGUgRmlyZWJhc2VBdXRoCiAgICB9CgogICAgY29tcG9uZW50IEJhY2tlbmQgIkJhY2tlbmRDb21wb25lbnRzIiB7CiAgICAgIGluY2x1ZGUgKgogICAgICBpbmNsdWRlIFVzZXJTZXJ2aWNlCiAgICAgIGluY2x1ZGUgRGF0YWJhc2UKICAgICAgaW5jbHVkZSBUaGVNZWFsREIKICAgICAgaW5jbHVkZSBNZWFsREJTZXJ2aWNlCiAgICB9CgogICAgc3R5bGVzIHsKICAgICAgcmVsYXRpb25zaGlwICJSZWxhdGlvbnNoaXAiIHsKICAgICAgICB0aGlja25lc3MgNQogICAgICB9CiAgICAgIGVsZW1lbnQgIkV4dGVybmFsIiB7CiAgICAgICAgYmFja2dyb3VuZCBsaWdodGdyZXkKICAgICAgICBjb2xvciBibGFjawogICAgICAgIHN0cm9rZSBncmV5CiAgICAgIH0KICAgICAgZWxlbWVudCAiRGF0YWJhc2UiIHsKICAgICAgICBzaGFwZSBDeWxpbmRlcgogICAgICB9CiAgICAgIGVsZW1lbnQgIkJhY2tlbmQiIHsKICAgICAgICBiYWNrZ3JvdW5kICM0YTkwZTIKICAgICAgICBjb2xvciB3aGl0ZQogICAgICB9CiAgICAgIGVsZW1lbnQgIkZvbnRTdHlsZSIgewogICAgICAgIGZvbnRzaXplIDQwCiAgICAgIH0KICAgICAgZWxlbWVudCAiQm91bmRhcnkiIHsKICAgICAgICBmb250c2l6ZSA1NgogICAgICAgIHN0cm9rZVdpZHRoIDgKICAgICAgfQoKICAgIH0KCiAgICB0aGVtZSBkZWZhdWx0CiAgfQp9"
   },
   "views" : {
     "componentViews" : [ {
       "containerId" : "3",
       "dimensions" : {
-        "height" : 2634,
-        "width" : 2830
+        "height" : 2800,
+        "width" : 2855
       },
       "elements" : [ {
         "id" : "4",
-        "x" : 820,
-        "y" : 99
+        "x" : 1199,
+        "y" : 875
       }, {
         "id" : "5",
-        "x" : 820,
-        "y" : 469
+        "x" : 2314,
+        "y" : 880
       }, {
         "id" : "6",
-        "x" : 825,
-        "y" : 854
+        "x" : 89,
+        "y" : 890
       }, {
         "id" : "7",
-        "x" : 825,
-        "y" : 1235
+        "x" : 639,
+        "y" : 1310
       }, {
         "id" : "8",
-        "x" : 140,
-        "y" : 469
+        "x" : 1199,
+        "y" : 1310
       }, {
         "id" : "9",
-        "x" : 825,
-        "y" : 1610
+        "x" : 1764,
+        "y" : 1310
       }, {
         "id" : "10",
-        "x" : 825,
-        "y" : 1995
-      }, {
-        "id" : "11",
-        "x" : 1550,
-        "y" : 1829
+        "x" : 2314,
+        "y" : 1825
       }, {
         "id" : "15",
-        "x" : 1545,
-        "y" : 455
+        "x" : 1204,
+        "y" : 450
       }, {
         "id" : "16",
-        "x" : 1550,
-        "y" : 1060
+        "x" : 84,
+        "y" : 1845
       }, {
         "id" : "17",
-        "x" : 2245,
-        "y" : 1064
+        "x" : 1209,
+        "y" : 1835
       }, {
         "id" : "18",
-        "x" : 2280,
-        "y" : 479
+        "x" : 1214,
+        "y" : 2410
+      }, {
+        "id" : "19",
+        "x" : 1204,
+        "y" : 10
       } ],
       "externalContainerBoundariesVisible" : false,
       "key" : "UIComponents",
       "name" : "Component View: SpisNemtApp - UI",
       "order" : 3,
       "relationships" : [ {
-        "id" : "22"
+        "id" : "23"
       }, {
-        "id" : "24"
-      }, {
-        "id" : "32"
+        "id" : "25"
       }, {
         "id" : "33"
       }, {
-        "id" : "35"
+        "id" : "34"
       }, {
-        "id" : "36"
+        "id" : "35"
       }, {
         "id" : "37"
       }, {
@@ -377,59 +400,69 @@
       }, {
         "id" : "40"
       }, {
-        "id" : "41"
-      }, {
         "id" : "42"
+      }, {
+        "id" : "44"
+      }, {
+        "id" : "45"
+      }, {
+        "id" : "46"
       } ]
     }, {
-      "containerId" : "11",
+      "containerId" : "10",
       "dimensions" : {
-        "height" : 1783,
-        "width" : 2706
+        "height" : 3135,
+        "width" : 2505
       },
       "elements" : [ {
         "id" : "3",
-        "x" : 145,
-        "y" : 79
+        "x" : 1570,
+        "y" : 824
+      }, {
+        "id" : "11",
+        "x" : 1200,
+        "y" : 1259
       }, {
         "id" : "12",
-        "x" : 1509,
-        "y" : 1144
+        "x" : 1580,
+        "y" : 1629
       }, {
         "id" : "13",
-        "x" : 139,
-        "y" : 1144
+        "x" : 1575,
+        "y" : 2024
       }, {
         "id" : "14",
-        "x" : 844,
-        "y" : 1144
+        "x" : 1965,
+        "y" : 1264
       }, {
         "id" : "15",
-        "x" : 860,
-        "y" : 89
+        "x" : 940,
+        "y" : 414
       }, {
         "id" : "16",
-        "x" : 1510,
-        "y" : 619
+        "x" : 70,
+        "y" : 824
       }, {
         "id" : "17",
-        "x" : 2155,
-        "y" : 624
+        "x" : 641,
+        "y" : 1259
       }, {
         "id" : "18",
-        "x" : 2154,
-        "y" : 79
+        "x" : 660,
+        "y" : 2744
+      }, {
+        "id" : "19",
+        "x" : 940,
+        "y" : 9
       } ],
       "externalContainerBoundariesVisible" : false,
       "key" : "BackendComponents",
       "name" : "Component View: SpisNemtApp - Backend",
       "order" : 4,
       "relationships" : [ {
-        "id" : "22"
+        "id" : "23"
       }, {
-        "id" : "24"
-      }, {
-        "id" : "26"
+        "id" : "25"
       }, {
         "id" : "27"
       }, {
@@ -437,20 +470,32 @@
       }, {
         "id" : "29"
       }, {
-        "id" : "31"
+        "id" : "30"
+      }, {
+        "id" : "32"
       }, {
         "id" : "34"
+      }, {
+        "id" : "36"
+      }, {
+        "id" : "43"
+      }, {
+        "id" : "44"
       } ]
     } ],
     "configuration" : {
       "branding" : { },
-      "lastSavedView" : "Containers",
+      "lastSavedView" : "UIComponents",
       "metadataSymbols" : "SquareBrackets",
       "styles" : {
         "elements" : [ {
           "background" : "#4a90e2",
           "color" : "#ffffff",
           "tag" : "Backend"
+        }, {
+          "fontSize" : 56,
+          "strokeWidth" : 8,
+          "tag" : "Boundary"
         }, {
           "shape" : "Cylinder",
           "tag" : "Database"
@@ -462,6 +507,10 @@
         }, {
           "fontSize" : 40,
           "tag" : "FontStyle"
+        } ],
+        "relationships" : [ {
+          "tag" : "Relationship",
+          "thickness" : 5
         } ]
       },
       "terminology" : { },
@@ -469,91 +518,97 @@
     },
     "containerViews" : [ {
       "dimensions" : {
-        "height" : 2079,
-        "width" : 2635
+        "height" : 2065,
+        "width" : 1825
       },
       "elements" : [ {
         "id" : "1",
-        "x" : 144,
-        "y" : 60
+        "x" : 1335,
+        "y" : 9
       }, {
         "id" : "3",
-        "x" : 119,
-        "y" : 770
+        "x" : 1299,
+        "y" : 639
       }, {
-        "id" : "11",
-        "x" : 1444,
-        "y" : 1540
+        "id" : "10",
+        "x" : 1304,
+        "y" : 1089
       }, {
         "id" : "15",
-        "x" : 819,
-        "y" : 770
+        "x" : 664,
+        "y" : 644
       }, {
         "id" : "16",
-        "x" : 1444,
-        "y" : 1135
+        "x" : 69,
+        "y" : 1084
       }, {
         "id" : "17",
-        "x" : 2084,
-        "y" : 1330
+        "x" : 680,
+        "y" : 1084
       }, {
         "id" : "18",
-        "x" : 2068,
-        "y" : 764
+        "x" : 695,
+        "y" : 1674
+      }, {
+        "id" : "19",
+        "x" : 664,
+        "y" : 114
       } ],
       "externalSoftwareSystemBoundariesVisible" : false,
       "key" : "Containers",
       "name" : "Container View: SpisNemtApp",
       "order" : 2,
       "relationships" : [ {
-        "id" : "20"
-      }, {
         "id" : "21"
       }, {
         "id" : "22"
       }, {
-        "id" : "24"
+        "id" : "23"
       }, {
-        "id" : "32"
+        "id" : "25"
+      }, {
+        "id" : "33"
       }, {
         "id" : "34"
       }, {
-        "id" : "40"
+        "id" : "36"
+      }, {
+        "id" : "44"
       } ],
       "softwareSystemId" : "2"
     } ],
     "systemContextViews" : [ {
       "dimensions" : {
-        "height" : 1356,
-        "width" : 1690
+        "height" : 1650,
+        "width" : 1470
       },
       "elements" : [ {
         "id" : "1",
-        "x" : 225,
-        "y" : 159
+        "x" : 870,
+        "y" : 160
       }, {
         "id" : "2",
-        "x" : 200,
-        "y" : 814
-      }, {
-        "id" : "17",
-        "x" : 1045,
-        "y" : 300
+        "x" : 205,
+        "y" : 699
       }, {
         "id" : "18",
-        "x" : 1040,
-        "y" : 815
+        "x" : 200,
+        "y" : 1110
+      }, {
+        "id" : "19",
+        "x" : 210,
+        "y" : 260
       } ],
       "enterpriseBoundaryVisible" : true,
       "key" : "SystemContext",
       "name" : "System Context View: SpisNemtApp",
       "order" : 1,
       "relationships" : [ {
-        "id" : "19"
+        "id" : "20"
       }, {
-        "id" : "23"
+        "id" : "24"
       }, {
-        "id" : "25"
+        "id" : "26"
       } ],
       "softwareSystemId" : "2"
     } ]

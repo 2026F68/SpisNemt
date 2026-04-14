@@ -9,47 +9,47 @@ workspace "My System" {
       tags "FontStyle"
 
       UI = container "UI" {
-        tags "FontStyle"
-          HomeScreen = component "HomeScreen" {
+        tags "FontStyle", , "Boundary"
+          HomeScreen = component "Home\nScreen" {
             tags "FontStyle"
           }
 
-          ExploreScreen = component "ExploreScreen" {
+          ExploreScreen = component "Explore\nScreen" {
             tags "FontStyle"
           }
 
-          SavedRecipesScreen = component "SavedRecipesScreen" {
+          SavedRecipesScreen = component "SavedRecipes\nScreen" {
             tags "FontStyle"
           }
 
-          AccountScreen = component "AccountScreen" {
+          AccountScreen = component "Account\nScreen" {
             tags "FontStyle"
           }
 
-          InceptionV3 = component "ComputerVision" {
+          LoginScreen = component "Login\nScreen" {
             tags "FontStyle"
           }
 
-          LoginScreen = component "LoginScreen" {
-            tags "FontStyle"
-          }
-
-          CreateAccountScreen = component "CreateAccountScreen" {
+          CreateAccountScreen = component "CreateAccount\nScreen" {
             tags "FontStyle"
           }
       }
 
       Backend = container "Backend" {
-        tags "FontStyle"
-          SignInController = component "SignInController" {
+        tags "FontStyle", "Boundary"
+          SignInController = component "SignIn\nController" {
             tags "FontStyle"
           }
 
-          RecipeRecommender = component "RecipeRecommender" {
+          RecipeRecommender = component "Recipe\nRecommender" {
             tags "FontStyle"
           }
 
-          PreferenceService = component "PreferenceService" {
+          PreferenceService = component "Preference\nService" {
+            tags "FontStyle"
+          }
+
+          InceptionV3 = component "Computer\nVision" {
             tags "FontStyle"
           }
       }
@@ -59,6 +59,10 @@ workspace "My System" {
       }
 
       UserService = container "UserService" {
+        tags "FontStyle"
+      }
+
+      FirebaseAuth = container "FirebaseAuth" {
         tags "FontStyle"
       }
     }
@@ -81,13 +85,12 @@ workspace "My System" {
     UserService -> Database
 
     //Component -  Backend
-    //SignInController -> UserService
     RecipeRecommender -> PreferenceService
     UI -> SignInController
     UI -> UserService
     RecipeRecommender -> UI
-    UserService -> SignInController
-    //PreferenceService -> MealDBService
+    SignInController -> FirebaseAuth
+    FirebaseAuth -> UserService
 
     //Component - UI
     HomeScreen -> MealDBService
@@ -96,7 +99,7 @@ workspace "My System" {
     AccountScreen -> UserService
     SavedRecipesScreen -> UserService
     ExploreScreen -> InceptionV3
-    Backend ->  Database
+    FirebaseAuth -> Database
     LoginScreen -> Backend
     CreateAccountScreen -> Backend
   }
@@ -117,6 +120,7 @@ workspace "My System" {
       include Backend
       include Database
       include TheMealDB
+      include FirebaseAuth
     }
 
     component Backend "BackendComponents" {
@@ -128,6 +132,9 @@ workspace "My System" {
     }
 
     styles {
+      relationship "Relationship" {
+        thickness 5
+      }
       element "External" {
         background lightgrey
         color black
@@ -142,6 +149,10 @@ workspace "My System" {
       }
       element "FontStyle" {
         fontsize 40
+      }
+      element "Boundary" {
+        fontsize 56
+        strokeWidth 8
       }
 
     }
