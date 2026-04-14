@@ -90,7 +90,6 @@ workspace "My System" {
     UI -> UserService
     RecipeRecommender -> UI
     SignInController -> FirebaseAuth
-    FirebaseAuth -> UserService
 
     //Component - UI
     HomeScreen -> MealDBService
