@@ -1,3 +1,4 @@
+import React, { useCallback, useEffect, useState } from "react";
 import { Image, Text, View } from "react-native";
 import Toast from "react-native-toast-message";
 import { useAuth } from "../../context/AuthContext";
@@ -6,12 +7,14 @@ import {
   saveUserSavedRecipes,
 } from "../../services/databaseAPI/SavedRecipes";
 import CloseButton from "../buttons/CloseButton";
+import SaveButton from "../buttons/SaveButton";
 import { cardStyle } from "../cards/CardTheme";
 import Container from "../structural/Container";
 import { Scrollable } from "../structural/Scrollable";
 import { List, Section, Title } from "../typograghy";
 
 interface SingleRecipeInfoProps {
+  idMeal?: string;
   title?: string;
   category?: string;
   description?: string;
@@ -21,6 +24,7 @@ interface SingleRecipeInfoProps {
 }
 
 export default function SingleRecipeInfo({
+  idMeal,
   title,
   category,
   description,
@@ -116,7 +120,6 @@ export default function SingleRecipeInfo({
 
   return (
     <View style={{ flex: 1 }}>
-      <CloseButton />
       <Scrollable>
         <Image
           source={{ uri: imageUrl }}
@@ -139,6 +142,8 @@ export default function SingleRecipeInfo({
           </Section>
         </Container>
       </Scrollable>
+      <CloseButton />
+      <SaveButton onPress={() => void handleSave()} isSaved={isSaved} />
     </View>
   );
 }

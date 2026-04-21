@@ -15,6 +15,7 @@ import {
   type ReactNode,
 } from "react";
 import { auth } from "../../firebaseConfig";
+import { createUserProfile } from "../services/databaseAPI/createUserProfile";
 
 interface AuthContextValue {
   isAuthenticated: boolean;
@@ -88,6 +89,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
           password,
         );
         await updateProfile(userCredential.user, { displayName: name });
+        await createUserProfile({
+          id: userCredential.user.uid,
+          email: userCredential.user.email || email.trim(),
+          name,
+        });
       } catch (error) {
         console.error("Create account failed:", error);
         throw error;

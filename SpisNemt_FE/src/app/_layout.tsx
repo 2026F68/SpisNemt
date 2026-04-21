@@ -9,10 +9,10 @@ import { AuthProvider, useAuth } from "../context/AuthContext";
 export default function RootLayout() {
   return (
     <AuthProvider>
-      <Toast config={toastConfig} />
       <ErrorBoundary FallbackComponent={ErrorScreen}>
         <RootNavigator />
       </ErrorBoundary>
+      <Toast config={toastConfig} topOffset={70} />
     </AuthProvider>
   );
 }
