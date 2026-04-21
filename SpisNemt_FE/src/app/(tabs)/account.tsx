@@ -14,13 +14,33 @@ import { getUserProfile } from "../../services/databaseAPI/getUserProfile";
 import { saveUserPreferences } from "../../services/databaseAPI/saveUserPreferences";
 
 const PREFERENCE_OPTIONS = [
-  "Italian", "Mexican", "Indian", "Chinese", "French",
-  "Thai", "Japanese", "American", "British", "Greek",
-  "Spanish", "Turkish", "Moroccan", "Malaysian",
+  "Italian",
+  "Mexican",
+  "Indian",
+  "Chinese",
+  "French",
+  "Thai",
+  "Japanese",
+  "American",
+  "British",
+  "Greek",
+  "Spanish",
+  "Turkish",
+  "Moroccan",
+  "Malaysian",
 ];
 const CATEGORY_OPTIONS = [
-  "Chicken", "Beef", "Pasta", "Seafood", "Vegetarian",
-  "Vegan", "Dessert", "Lamb", "Breakfast", "Pork", "Starter",
+  "Chicken",
+  "Beef",
+  "Pasta",
+  "Seafood",
+  "Vegetarian",
+  "Vegan",
+  "Dessert",
+  "Lamb",
+  "Breakfast",
+  "Pork",
+  "Starter",
 ];
 
 export default function Account() {
@@ -36,8 +56,6 @@ export default function Account() {
   } | null>(null);
 
   const accountName = user?.name || "Guest";
-
-
 
   useEffect(() => {
     const fetchPreferences = async () => {
@@ -123,15 +141,25 @@ export default function Account() {
 
         <AccountCard accountName={accountName} accountType="User" />
 
-        <Button title="Sign Out" onPress={() => void signOut()} />
-
         {feedback && (
           <Alert variant={feedback.variant}>{feedback.message}</Alert>
         )}
 
-        <Button title="Save Preferences" onPress={saveSelections} />
-
-        <Subtitle>Cuisine</Subtitle>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Subtitle>Cuisine</Subtitle>
+          <Button
+            title={
+              isEditingPreferences ? "Save Preferences" : "Edit Preferences"
+            }
+            onPress={() => void handlePreferencesButtonPress()}
+          />
+        </View>
         <Scrollable horizontal>
           {PREFERENCE_OPTIONS.map((preference) => (
             <SelectableCard
@@ -162,7 +190,6 @@ export default function Account() {
             />
           ))}
         </Scrollable>
-
       </Container>
     </>
   );

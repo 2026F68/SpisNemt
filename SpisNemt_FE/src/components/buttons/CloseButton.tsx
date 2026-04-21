@@ -1,6 +1,7 @@
 import { router } from "expo-router";
 import React from "react";
 import { Pressable, StyleSheet, Text } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function CloseButton({
   title,
@@ -9,6 +10,8 @@ export default function CloseButton({
   title?: string;
   onPress?: () => void;
 }) {
+  const insets = useSafeAreaInsets();
+
   const handlePress = () => {
     if (onPress) {
       onPress();
@@ -24,7 +27,11 @@ export default function CloseButton({
   };
 
   return (
-    <Pressable onPress={handlePress} style={styles.closeButton}>
+    <Pressable
+      onPress={handlePress}
+      hitSlop={10}
+      style={[styles.closeButton, { top: insets.top + 8 }]}
+    >
       <Text style={styles.closeButtonText}>{title || "✕"}</Text>
     </Pressable>
   );
@@ -33,7 +40,6 @@ export default function CloseButton({
 const styles = StyleSheet.create({
   closeButton: {
     position: "absolute",
-    top: 15,
     right: 15,
     width: 40,
     height: 40,
@@ -42,6 +48,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     zIndex: 1000,
+    elevation: 8,
   },
   closeButtonText: {
     color: "#fff",

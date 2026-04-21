@@ -1,6 +1,8 @@
 import { useFocusEffect } from "@react-navigation/native";
+import { router } from "expo-router";
 
 import React from "react";
+import { Pressable } from "react-native";
 import PillFilter from "../../components/buttons/PillFilter";
 import RecipeCard from "../../components/cards/RecipeCard";
 import Container from "../../components/structural/Container";
@@ -13,14 +15,18 @@ import { loadUserPreferences } from "../../services/databaseAPI/Preferences";
 import { get10RandomMeals } from "../../services/mealDbAPI/get10RandomMeals";
 import { scoreRecipeMatch } from "../../services/ml/preferencesMatcher";
 
-
 export default function Index() {
   const { user } = useAuth();
 
   const [category, setCategory] = React.useState<string[]>([]);
   const [randomMeals, setRandomMeals] = React.useState<any[]>([]);
-  const [matchScores, setMatchScores] = React.useState<Map<string, number>>(new Map());
-  const [userPrefs, setUserPrefs] = React.useState<{ area: string[]; category: string[] } | null>(null);
+  const [matchScores, setMatchScores] = React.useState<Map<string, number>>(
+    new Map(),
+  );
+  const [userPrefs, setUserPrefs] = React.useState<{
+    area: string[];
+    category: string[];
+  } | null>(null);
 
   React.useEffect(() => {
     get10RandomMeals()
@@ -75,6 +81,28 @@ export default function Index() {
       ? randomMeals
       : randomMeals.filter((m) => category.includes(m.strCategory));
 
+  const getIngredients = (meal: any) =>
+    Array.from(
+      { length: 20 },
+      (_, i) => meal[`strIngredient${i + 1}`] as string,
+    )
+      .map((ingredient) => ingredient?.trim())
+      .filter(Boolean) as string[];
+
+  const openMeal = (meal: any) => {
+    router.push({
+      pathname: "/SingleRecipe",
+      params: {
+        idMeal: meal.idMeal,
+        title: meal.strMeal,
+        category: meal.strCategory,
+        imageUrl: meal.strMealThumb,
+        ingredients: JSON.stringify(getIngredients(meal)),
+        instructions: meal.strInstructions || "",
+      },
+    });
+  };
+
   return (
     <>
       <Container>
@@ -82,48 +110,44 @@ export default function Index() {
         <Subtitle>Recommended</Subtitle>
         <Scrollable horizontal>
           {(hasPrefs ? recommendedMeals : randomMeals).map((meal) => (
-
-            <RecipeCard
-              key={meal.idMeal}
-              title={meal.strMeal}
-              category={meal.strCategory}
-              imageUrl={meal.strMealThumb}
-              matchScore={matchScores.get(meal.idMeal)}
-            />
+            <Pressable key={meal.idMeal} onPress={() => openMeal(meal)}>
+              <RecipeCard
+                title={meal.strMeal}
+                category={meal.strCategory}
+                imageUrl={meal.strMealThumb}
+                matchScore={matchScores.get(meal.idMeal)}
+              />
+            </Pressable>
           ))}
         </Scrollable>
 
         <Subtitle>Categories</Subtitle>
         <Scrollable horizontal>
           {categories.map((cat, index) => (
-
             <PillFilter
               key={index}
               title={cat}
-
               onPress={() => {
                 setCategory((prev) =>
                   prev.includes(cat)
                     ? prev.filter((c) => c !== cat)
                     : [...prev, cat],
-
                 );
               }}
               active={category.includes(cat)}
-
             />
           ))}
         </Scrollable>
         <Scrollable horizontal>
           {discoveryMeals.map((meal) => (
-
-            <RecipeCard
-              key={meal.idMeal}
-              title={meal.strMeal}
-              category={meal.strCategory}
-              imageUrl={meal.strMealThumb}
-              matchScore={matchScores.get(meal.idMeal)}
-            />
+            <Pressable key={meal.idMeal} onPress={() => openMeal(meal)}>
+              <RecipeCard
+                title={meal.strMeal}
+                category={meal.strCategory}
+                imageUrl={meal.strMealThumb}
+                matchScore={matchScores.get(meal.idMeal)}
+              />
+            </Pressable>
           ))}
         </Scrollable>
       </Container>

@@ -9,6 +9,8 @@ export const toastConfig: ToastConfig = {
       style={{
         borderColor: globalColors.successColor,
         borderWidth: 2,
+        borderLeftColor: globalColors.successColor,
+        borderLeftWidth: 2,
         borderRadius: globalSizes.borderRadius,
         backgroundColor: globalColors.whiteColor,
       }}
@@ -30,6 +32,8 @@ export const toastConfig: ToastConfig = {
       style={{
         borderColor: globalColors.dangerColor,
         borderWidth: 2,
+        borderLeftColor: globalColors.dangerColor,
+        borderLeftWidth: 2,
         borderRadius: globalSizes.borderRadius,
         backgroundColor: globalColors.whiteColor,
       }}
