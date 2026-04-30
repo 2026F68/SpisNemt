@@ -115,7 +115,7 @@ export default function Index() {
                 title={meal.strMeal}
                 category={meal.strCategory}
                 imageUrl={meal.strMealThumb}
-                matchScore={matchScores.get(meal.idMeal)}
+                matchScore={matchScores.get(meal.idMeal)} // Passing the score
               />
             </Pressable>
           ))}

@@ -1,5 +1,6 @@
 import React from "react";
 import { Pressable, Text } from "react-native";
+import { globalColors } from "../../theme";
 
 export default function Button({
   title,
@@ -16,12 +17,14 @@ export default function Button({
       onPress={onPress}
       style={{
         padding: 10,
-        backgroundColor: disabled ? "#8fb3e0" : "#007BFF",
-        borderRadius: 5,
+        backgroundColor: disabled ? globalColors.primaryMutedColor : globalColors.primaryColor,
+        borderRadius: 15,
         marginBottom: 10,
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
-      <Text style={{ color: "#fff" }}>{title}</Text>
+      <Text style={{ color: "#fff", fontWeight: "bold" }}>{title}</Text>
     </Pressable>
   );
 }

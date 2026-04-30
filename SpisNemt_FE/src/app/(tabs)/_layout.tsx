@@ -22,12 +22,15 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarShowLabel: false,
+        tabBarShowLabel: true,
+        tabBarLabelStyle: { fontSize: 11 },
         tabBarActiveTintColor: globalColors.primaryColor, // Color of the icon/label when active
         tabBarInactiveTintColor: "#adadad", // Color when not selected
         tabBarStyle: {
           borderTopWidth: 0, // Remove the top border
-          height: 50, // Custom height
+          height: 72,
+          paddingBottom: 8,
+          paddingTop: 6,
           shadowColor: "black",
           shadowOffset: { width: 0, height: -2 },
           shadowOpacity: 0.1,
