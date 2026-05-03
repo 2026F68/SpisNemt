@@ -2,7 +2,7 @@ import { get10RandomMeals } from "@/src/services/mealDbAPI/get10RandomMeals";
 import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
 import { router } from "expo-router";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import Button from "../../components/buttons/Button";
 import PillFilter from "../../components/buttons/PillFilter";
 import RecipeCard from "../../components/cards/RecipeCard";
@@ -70,6 +70,7 @@ export default function Explore() {
   const [results, setResults] = useState<MealDbMeal[]>([]);
   const [isLoadingResults, setIsLoadingResults] = useState(false);
   const [searchError, setSearchError] = useState<string | null>(null);
+  const [searchMatchScores, setSearchMatchScores] = useState<Map<string, number>>(new Map());
 
   const [randomRecipe, setRandomRecipe] = useState<MealDbMeal[]>([]);
   const [randomMatchScores, setRandomMatchScores] = useState<
@@ -122,6 +123,32 @@ export default function Explore() {
       setRandomMatchScores(new Map(entries));
     })();
   }, [randomRecipe, userPrefs]);
+
+  useEffect(() => {
+    if (results.length === 0 || !userPrefs) {
+      setSearchMatchScores(new Map());
+      return;
+    }
+
+    if (userPrefs.area.length === 0 && userPrefs.category.length === 0) {
+      setSearchMatchScores(new Map());
+      return;
+    }
+
+    void (async () => {
+      const entries = await Promise.all(
+        results.map(async (meal) => {
+          try {
+            const score = await scoreRecipeMatch(meal, userPrefs);
+            return [meal.idMeal, score] as [string, number];
+          } catch {
+            return [meal.idMeal, 0] as [string, number];
+          }
+        }),
+      );
+      setSearchMatchScores(new Map(entries));
+    })();
+  }, [results, userPrefs]);
 
   const [isClassifierReady, setIsClassifierReady] = useState(false);
   const [isClassifying, setIsClassifying] = useState(false);
@@ -315,6 +342,15 @@ export default function Explore() {
         )
       : randomRecipe;
 
+  const sortedSearchResults =
+    searchMatchScores.size > 0
+      ? [...results].sort(
+          (a, b) =>
+            (searchMatchScores.get(b.idMeal) ?? 0) -
+            (searchMatchScores.get(a.idMeal) ?? 0),
+        )
+      : results;
+
   const renderRandomRecommendations = (heading: string) => (
     <>
       <Subtitle>{heading}</Subtitle>
@@ -337,6 +373,31 @@ export default function Explore() {
         )}
       </Scrollable>
     </>
+  );
+
+  const renderSearchResults = () => (
+    <FlatList
+      style={{ flex: 1 }}
+      data={sortedSearchResults}
+      keyExtractor={(meal) => meal.idMeal}
+      renderItem={({ item: meal }) => (
+        <RecipeCard
+          variant="saved"
+          title={meal.strMeal}
+          category={meal.strCategory}
+          imageUrl={meal.strMealThumb}
+          tags={meal.tags}
+          matchScore={searchMatchScores.get(meal.idMeal)}
+          onPress={() => openMeal(meal)}
+        />
+      )}
+      contentContainerStyle={{ paddingBottom: 16 }}
+      initialNumToRender={6}
+      maxToRenderPerBatch={6}
+      windowSize={5}
+      removeClippedSubviews
+      showsVerticalScrollIndicator={false}
+    />
   );
 
   if (!permission) {
@@ -425,23 +486,13 @@ export default function Explore() {
       )}
 
       {hasSubmittedSearch ? (
-        <Scrollable>
+        <>
           {isLoadingResults ? (
             <Paragraph>Searching recipes...</Paragraph>
           ) : searchError ? (
             <Alert variant="danger">{searchError}</Alert>
           ) : results.length > 0 ? (
-            results.map((meal: any) => (
-              <RecipeCard
-                key={meal.idMeal}
-                variant="saved"
-                title={meal.strMeal}
-                category={meal.strCategory}
-                imageUrl={meal.strMealThumb}
-                tags={meal.tags}
-                onPress={() => openMeal(meal)}
-              />
-            ))
+            renderSearchResults()
           ) : (
             <>
               <Alert variant="danger">
@@ -450,7 +501,7 @@ export default function Explore() {
               {renderRandomRecommendations("Try one of these instead")}
             </>
           )}
-        </Scrollable>
+        </>
       ) : (
         renderRandomRecommendations("Need inspiration?")
       )}
