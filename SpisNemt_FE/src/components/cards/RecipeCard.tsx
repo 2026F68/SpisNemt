@@ -1,4 +1,4 @@
-import { Image, Text, View } from "react-native";
+import { Image, Text, View, Pressable } from "react-native";
 import { globalColors } from "../../theme";
 import { cardStyle } from "./CardTheme";
 
@@ -9,6 +9,8 @@ interface RecipeCardProps {
   imageUrl?: string;
   variant?: "default" | "saved";
   matchScore?: number;
+  onPress?: () => void;
+  tags?: string[];
 }
 
 export default function RecipeCard({
@@ -18,6 +20,8 @@ export default function RecipeCard({
   imageUrl,
   variant,
   matchScore,
+  onPress,
+  tags,
 }: RecipeCardProps) {
   const containerStyles =
     variant === "saved"
@@ -25,18 +29,44 @@ export default function RecipeCard({
       : cardStyle.cardContainer;
   const imageStyles =
     variant === "saved" ? cardStyle.SavedRecipeCardImage : cardStyle.cardImage;
+  const titleLines = variant === "saved" ? 2 : 3;
+  const descriptionLines = variant === "saved" ? 4 : 2;
 
 
   return (
-    <View style={containerStyles}>
+    <Pressable onPress={onPress} disabled={!onPress} style={containerStyles}>
       {imageUrl ? (
         <Image source={{ uri: imageUrl }} style={imageStyles} />
       ) : (
         <View style={imageStyles} />
       )}
-      <Text style={cardStyle.cardTitle}>{title}</Text>
-      <Text style={cardStyle.cardCategory}>{category}</Text>
-      <Text style={cardStyle.cardParagraph}>{description}</Text>
+      <Text style={cardStyle.cardTitle} numberOfLines={titleLines} ellipsizeMode="tail">
+        {title}
+      </Text>
+      <Text style={cardStyle.cardCategory} numberOfLines={1} ellipsizeMode="tail">
+        {category}
+      </Text>
+      {tags && tags.length > 0 && (
+        <View style={{ flexDirection: "row", gap: 6, marginTop: 6, marginBottom: 6 }}>
+          {tags.slice(0, 3).map((t, index) => (
+            <Text
+              key={`${t}-${index}`}
+              style={cardStyle.cardCategory}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              {t}
+            </Text>
+          ))}
+        </View>
+      )}
+      <Text
+        style={cardStyle.cardParagraph}
+        numberOfLines={descriptionLines}
+        ellipsizeMode="tail"
+      >
+        {description}
+      </Text>
       {matchScore !== undefined && matchScore >= 0.25 && (
         <View
           style={[
@@ -53,10 +83,9 @@ export default function RecipeCard({
         >
           <Text style={cardStyle.matchBadgeText}>
             {matchScore >= 0.75 ? "Perfect Match" : matchScore >= 0.5 ? "Good Match" : "Poor Match"}
-            {/* {Math.round(matchScore * 100)}% */}
           </Text>
         </View>
       )}
-    </View>
+    </Pressable>
   );
 }

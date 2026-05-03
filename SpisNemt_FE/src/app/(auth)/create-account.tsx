@@ -53,6 +53,7 @@ export default function CreateAccountScreen() {
           value={name}
           onChangeText={setName}
           placeholder="Full Name"
+          placeholderTextColor="#bdbdbd"
           style={styles.input}
         />
         <TextInput
@@ -61,6 +62,7 @@ export default function CreateAccountScreen() {
           placeholder="Email"
           autoCapitalize="none"
           keyboardType="email-address"
+          placeholderTextColor="#bdbdbd"
           style={styles.input}
         />
         <TextInput
@@ -68,19 +70,22 @@ export default function CreateAccountScreen() {
           onChangeText={setPassword}
           placeholder="Password (min 6 characters)"
           secureTextEntry
+          placeholderTextColor="#bdbdbd"
           style={styles.input}
         />
         {error ? <Text style={styles.errorText}>{error}</Text> : null}
-        <Button
-          title={isLoading ? "Creating account..." : "Create Account"}
-          onPress={() => void handleCreateAccount()}
-          disabled={isLoading}
-        />
-        <Button
-          title="Back to Sign In"
-          onPress={() => router.replace("/(auth)")}
-          disabled={isLoading}
-        />
+        <View style={styles.formActions}>
+          <Button
+            title={isLoading ? "Creating account..." : "Create Account"}
+            onPress={() => void handleCreateAccount()}
+            disabled={isLoading}
+          />
+          <Button
+            title="Back to Sign In"
+            onPress={() => router.replace("/(auth)")}
+            disabled={isLoading}
+          />
+        </View>
       </View>
     </Container>
   );
@@ -94,7 +99,7 @@ const styles = StyleSheet.create({
     marginBottom: 48,
   },
   input: {
-    width: "100%",
+    width: "90%",
     borderWidth: 1,
     borderColor: "#d0d0d0",
     borderRadius: 6,
@@ -105,5 +110,8 @@ const styles = StyleSheet.create({
   errorText: {
     color: "#d00",
     marginBottom: 12,
+  },
+  formActions: {
+    width: "90%",
   },
 });

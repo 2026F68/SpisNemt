@@ -53,6 +53,7 @@ export default function LoginScreen() {
           placeholder="Email"
           autoCapitalize="none"
           keyboardType="email-address"
+          placeholderTextColor="#bdbdbd"
           style={styles.input}
         />
         <TextInput
@@ -60,19 +61,22 @@ export default function LoginScreen() {
           onChangeText={setPassword}
           placeholder="Password"
           secureTextEntry
+          placeholderTextColor="#bdbdbd"
           style={styles.input}
         />
         {error ? <Text style={styles.errorText}>{error}</Text> : null}
-        <Button
-          title={isLoading ? "Signing in..." : "Sign In"}
-          onPress={() => void handleSignIn()}
-          disabled={isLoading}
-        />
-        <Button
-          title="Create Account"
-          onPress={() => void handleCreateAccount()}
-          disabled={isLoading}
-        />
+        <View style={styles.formActions}>
+          <Button
+            title={isLoading ? "Signing in..." : "Sign In"}
+            onPress={() => void handleSignIn()}
+            disabled={isLoading}
+          />
+          <Button
+            title="Create Account"
+            onPress={() => void handleCreateAccount()}
+            disabled={isLoading}
+          />
+        </View>
       </View>
     </Container>
   );
@@ -86,7 +90,7 @@ const styles = StyleSheet.create({
     marginBottom: 48,
   },
   input: {
-    width: "100%",
+    width: "90%",
     borderWidth: 1,
     borderColor: "#d0d0d0",
     borderRadius: 6,
@@ -97,5 +101,8 @@ const styles = StyleSheet.create({
   errorText: {
     color: "#d00",
     marginBottom: 12,
+  },
+  formActions: {
+    width: "90%",
   },
 });

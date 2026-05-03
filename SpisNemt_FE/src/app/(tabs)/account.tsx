@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View } from "react-native";
+import { View, Pressable, Text } from "react-native";
 import Toast from "react-native-toast-message";
 import Button from "../../components/buttons/Button";
 import AccountCard from "../../components/cards/AccountCard";
@@ -10,6 +10,7 @@ import Alert from "../../components/typograghy/Alert";
 import Subtitle from "../../components/typograghy/Subtitle";
 import Title from "../../components/typograghy/Title";
 import { useAuth } from "../../context/AuthContext";
+import { globalColors } from "../../theme";
 import { getUserProfile } from "../../services/databaseAPI/getUserProfile";
 import { saveUserPreferences } from "../../services/databaseAPI/saveUserPreferences";
 
@@ -137,7 +138,21 @@ export default function Account() {
   return (
     <>
       <Container>
-        <Title>Account</Title>
+        <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+          <Title>Account</Title>
+          <Pressable
+            onPress={async () => {
+              try {
+                await signOut();
+                Toast.show({ type: "success", text1: "Signed out" });
+              } catch (error) {
+                Toast.show({ type: "error", text1: "Sign out failed" });
+              }
+            }}
+          >
+            <Text style={{ color: globalColors.primaryColor, fontWeight: "600" }}>Sign out</Text>
+          </Pressable>
+        </View>
 
         <AccountCard accountName={accountName} accountType="User" />
 

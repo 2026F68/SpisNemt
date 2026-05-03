@@ -12,6 +12,8 @@ import Alert from "../../components/typograghy/Alert";
 import { getMealByMultiIngredients } from "../../services/mealDbAPI/getMealByMultiIngredients";
 import { get10RandomMeals } from "@/src/services/mealDbAPI/get10RandomMeals";
 import { StyleSheet, View } from "react-native";
+import { router } from "expo-router";
+import { getMealDetailsById } from "../../services/mealDbAPI/getMealDetailsById";
 import {
   classifyIngredientFromUri,
   initIngredientClassifier,
@@ -192,7 +194,24 @@ export default function Explore() {
       setIsLoadingResults(true);
       setSearchError(null);
       const meals = await getMealByMultiIngredients(nextTerms);
-      setResults(meals);
+      // fetch details for each meal to get instructions and tags
+      const enriched = await Promise.all(
+        (meals || []).map(async (m: MealDbMeal) => {
+          try {
+            const details = await getMealDetailsById(m.idMeal);
+            return {
+              ...m,
+              description: details?.strInstructions?.slice(0, 200) ?? "",
+              tags: details?.strTags ? details.strTags.split(',').map((t: string) => t.trim()) : [],
+              full: details ?? null,
+            } as MealDbMeal & { description?: string; tags?: string[]; full?: any };
+          } catch {
+            return { ...m, description: "", tags: [], full: null } as MealDbMeal & { description?: string; tags?: string[]; full?: any };
+          }
+        }),
+      );
+
+      setResults(enriched as MealDbMeal[]);
     } catch {
       setResults([]);
       setSearchError("Something went wrong while searching for recipes.");
@@ -239,6 +258,26 @@ export default function Explore() {
 
   const searchLabel = submittedTerms.join(", ");
 
+  const getIngredients = (meal: any) =>
+    Array.from({ length: 20 }, (_, i) => meal[`strIngredient${i + 1}`] as string)
+      .map((ingredient) => ingredient?.trim())
+      .filter(Boolean) as string[];
+
+  const openMeal = (meal: any) => {
+    router.push({
+      pathname: "/SingleRecipe",
+      params: {
+        idMeal: meal.idMeal,
+        title: meal.strMeal,
+        category: meal.strCategory,
+        imageUrl: meal.strMealThumb,
+        ingredients: JSON.stringify(getIngredients(meal.full ?? meal)),
+        instructions: meal.full?.strInstructions ?? meal.description ?? "",
+        description: meal.description ?? "",
+      },
+    });
+  };
+
   const sortedRandomRecipe = randomMatchScores.size > 0
     ? [...randomRecipe].sort(
         (a, b) => (randomMatchScores.get(b.idMeal) ?? 0) - (randomMatchScores.get(a.idMeal) ?? 0),
@@ -259,6 +298,7 @@ export default function Explore() {
               description="Recommended for you"
               imageUrl={meal.strMealThumb}
               matchScore={randomMatchScores.get(meal.idMeal)}
+              onPress={() => openMeal(meal)}
             />
           ))
         ) : (
@@ -351,14 +391,16 @@ export default function Explore() {
           ) : searchError ? (
             <Alert variant="danger">{searchError}</Alert>
           ) : results.length > 0 ? (
-            results.map((meal) => (
+            results.map((meal: any) => (
               <RecipeCard
                 key={meal.idMeal}
                 variant="saved"
                 title={meal.strMeal}
                 category={meal.strCategory}
-                description="Found by selected ingredients"
+                description={meal.description ?? "Found by selected ingredients"}
                 imageUrl={meal.strMealThumb}
+                tags={meal.tags}
+                onPress={() => openMeal(meal)}
               />
             ))
           ) : (
