@@ -3,8 +3,8 @@ import { Image, Text, View } from "react-native";
 import Toast from "react-native-toast-message";
 import { useAuth } from "../../context/AuthContext";
 import {
-  loadUserSavedRecipes,
-  saveUserSavedRecipes,
+    loadUserSavedRecipes,
+    saveUserSavedRecipes,
 } from "../../services/databaseAPI/SavedRecipes";
 import CloseButton from "../buttons/CloseButton";
 import SaveButton from "../buttons/SaveButton";
@@ -17,7 +17,6 @@ interface SingleRecipeInfoProps {
   idMeal?: string;
   title?: string;
   category?: string;
-  description?: string;
   ingredients?: string[];
   instructions?: string;
   imageUrl?: string;
@@ -27,7 +26,6 @@ export default function SingleRecipeInfo({
   idMeal,
   title,
   category,
-  description,
   ingredients,
   instructions,
   imageUrl,
@@ -128,10 +126,6 @@ export default function SingleRecipeInfo({
         <Container>
           <Title>{title}</Title>
           <Text style={cardStyle.cardCategory}>{category}</Text>
-
-          <Section title="Recipe Description">
-            <Text>{description}</Text>
-          </Section>
 
           <Section title="Ingredients">
             <List variant="bullet" items={ingredients} />

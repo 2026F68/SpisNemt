@@ -16,8 +16,8 @@ export interface UserPreferences {
 let modelPromise: Promise<tf.LayersModel> | null = null;
 const INIT_TIMEOUT_MS = 10_000;
 
-const modelJson = require("../../ml/MLP/model.json");
-const modelWeights = [require("../../ml/MLP/group1-shard1of1.bin")];
+const modelJson = require("../../ml/mlp/model.json");
+const modelWeights = [require("../../ml/mlp/group1-shard1of1.bin")];
 
 function getErrorMessage(error: unknown): string {
   if (error instanceof Error) {

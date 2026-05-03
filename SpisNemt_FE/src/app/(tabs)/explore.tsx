@@ -1,27 +1,27 @@
-import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import Button from "../../components/buttons/Button";
-import Container from "../../components/structural/Container";
-import Paragraph from "../../components/typograghy/Paragraph";
-import Title from "../../components/typograghy/Title";
-import RecipeCard from "../../components/cards/RecipeCard";
-import { Scrollable } from "../../components/structural/Scrollable";
-import PillFilter from "../../components/buttons/PillFilter";
-import SearchInput from "../../components/forms/SearchInput";
-import Alert from "../../components/typograghy/Alert";
-import { getMealByMultiIngredients } from "../../services/mealDbAPI/getMealByMultiIngredients";
 import { get10RandomMeals } from "@/src/services/mealDbAPI/get10RandomMeals";
-import { StyleSheet, View } from "react-native";
+import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
 import { router } from "expo-router";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { StyleSheet, View } from "react-native";
+import Button from "../../components/buttons/Button";
+import PillFilter from "../../components/buttons/PillFilter";
+import RecipeCard from "../../components/cards/RecipeCard";
+import SearchInput from "../../components/forms/SearchInput";
+import Container from "../../components/structural/Container";
+import { Scrollable } from "../../components/structural/Scrollable";
+import Alert from "../../components/typograghy/Alert";
+import Paragraph from "../../components/typograghy/Paragraph";
+import Subtitle from "../../components/typograghy/Subtitle";
+import Title from "../../components/typograghy/Title";
+import { useAuth } from "../../context/AuthContext";
+import { loadUserPreferences } from "../../services/databaseAPI/Preferences";
+import { getMealByMultiIngredients } from "../../services/mealDbAPI/getMealByMultiIngredients";
 import { getMealDetailsById } from "../../services/mealDbAPI/getMealDetailsById";
 import {
-  classifyIngredientFromUri,
-  initIngredientClassifier,
+    classifyIngredientFromUri,
+    initIngredientClassifier,
 } from "../../services/ml/ingredientClassifier";
 import { scoreRecipeMatch } from "../../services/ml/preferencesMatcher";
-import { loadUserPreferences } from "../../services/databaseAPI/Preferences";
-import { useAuth } from "../../context/AuthContext";
-import Subtitle from "../../components/typograghy/Subtitle";
 
 interface MealDbMeal {
   idMeal: string;
@@ -72,8 +72,13 @@ export default function Explore() {
   const [searchError, setSearchError] = useState<string | null>(null);
 
   const [randomRecipe, setRandomRecipe] = useState<MealDbMeal[]>([]);
-  const [randomMatchScores, setRandomMatchScores] = useState<Map<string, number>>(new Map());
-  const [userPrefs, setUserPrefs] = useState<{ area: string[]; category: string[] } | null>(null);
+  const [randomMatchScores, setRandomMatchScores] = useState<
+    Map<string, number>
+  >(new Map());
+  const [userPrefs, setUserPrefs] = useState<{
+    area: string[];
+    category: string[];
+  } | null>(null);
 
   const [facing] = React.useState<CameraType>("back");
   const [permission, requestPermission] = useCameraPermissions();
@@ -121,7 +126,9 @@ export default function Explore() {
   const [isClassifierReady, setIsClassifierReady] = useState(false);
   const [isClassifying, setIsClassifying] = useState(false);
   const [classifierError, setClassifierError] = useState<string | null>(null);
-  const [classifierFeedback, setClassifierFeedback] = useState<string | null>(null);
+  const [classifierFeedback, setClassifierFeedback] = useState<string | null>(
+    null,
+  );
   const [showSlowLoadHint, setShowSlowLoadHint] = useState(false);
 
   const cameraRef = useRef<CameraView>(null);
@@ -201,12 +208,30 @@ export default function Explore() {
             const details = await getMealDetailsById(m.idMeal);
             return {
               ...m,
+              // prefer category from the full details when available
+              strCategory: details?.strCategory ?? m.strCategory,
               description: details?.strInstructions?.slice(0, 200) ?? "",
-              tags: details?.strTags ? details.strTags.split(',').map((t: string) => t.trim()) : [],
+              tags: details?.strTags
+                ? details.strTags.split(",").map((t: string) => t.trim())
+                : [],
               full: details ?? null,
-            } as MealDbMeal & { description?: string; tags?: string[]; full?: any };
+            } as MealDbMeal & {
+              description?: string;
+              tags?: string[];
+              full?: any;
+            };
           } catch {
-            return { ...m, description: "", tags: [], full: null } as MealDbMeal & { description?: string; tags?: string[]; full?: any };
+            return {
+              ...m,
+              strCategory: m.strCategory,
+              description: "",
+              tags: [],
+              full: null,
+            } as MealDbMeal & {
+              description?: string;
+              tags?: string[];
+              full?: any;
+            };
           }
         }),
       );
@@ -259,7 +284,10 @@ export default function Explore() {
   const searchLabel = submittedTerms.join(", ");
 
   const getIngredients = (meal: any) =>
-    Array.from({ length: 20 }, (_, i) => meal[`strIngredient${i + 1}`] as string)
+    Array.from(
+      { length: 20 },
+      (_, i) => meal[`strIngredient${i + 1}`] as string,
+    )
       .map((ingredient) => ingredient?.trim())
       .filter(Boolean) as string[];
 
@@ -278,11 +306,14 @@ export default function Explore() {
     });
   };
 
-  const sortedRandomRecipe = randomMatchScores.size > 0
-    ? [...randomRecipe].sort(
-        (a, b) => (randomMatchScores.get(b.idMeal) ?? 0) - (randomMatchScores.get(a.idMeal) ?? 0),
-      )
-    : randomRecipe;
+  const sortedRandomRecipe =
+    randomMatchScores.size > 0
+      ? [...randomRecipe].sort(
+          (a, b) =>
+            (randomMatchScores.get(b.idMeal) ?? 0) -
+            (randomMatchScores.get(a.idMeal) ?? 0),
+        )
+      : randomRecipe;
 
   const renderRandomRecommendations = (heading: string) => (
     <>
@@ -308,7 +339,6 @@ export default function Explore() {
     </>
   );
 
-
   if (!permission) {
     return <Paragraph>Requesting camera permission...</Paragraph>;
   }
@@ -317,7 +347,9 @@ export default function Explore() {
     return (
       <Container>
         <Title>Camera Access Needed</Title>
-        <Paragraph>Please grant camera permission to use the search feature.</Paragraph>
+        <Paragraph>
+          Please grant camera permission to use the search feature.
+        </Paragraph>
         <Button onPress={requestPermission} title="Grant permission" />
       </Container>
     );
@@ -339,7 +371,11 @@ export default function Explore() {
 
       {terms.length > 0 && (
         <View style={styles.chipContainer}>
-          <Scrollable horizontal style={styles.chipScroll} contentContainerStyle={styles.chipScrollContent}>
+          <Scrollable
+            horizontal
+            style={styles.chipScroll}
+            contentContainerStyle={styles.chipScrollContent}
+          >
             {terms.map((term) => (
               <PillFilter
                 key={term}
@@ -372,8 +408,12 @@ export default function Explore() {
                 First load can take up to a minute on some phones.
               </Paragraph>
             )}
-            {classifierFeedback && <Alert variant="success">{classifierFeedback}</Alert>}
-            {classifierError && <Alert variant="danger">{classifierError}</Alert>}
+            {classifierFeedback && (
+              <Alert variant="success">{classifierFeedback}</Alert>
+            )}
+            {classifierError && (
+              <Alert variant="danger">{classifierError}</Alert>
+            )}
             {classifierError && (
               <Button
                 title="Retry classifier load"
@@ -397,7 +437,6 @@ export default function Explore() {
                 variant="saved"
                 title={meal.strMeal}
                 category={meal.strCategory}
-                description={meal.description ?? "Found by selected ingredients"}
                 imageUrl={meal.strMealThumb}
                 tags={meal.tags}
                 onPress={() => openMeal(meal)}
@@ -405,7 +444,9 @@ export default function Explore() {
             ))
           ) : (
             <>
-              <Alert variant="danger">No recipes found for &quot;{searchLabel}&quot;.</Alert>
+              <Alert variant="danger">
+                No recipes found for &quot;{searchLabel}&quot;.
+              </Alert>
               {renderRandomRecommendations("Try one of these instead")}
             </>
           )}
