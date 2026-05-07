@@ -9,7 +9,7 @@ workspace "My System" {
       tags "FontStyle"
 
       UI = container "UI" {
-        tags "FontStyle", , "Boundary"
+        tags "FontStyle", "Boundary"
           HomeScreen = component "Home\nScreen" {
             tags "FontStyle"
           }
@@ -96,6 +96,7 @@ workspace "My System" {
     ExploreScreen -> MealDBService
     SavedRecipesScreen -> MealDBService
     AccountScreen -> UserService
+    AccountScreen -> FirebaseAuth
     SavedRecipesScreen -> UserService
     ExploreScreen -> InceptionV3
     FirebaseAuth -> Database
