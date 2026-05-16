@@ -1,3 +1,4 @@
+import React, { memo, useMemo } from "react";
 import { Image, Text, View, Pressable } from "react-native";
 import { globalColors } from "../../theme";
 import { cardStyle } from "./CardTheme";
@@ -13,7 +14,7 @@ interface RecipeCardProps {
   tags?: string[];
 }
 
-export default function RecipeCard({
+function RecipeCard({
   title,
   category,
   description,
@@ -31,12 +32,16 @@ export default function RecipeCard({
     variant === "saved" ? cardStyle.SavedRecipeCardImage : cardStyle.cardImage;
   const titleLines = variant === "saved" ? 2 : 3;
   const descriptionLines = variant === "saved" ? 4 : 2;
+  const imageSource = useMemo(
+    () => (imageUrl ? { uri: imageUrl } : undefined),
+    [imageUrl],
+  );
 
 
   return (
     <Pressable onPress={onPress} disabled={!onPress} style={containerStyles}>
-      {imageUrl ? (
-        <Image source={{ uri: imageUrl }} style={imageStyles} />
+      {imageSource ? (
+        <Image source={imageSource} style={imageStyles} />
       ) : (
         <View style={imageStyles} />
       )}
@@ -89,3 +94,5 @@ export default function RecipeCard({
     </Pressable>
   );
 }
+
+export default memo(RecipeCard);
