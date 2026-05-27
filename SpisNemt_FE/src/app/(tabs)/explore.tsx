@@ -1,4 +1,4 @@
-import { get10RandomMeals } from "@/src/services/mealDbAPI/get10RandomMeals";
+import { get10RandomRecipes } from "@/src/services/MealDBService/get10RandomRecipes";
 import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
 import { router } from "expo-router";
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -14,9 +14,9 @@ import Paragraph from "../../components/typograghy/Paragraph";
 import Subtitle from "../../components/typograghy/Subtitle";
 import Title from "../../components/typograghy/Title";
 import { useAuth } from "../../context/AuthContext";
-import { loadUserPreferences } from "../../services/databaseAPI/Preferences";
-import { getMealByMultiIngredients } from "../../services/mealDbAPI/getMealByMultiIngredients";
-import { getMealDetailsById } from "../../services/mealDbAPI/getMealDetailsById";
+import { loadUserPreferences } from "../../services/UserService/Preferences";
+import { getRecipesByMultiIngredients } from "../../services/MealDBService/getRecipesByMultiIngredients";
+import { getRecipeDetailsById } from "../../services/MealDBService/getRecipeDetailsById";
 import {
     classifyIngredientFromUri,
     initIngredientClassifier,
@@ -28,6 +28,9 @@ interface MealDbMeal {
   strMeal: string;
   strMealThumb: string;
   strCategory: string;
+  description?: string;
+  tags?: string[];
+  full?: any;
 }
 
 const styles = StyleSheet.create({
@@ -88,7 +91,7 @@ export default function Explore() {
   useEffect(() => {
     const fetchRandomRecipe = async () => {
       try {
-        const meals = await get10RandomMeals();
+        const meals = await get10RandomRecipes();
         setRandomRecipe(meals || []);
       } catch (error) {
         console.error("Error fetching random recipe:", error);
@@ -227,12 +230,12 @@ export default function Explore() {
     try {
       setIsLoadingResults(true);
       setSearchError(null);
-      const meals = await getMealByMultiIngredients(nextTerms);
+      const meals = await getRecipesByMultiIngredients(nextTerms);
       // fetch details for each meal to get instructions and tags
       const enriched = await Promise.all(
         (meals || []).map(async (m: MealDbMeal) => {
           try {
-            const details = await getMealDetailsById(m.idMeal);
+            const details = await getRecipeDetailsById(m.idMeal);
             return {
               ...m,
               // prefer category from the full details when available

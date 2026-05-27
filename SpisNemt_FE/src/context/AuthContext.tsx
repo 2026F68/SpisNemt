@@ -16,7 +16,7 @@ import {
   type ReactNode,
 } from "react";
 import { auth } from "../../firebaseConfig";
-import { createUserProfile } from "../services/databaseAPI/createUserProfile";
+import { createUserProfile } from "../services/UserService/createUserProfile";
 
 interface AuthContextValue {
   isAuthenticated: boolean;

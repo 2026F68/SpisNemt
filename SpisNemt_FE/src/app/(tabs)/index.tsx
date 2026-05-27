@@ -10,9 +10,9 @@ import { Scrollable } from "../../components/structural/Scrollable";
 import Subtitle from "../../components/typograghy/Subtitle";
 import Title from "../../components/typograghy/Title";
 import { useAuth } from "../../context/AuthContext";
-import { loadUserPreferences } from "../../services/databaseAPI/Preferences";
+import { loadUserPreferences } from "../../services/UserService/Preferences";
 
-import { get10RandomMeals } from "../../services/mealDbAPI/get10RandomMeals";
+import { get10RandomRecipes } from "../../services/MealDBService/get10RandomRecipes";
 import { scoreRecipeMatch } from "../../services/ml/preferencesMatcher";
 
 export default function Index() {
@@ -29,7 +29,7 @@ export default function Index() {
   } | null>(null);
 
   React.useEffect(() => {
-    get10RandomMeals()
+    get10RandomRecipes()
       .then((meals) => setRandomMeals(meals ?? []))
       .catch(() => setRandomMeals([]));
   }, []);
