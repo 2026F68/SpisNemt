@@ -1,7 +1,7 @@
 import { get10RandomRecipes } from "@/src/services/MealDBService/get10RandomRecipes";
 import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
 import { router } from "expo-router";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import Button from "../../components/buttons/Button";
 import PillFilter from "../../components/buttons/PillFilter";
@@ -31,6 +31,41 @@ interface MealDbMeal {
   description?: string;
   tags?: string[];
   full?: any;
+}
+
+interface ExploreMeal extends MealDbMeal {
+  strArea?: string;
+  description?: string;
+  tags?: string[];
+  full?: any;
+  matchScore?: number;
+}
+
+const SEARCH_RESULT_CONCURRENCY = 4;
+
+async function mapWithConcurrency<T, R>(
+  items: T[],
+  concurrency: number,
+  mapper: (item: T, index: number) => Promise<R>,
+): Promise<R[]> {
+  if (items.length === 0) return [];
+
+  const results = new Array<R>(items.length);
+  let nextIndex = 0;
+
+  const worker = async () => {
+    while (true) {
+      const currentIndex = nextIndex;
+      if (currentIndex >= items.length) return;
+      nextIndex += 1;
+      results[currentIndex] = await mapper(items[currentIndex], currentIndex);
+    }
+  };
+
+  const workerCount = Math.max(1, Math.min(concurrency, items.length));
+  await Promise.all(Array.from({ length: workerCount }, () => worker()));
+
+  return results;
 }
 
 const styles = StyleSheet.create({
@@ -70,7 +105,7 @@ export default function Explore() {
   const [terms, setTerms] = useState<string[]>([]);
   const [submittedTerms, setSubmittedTerms] = useState<string[]>([]);
   const [hasSubmittedSearch, setHasSubmittedSearch] = useState(false);
-  const [results, setResults] = useState<MealDbMeal[]>([]);
+  const [results, setResults] = useState<ExploreMeal[]>([]);
   const [isLoadingResults, setIsLoadingResults] = useState(false);
   const [searchError, setSearchError] = useState<string | null>(null);
   const [searchMatchScores, setSearchMatchScores] = useState<Map<string, number>>(new Map());
@@ -230,43 +265,85 @@ export default function Explore() {
     try {
       setIsLoadingResults(true);
       setSearchError(null);
+
       const meals = await getRecipesByMultiIngredients(nextTerms);
-      // fetch details for each meal to get instructions and tags
-      const enriched = await Promise.all(
-        (meals || []).map(async (m: MealDbMeal) => {
+      const shouldScoreSearchResults =
+        !!userPrefs &&
+        (userPrefs.area.length > 0 || userPrefs.category.length > 0);
+
+      // Bound async fan-out to reduce UI contention from parallel fetch+score bursts.
+      const enrichedAndScored = await mapWithConcurrency(
+        meals || [],
+        SEARCH_RESULT_CONCURRENCY,
+        async (m: MealDbMeal, index) => {
+          let enrichedMeal: ExploreMeal;
+
           try {
-            const details = await getRecipeDetailsById(m.idMeal);
-            return {
+            const details = await getMealDetailsById(m.idMeal);
+            enrichedMeal = {
               ...m,
               // prefer category from the full details when available
               strCategory: details?.strCategory ?? m.strCategory,
+              strArea: details?.strArea,
               description: details?.strInstructions?.slice(0, 200) ?? "",
               tags: details?.strTags
                 ? details.strTags.split(",").map((t: string) => t.trim())
                 : [],
               full: details ?? null,
-            } as MealDbMeal & {
-              description?: string;
-              tags?: string[];
-              full?: any;
             };
           } catch {
-            return {
+            enrichedMeal = {
               ...m,
               strCategory: m.strCategory,
               description: "",
               tags: [],
               full: null,
-            } as MealDbMeal & {
-              description?: string;
-              tags?: string[];
-              full?: any;
             };
           }
-        }),
+
+          if (!shouldScoreSearchResults || !userPrefs) {
+            return {
+              meal: {
+                ...enrichedMeal,
+                matchScore: undefined,
+              },
+              index,
+            };
+          }
+
+          try {
+            const score = await scoreRecipeMatch(
+              enrichedMeal.full ?? enrichedMeal,
+              userPrefs,
+            );
+            return {
+              meal: {
+                ...enrichedMeal,
+                matchScore: score,
+              },
+              index,
+            };
+          } catch {
+            return {
+              meal: {
+                ...enrichedMeal,
+                matchScore: 0,
+              },
+              index,
+            };
+          }
+        },
       );
 
-      setResults(enriched as MealDbMeal[]);
+      const sortedScoredResults = enrichedAndScored
+        .sort((a, b) => {
+          const scoreDiff = (b.meal.matchScore ?? -1) - (a.meal.matchScore ?? -1);
+          if (scoreDiff !== 0) return scoreDiff;
+          return a.index - b.index;
+        })
+        .map(({ meal }) => meal);
+
+      setResults(sortedScoredResults);
     } catch {
       setResults([]);
       setSearchError("Something went wrong while searching for recipes.");
@@ -313,15 +390,15 @@ export default function Explore() {
 
   const searchLabel = submittedTerms.join(", ");
 
-  const getIngredients = (meal: any) =>
+  const getIngredients = useCallback((meal: any) =>
     Array.from(
       { length: 20 },
       (_, i) => meal[`strIngredient${i + 1}`] as string,
     )
       .map((ingredient) => ingredient?.trim())
-      .filter(Boolean) as string[];
+      .filter(Boolean) as string[], []);
 
-  const openMeal = (meal: any) => {
+  const openMeal = useCallback((meal: ExploreMeal) => {
     router.push({
       pathname: "/SingleRecipe",
       params: {
@@ -334,7 +411,25 @@ export default function Explore() {
         description: meal.description ?? "",
       },
     });
-  };
+  }, [getIngredients]);
+
+  const renderedSearchResults = useMemo(
+    () =>
+      results.map((meal) => (
+        <RecipeCard
+          key={meal.idMeal}
+          variant="saved"
+          title={meal.strMeal}
+          category={meal.strCategory}
+          description={meal.description ?? "Found by selected ingredients"}
+          imageUrl={meal.strMealThumb}
+          tags={meal.tags}
+          matchScore={meal.matchScore}
+          onPress={() => openMeal(meal)}
+        />
+      )),
+    [results, openMeal],
+  );
 
   const sortedRandomRecipe =
     randomMatchScores.size > 0
