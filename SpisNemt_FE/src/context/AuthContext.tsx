@@ -4,6 +4,7 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   updateProfile,
+  fetchSignInMethodsForEmail,
 } from "firebase/auth";
 import {
   createContext,
@@ -83,6 +84,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
     async (email: string, password: string, name: string) => {
       try {
         setIsLoading(true);
+        // Check whether the email already has sign-in methods to provide a clearer message
+        const methods = await fetchSignInMethodsForEmail(auth, email.trim()).catch(() => []);
+        if (methods && methods.length > 0) {
+          const err: any = new Error("Email already in use");
+          err.code = "auth/email-already-in-use";
+          throw err;
+        }
+
         const userCredential = await createUserWithEmailAndPassword(
           auth,
           email.trim(),

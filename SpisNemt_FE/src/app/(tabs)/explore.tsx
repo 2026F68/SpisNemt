@@ -1,31 +1,68 @@
-import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import Button from "../../components/buttons/Button";
-import Container from "../../components/structural/Container";
-import Paragraph from "../../components/typograghy/Paragraph";
-import Title from "../../components/typograghy/Title";
-import RecipeCard from "../../components/cards/RecipeCard";
-import { Scrollable } from "../../components/structural/Scrollable";
-import PillFilter from "../../components/buttons/PillFilter";
-import SearchInput from "../../components/forms/SearchInput";
-import Alert from "../../components/typograghy/Alert";
-import { getMealByMultiIngredients } from "../../services/mealDbAPI/getMealByMultiIngredients";
 import { get10RandomMeals } from "@/src/services/mealDbAPI/get10RandomMeals";
-import { StyleSheet, View } from "react-native";
+import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
+import { router } from "expo-router";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { FlatList, StyleSheet, View } from "react-native";
+import Button from "../../components/buttons/Button";
+import PillFilter from "../../components/buttons/PillFilter";
+import RecipeCard from "../../components/cards/RecipeCard";
+import SearchInput from "../../components/forms/SearchInput";
+import Container from "../../components/structural/Container";
+import { Scrollable } from "../../components/structural/Scrollable";
+import Alert from "../../components/typograghy/Alert";
+import Paragraph from "../../components/typograghy/Paragraph";
+import Subtitle from "../../components/typograghy/Subtitle";
+import Title from "../../components/typograghy/Title";
+import { useAuth } from "../../context/AuthContext";
+import { loadUserPreferences } from "../../services/databaseAPI/Preferences";
+import { getMealByMultiIngredients } from "../../services/mealDbAPI/getMealByMultiIngredients";
+import { getMealDetailsById } from "../../services/mealDbAPI/getMealDetailsById";
 import {
-  classifyIngredientFromUri,
-  initIngredientClassifier,
+    classifyIngredientFromUri,
+    initIngredientClassifier,
 } from "../../services/ml/ingredientClassifier";
 import { scoreRecipeMatch } from "../../services/ml/preferencesMatcher";
-import { loadUserPreferences } from "../../services/databaseAPI/Preferences";
-import { useAuth } from "../../context/AuthContext";
-import Subtitle from "../../components/typograghy/Subtitle";
 
 interface MealDbMeal {
   idMeal: string;
   strMeal: string;
   strMealThumb: string;
   strCategory: string;
+}
+
+interface ExploreMeal extends MealDbMeal {
+  strArea?: string;
+  description?: string;
+  tags?: string[];
+  full?: any;
+  matchScore?: number;
+}
+
+const SEARCH_RESULT_CONCURRENCY = 4;
+
+async function mapWithConcurrency<T, R>(
+  items: T[],
+  concurrency: number,
+  mapper: (item: T, index: number) => Promise<R>,
+): Promise<R[]> {
+  if (items.length === 0) return [];
+
+  const results = new Array<R>(items.length);
+  let nextIndex = 0;
+
+  const worker = async () => {
+    while (true) {
+      const currentIndex = nextIndex;
+      if (currentIndex >= items.length) return;
+      nextIndex += 1;
+      results[currentIndex] = await mapper(items[currentIndex], currentIndex);
+    }
+  };
+
+  const workerCount = Math.max(1, Math.min(concurrency, items.length));
+  await Promise.all(Array.from({ length: workerCount }, () => worker()));
+
+  return results;
 }
 
 const styles = StyleSheet.create({
@@ -65,13 +102,19 @@ export default function Explore() {
   const [terms, setTerms] = useState<string[]>([]);
   const [submittedTerms, setSubmittedTerms] = useState<string[]>([]);
   const [hasSubmittedSearch, setHasSubmittedSearch] = useState(false);
-  const [results, setResults] = useState<MealDbMeal[]>([]);
+  const [results, setResults] = useState<ExploreMeal[]>([]);
   const [isLoadingResults, setIsLoadingResults] = useState(false);
   const [searchError, setSearchError] = useState<string | null>(null);
+  const [searchMatchScores, setSearchMatchScores] = useState<Map<string, number>>(new Map());
 
   const [randomRecipe, setRandomRecipe] = useState<MealDbMeal[]>([]);
-  const [randomMatchScores, setRandomMatchScores] = useState<Map<string, number>>(new Map());
-  const [userPrefs, setUserPrefs] = useState<{ area: string[]; category: string[] } | null>(null);
+  const [randomMatchScores, setRandomMatchScores] = useState<
+    Map<string, number>
+  >(new Map());
+  const [userPrefs, setUserPrefs] = useState<{
+    area: string[];
+    category: string[];
+  } | null>(null);
 
   const [facing] = React.useState<CameraType>("back");
   const [permission, requestPermission] = useCameraPermissions();
@@ -116,10 +159,38 @@ export default function Explore() {
     })();
   }, [randomRecipe, userPrefs]);
 
+  useEffect(() => {
+    if (results.length === 0 || !userPrefs) {
+      setSearchMatchScores(new Map());
+      return;
+    }
+
+    if (userPrefs.area.length === 0 && userPrefs.category.length === 0) {
+      setSearchMatchScores(new Map());
+      return;
+    }
+
+    void (async () => {
+      const entries = await Promise.all(
+        results.map(async (meal) => {
+          try {
+            const score = await scoreRecipeMatch(meal, userPrefs);
+            return [meal.idMeal, score] as [string, number];
+          } catch {
+            return [meal.idMeal, 0] as [string, number];
+          }
+        }),
+      );
+      setSearchMatchScores(new Map(entries));
+    })();
+  }, [results, userPrefs]);
+
   const [isClassifierReady, setIsClassifierReady] = useState(false);
   const [isClassifying, setIsClassifying] = useState(false);
   const [classifierError, setClassifierError] = useState<string | null>(null);
-  const [classifierFeedback, setClassifierFeedback] = useState<string | null>(null);
+  const [classifierFeedback, setClassifierFeedback] = useState<string | null>(
+    null,
+  );
   const [showSlowLoadHint, setShowSlowLoadHint] = useState(false);
 
   const cameraRef = useRef<CameraView>(null);
@@ -192,7 +263,83 @@ export default function Explore() {
       setIsLoadingResults(true);
       setSearchError(null);
       const meals = await getMealByMultiIngredients(nextTerms);
-      setResults(meals);
+      const shouldScoreSearchResults =
+        !!userPrefs &&
+        (userPrefs.area.length > 0 || userPrefs.category.length > 0);
+
+      // Bound async fan-out to reduce UI contention from parallel fetch+score bursts.
+      const enrichedAndScored = await mapWithConcurrency(
+        meals || [],
+        SEARCH_RESULT_CONCURRENCY,
+        async (m: MealDbMeal, index) => {
+          let enrichedMeal: ExploreMeal;
+
+          try {
+            const details = await getMealDetailsById(m.idMeal);
+            enrichedMeal = {
+              ...m,
+              // prefer category from the full details when available
+              strCategory: details?.strCategory ?? m.strCategory,
+              strArea: details?.strArea,
+              description: details?.strInstructions?.slice(0, 200) ?? "",
+              tags: details?.strTags
+                ? details.strTags.split(",").map((t: string) => t.trim())
+                : [],
+              full: details ?? null,
+            };
+          } catch {
+            enrichedMeal = {
+              ...m,
+              strCategory: m.strCategory,
+              description: "",
+              tags: [],
+              full: null,
+            };
+          }
+
+          if (!shouldScoreSearchResults || !userPrefs) {
+            return {
+              meal: {
+                ...enrichedMeal,
+                matchScore: undefined,
+              },
+              index,
+            };
+          }
+
+          try {
+            const score = await scoreRecipeMatch(
+              enrichedMeal.full ?? enrichedMeal,
+              userPrefs,
+            );
+            return {
+              meal: {
+                ...enrichedMeal,
+                matchScore: score,
+              },
+              index,
+            };
+          } catch {
+            return {
+              meal: {
+                ...enrichedMeal,
+                matchScore: 0,
+              },
+              index,
+            };
+          }
+        },
+      );
+
+      const sortedScoredResults = enrichedAndScored
+        .sort((a, b) => {
+          const scoreDiff = (b.meal.matchScore ?? -1) - (a.meal.matchScore ?? -1);
+          if (scoreDiff !== 0) return scoreDiff;
+          return a.index - b.index;
+        })
+        .map(({ meal }) => meal);
+
+      setResults(sortedScoredResults);
     } catch {
       setResults([]);
       setSearchError("Something went wrong while searching for recipes.");
@@ -239,11 +386,64 @@ export default function Explore() {
 
   const searchLabel = submittedTerms.join(", ");
 
-  const sortedRandomRecipe = randomMatchScores.size > 0
-    ? [...randomRecipe].sort(
-        (a, b) => (randomMatchScores.get(b.idMeal) ?? 0) - (randomMatchScores.get(a.idMeal) ?? 0),
-      )
-    : randomRecipe;
+  const getIngredients = useCallback((meal: any) =>
+    Array.from(
+      { length: 20 },
+      (_, i) => meal[`strIngredient${i + 1}`] as string,
+    )
+      .map((ingredient) => ingredient?.trim())
+      .filter(Boolean) as string[], []);
+
+  const openMeal = useCallback((meal: ExploreMeal) => {
+    router.push({
+      pathname: "/SingleRecipe",
+      params: {
+        idMeal: meal.idMeal,
+        title: meal.strMeal,
+        category: meal.strCategory,
+        imageUrl: meal.strMealThumb,
+        ingredients: JSON.stringify(getIngredients(meal.full ?? meal)),
+        instructions: meal.full?.strInstructions ?? meal.description ?? "",
+        description: meal.description ?? "",
+      },
+    });
+  }, [getIngredients]);
+
+  const renderedSearchResults = useMemo(
+    () =>
+      results.map((meal) => (
+        <RecipeCard
+          key={meal.idMeal}
+          variant="saved"
+          title={meal.strMeal}
+          category={meal.strCategory}
+          description={meal.description ?? "Found by selected ingredients"}
+          imageUrl={meal.strMealThumb}
+          tags={meal.tags}
+          matchScore={meal.matchScore}
+          onPress={() => openMeal(meal)}
+        />
+      )),
+    [results, openMeal],
+  );
+
+  const sortedRandomRecipe =
+    randomMatchScores.size > 0
+      ? [...randomRecipe].sort(
+          (a, b) =>
+            (randomMatchScores.get(b.idMeal) ?? 0) -
+            (randomMatchScores.get(a.idMeal) ?? 0),
+        )
+      : randomRecipe;
+
+  const sortedSearchResults =
+    searchMatchScores.size > 0
+      ? [...results].sort(
+          (a, b) =>
+            (searchMatchScores.get(b.idMeal) ?? 0) -
+            (searchMatchScores.get(a.idMeal) ?? 0),
+        )
+      : results;
 
   const renderRandomRecommendations = (heading: string) => (
     <>
@@ -259,6 +459,7 @@ export default function Explore() {
               description="Recommended for you"
               imageUrl={meal.strMealThumb}
               matchScore={randomMatchScores.get(meal.idMeal)}
+              onPress={() => openMeal(meal)}
             />
           ))
         ) : (
@@ -268,6 +469,30 @@ export default function Explore() {
     </>
   );
 
+  const renderSearchResults = () => (
+    <FlatList
+      style={{ flex: 1 }}
+      data={sortedSearchResults}
+      keyExtractor={(meal) => meal.idMeal}
+      renderItem={({ item: meal }) => (
+        <RecipeCard
+          variant="saved"
+          title={meal.strMeal}
+          category={meal.strCategory}
+          imageUrl={meal.strMealThumb}
+          tags={meal.tags}
+          matchScore={searchMatchScores.get(meal.idMeal)}
+          onPress={() => openMeal(meal)}
+        />
+      )}
+      contentContainerStyle={{ paddingBottom: 16 }}
+      initialNumToRender={6}
+      maxToRenderPerBatch={6}
+      windowSize={5}
+      removeClippedSubviews
+      showsVerticalScrollIndicator={false}
+    />
+  );
 
   if (!permission) {
     return <Paragraph>Requesting camera permission...</Paragraph>;
@@ -277,7 +502,9 @@ export default function Explore() {
     return (
       <Container>
         <Title>Camera Access Needed</Title>
-        <Paragraph>Please grant camera permission to use the search feature.</Paragraph>
+        <Paragraph>
+          Please grant camera permission to use the search feature.
+        </Paragraph>
         <Button onPress={requestPermission} title="Grant permission" />
       </Container>
     );
@@ -299,7 +526,11 @@ export default function Explore() {
 
       {terms.length > 0 && (
         <View style={styles.chipContainer}>
-          <Scrollable horizontal style={styles.chipScroll} contentContainerStyle={styles.chipScrollContent}>
+          <Scrollable
+            horizontal
+            style={styles.chipScroll}
+            contentContainerStyle={styles.chipScrollContent}
+          >
             {terms.map((term) => (
               <PillFilter
                 key={term}
@@ -332,8 +563,12 @@ export default function Explore() {
                 First load can take up to a minute on some phones.
               </Paragraph>
             )}
-            {classifierFeedback && <Alert variant="success">{classifierFeedback}</Alert>}
-            {classifierError && <Alert variant="danger">{classifierError}</Alert>}
+            {classifierFeedback && (
+              <Alert variant="success">{classifierFeedback}</Alert>
+            )}
+            {classifierError && (
+              <Alert variant="danger">{classifierError}</Alert>
+            )}
             {classifierError && (
               <Button
                 title="Retry classifier load"
@@ -345,29 +580,22 @@ export default function Explore() {
       )}
 
       {hasSubmittedSearch ? (
-        <Scrollable>
+        <>
           {isLoadingResults ? (
             <Paragraph>Searching recipes...</Paragraph>
           ) : searchError ? (
             <Alert variant="danger">{searchError}</Alert>
           ) : results.length > 0 ? (
-            results.map((meal) => (
-              <RecipeCard
-                key={meal.idMeal}
-                variant="saved"
-                title={meal.strMeal}
-                category={meal.strCategory}
-                description="Found by selected ingredients"
-                imageUrl={meal.strMealThumb}
-              />
-            ))
+            renderSearchResults()
           ) : (
             <>
-              <Alert variant="danger">No recipes found for &quot;{searchLabel}&quot;.</Alert>
+              <Alert variant="danger">
+                No recipes found for &quot;{searchLabel}&quot;.
+              </Alert>
               {renderRandomRecommendations("Try one of these instead")}
             </>
           )}
-        </Scrollable>
+        </>
       ) : (
         renderRandomRecommendations("Need inspiration?")
       )}

@@ -25,6 +25,7 @@ export default function SearchInput({
           onChangeText={onChangeText}
           onSubmitEditing={onSubmitEditing}
           returnKeyType="search"
+          placeholderTextColor="#bdbdbd"
           style={[formTheme.formInput, { height: 50, paddingVertical: 10 }]}
         />
       </View>

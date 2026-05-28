@@ -15,6 +15,8 @@ const PillStyle = StyleSheet.create({
     height: 36,
     borderRadius: globalSizes.borderRadiusFull,
     marginRight: globalSizes.small,
+    justifyContent: "center",
+    alignItems: "center",
   },
   pillContainerActive: {
     borderColor: globalColors.primaryColor,
@@ -25,9 +27,13 @@ const PillStyle = StyleSheet.create({
     height: 36,
     borderRadius: globalSizes.borderRadiusFull,
     marginRight: globalSizes.small,
+    justifyContent: "center",
+    alignItems: "center",
   },
   pillText: {
     color: globalColors.textColor,
+    textAlign: "center",
+    includeFontPadding: false,
   },
 });
 
