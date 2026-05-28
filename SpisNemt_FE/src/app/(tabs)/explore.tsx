@@ -14,14 +14,14 @@ import Paragraph from "../../components/typograghy/Paragraph";
 import Subtitle from "../../components/typograghy/Subtitle";
 import Title from "../../components/typograghy/Title";
 import { useAuth } from "../../context/AuthContext";
-import { loadUserPreferences } from "../../services/UserService/Preferences";
-import { getRecipesByMultiIngredients } from "../../services/MealDBService/getRecipesByMultiIngredients";
 import { getRecipeDetailsById } from "../../services/MealDBService/getRecipeDetailsById";
+import { getRecipesByMultiIngredients } from "../../services/MealDBService/getRecipesByMultiIngredients";
 import {
-    classifyIngredientFromUri,
-    initIngredientClassifier,
+  classifyIngredientFromUri,
+  initIngredientClassifier,
 } from "../../services/ml/ingredientClassifier";
 import { scoreRecipeMatch } from "../../services/ml/preferencesMatcher";
+import { loadUserPreferences } from "../../services/UserService/Preferences";
 
 interface MealDbMeal {
   idMeal: string;
@@ -279,7 +279,7 @@ export default function Explore() {
           let enrichedMeal: ExploreMeal;
 
           try {
-            const details = await getMealDetailsById(m.idMeal);
+            const details = await getRecipeDetailsById(m.idMeal);
             enrichedMeal = {
               ...m,
               // prefer category from the full details when available
