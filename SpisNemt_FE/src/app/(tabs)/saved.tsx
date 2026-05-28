@@ -8,8 +8,8 @@ import { Scrollable } from "../../components/structural/Scrollable";
 import Paragraph from "../../components/typograghy/Paragraph";
 import Title from "../../components/typograghy/Title";
 import { useAuth } from "../../context/AuthContext";
-import { loadUserSavedRecipes } from "../../services/databaseAPI/SavedRecipes";
-import { getMealById } from "../../services/mealDbAPI/getMealById";
+import { loadUserSavedRecipes } from "../../services/UserService/SavedRecipes";
+import { getRecipeDetailsById } from "../../services/MealDBService/getRecipeDetailsById";
 
 interface Meal {
   idMeal: string;
@@ -35,7 +35,7 @@ export default function Saved() {
       const ids = savedRecipes?.savedRecipes ?? [];
 
       const meals = await Promise.all(
-        ids.map((id) => getMealById(String(id)).catch(() => null)),
+        ids.map((id) => getRecipeDetailsById(String(id)).catch(() => null)),
       );
 
       setSavedMeals(meals.filter(Boolean) as Meal[]);

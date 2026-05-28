@@ -1,6 +1,6 @@
 const API_KEY = process.env.EXPO_PUBLIC_MEALDB_API_KEY;
 
-export const get10RandomMeals = async () => {
+export const get10RandomRecipes = async () => {
   try {
     const response = await fetch(
       `https://www.themealdb.com/api/json/v2/${API_KEY}/randomselection.php`,

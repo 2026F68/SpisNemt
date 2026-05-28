@@ -11,8 +11,8 @@ import Subtitle from "../../components/typograghy/Subtitle";
 import Title from "../../components/typograghy/Title";
 import { useAuth } from "../../context/AuthContext";
 import { globalColors } from "../../theme";
-import { getUserProfile } from "../../services/databaseAPI/getUserProfile";
-import { saveUserPreferences } from "../../services/databaseAPI/saveUserPreferences";
+import { getUserProfile } from "../../services/UserService/getUserProfile";
+import { saveUserPreferences } from "../../services/UserService/saveUserPreferences";
 
 const PREFERENCE_OPTIONS = [
   "Italian",

@@ -2,7 +2,7 @@ const BASE_URL = "https://www.themealdb.com/api/json/v2";
 
 const API_KEY = process.env.EXPO_PUBLIC_MEALDB_API_KEY;
 
-export const getMealDetailsById = async (id: string) => {
+export const getRecipeDetailsById = async (id: string) => {
   try {
     const response = await fetch(`${BASE_URL}/${API_KEY}/lookup.php?i=${id}`);
 
@@ -14,7 +14,7 @@ export const getMealDetailsById = async (id: string) => {
     // lookup returns { meals: [ { ... } ] } or { meals: null }
     return (data.meals && data.meals[0]) || null;
   } catch (error) {
-    console.error("Error fetching meal details:", error);
+    console.error("Error fetching recipe details:", error);
     throw error;
   }
 };

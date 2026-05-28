@@ -5,7 +5,7 @@ import { useAuth } from "../../context/AuthContext";
 import {
     loadUserSavedRecipes,
     saveUserSavedRecipes,
-} from "../../services/databaseAPI/SavedRecipes";
+} from "../../services/UserService/SavedRecipes";
 import CloseButton from "../buttons/CloseButton";
 import SaveButton from "../buttons/SaveButton";
 import { cardStyle } from "../cards/CardTheme";

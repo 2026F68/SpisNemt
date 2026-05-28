@@ -1,7 +1,6 @@
-export const getAllAreas = async () => {
+export const getAllCuisines = async () => {
   try {
-    const response = await fetch(`https://www.themealdb.com/api/json/v1/1/list.php?a=list
-`);
+    const response = await fetch(`https://www.themealdb.com/api/json/v1/1/list.php?a=list`);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -10,7 +9,7 @@ export const getAllAreas = async () => {
     const data = await response.json();
     return data.areas ?? [];
   } catch (error) {
-    console.error("Error fetching areas:", error);
+    console.error("Error fetching cuisines:", error);
     throw error;
   }
 };
