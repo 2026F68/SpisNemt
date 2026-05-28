@@ -2,7 +2,7 @@ const BASE_URL = "https://www.themealdb.com/api/json/v2";
 
 const API_KEY = process.env.EXPO_PUBLIC_MEALDB_API_KEY;
 
-export const getMealByMultiIngredients = async (ingredients: string[]) => {
+export const getRecipesByMultiIngredients = async (ingredients: string[]) => {
   try {
     const query = ingredients.join(",");
     const response = await fetch(`${BASE_URL}/${API_KEY}/filter.php?i=${query}`);
@@ -14,8 +14,7 @@ export const getMealByMultiIngredients = async (ingredients: string[]) => {
     const data = await response.json();
     return data.meals ?? [];
   } catch (error) {
-    console.error("Error fetching meals by ingredients:", error);
+    console.error("Error fetching recipes by ingredients:", error);
     throw error;
   }
 };
-
