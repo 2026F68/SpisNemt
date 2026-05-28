@@ -1,61 +1,140 @@
-workspace "My System" "C4 model via Structurizr Lite" {
+workspace "My System" {
 
   model {
-    user = person "User" "A user of SpisNemt"
-
-    SpisNemt  = softwareSystem "SpisNemt" "Allows users to receive recipes based on their ingriedients and preferences" {
-      Database = container "Database" "Firebase noSQL" "NoSQL database for user preferences and saved recipes" {
-        tags "Database"
-      }
-
-      MobileApp = container "Mobile app" "description" "Expo for iOS and Android" {
-        tags "Mobile App"
-          MachineLearningModel = component "Machine Learning Model" "Python-based model for recipe recommendations" "something"{
-            tags "ML Model"
-          }
-          
-          OAuthService = component "Sign in Controller" "Handles user authentication" "OAuth"{
-            tags "OAuth Service"
-          }
-
-          SavedRecipes = component "Saved Recipes Controller" "Handles saving and retrieving user's saved recipes" "something"{
-            tags "Saved Recipes"
-          }
-          
-          MachineLearningModel -> Database "Fetches user preferences" "HTTPS/REST"
-      }
-
-      MobileApp -> Database "Reads from and writes to" "HTTPS/REST"
+    user = person "User"{
+      tags "FontStyle"
     }
 
+    SpisNemtApp  = softwareSystem "SpisNemtApp" {
+      tags "FontStyle"
 
-    TheMealDB = softwareSystem "TheMealDB" "External API for recipes" {
-      tags "External"
+      UI = container "UI" {
+        tags "FontStyle", "Boundary"
+          HomeScreen = component "Home\nScreen" {
+            tags "FontStyle"
+          }
+
+          ExploreScreen = component "Explore\nScreen" {
+            tags "FontStyle"
+          }
+
+          SavedRecipesScreen = component "SavedRecipes\nScreen" {
+            tags "FontStyle"
+          }
+
+          AccountScreen = component "Account\nScreen" {
+            tags "FontStyle"
+          }
+
+          LoginScreen = component "Login\nScreen" {
+            tags "FontStyle"
+          }
+
+          CreateAccountScreen = component "CreateAccount\nScreen" {
+            tags "FontStyle"
+          }
+      }
+
+      Backend = container "Backend" {
+        tags "FontStyle", "Boundary"
+          SignInController = component "SignIn\nController" {
+            tags "FontStyle"
+          }
+
+          RecipeRecommender = component "Recipe\nRecommender" {
+            tags "FontStyle"
+          }
+
+          PreferenceService = component "Preference\nService" {
+            tags "FontStyle"
+          }
+
+          InceptionV3 = component "Computer\nVision" {
+            tags "FontStyle"
+          }
+      }
+
+      MealDBService = container "MealDBService" {
+        tags "FontStyle"
+      }
+
+      UserService = container "UserService" {
+        tags "FontStyle"
+      }
+
+      FirebaseAuth = container "FirebaseAuth" {
+        tags "FontStyle"
+      }
     }
 
+    Database = softwareSystem "Database" {
+        tags "External", "Database", "FontStyle"
+    }
 
-    user -> SpisNemt "Uses"
-    user -> MobileApp "Uses"
-    MobileApp -> TheMealDB "Fetches recipes from" "HTTP/REST"
+    TheMealDB = softwareSystem "TheMealDB" {
+      tags "External", "FontStyle"
+    }
+
+    //Context
+    user -> SpisNemtApp
+
+    //Container
+    user -> UI
+    UI -> Backend
+    MealDBService -> TheMealDB
+    UserService -> Database
+
+    //Component -  Backend
+    RecipeRecommender -> PreferenceService
+    UI -> SignInController
+    UI -> UserService
+    RecipeRecommender -> UI
+    SignInController -> FirebaseAuth
+
+    //Component - UI
+    HomeScreen -> MealDBService
+    ExploreScreen -> MealDBService
+    SavedRecipesScreen -> MealDBService
+    AccountScreen -> UserService
+    AccountScreen -> FirebaseAuth
+    SavedRecipesScreen -> UserService
+    ExploreScreen -> InceptionV3
+    FirebaseAuth -> Database
+    LoginScreen -> Backend
+    CreateAccountScreen -> Backend
   }
 
   views {
-    systemContext SpisNemt "SystemContext" {
+    systemContext SpisNemtApp "SystemContext" {
       include *
-      autolayout lr
     }
  
-    container SpisNemt "Containers" {
+    container SpisNemtApp "Containers" {
       include *
-      autolayout lr
+      exclude "relationship.source==UI && relationship.destination==UserService"
+      exclude "relationship.source==Backend && relationship.destination==UI"
     }
 
-      component MobileApp "Components" {
-        include *
-        autolayout lr
-      }
+    component UI "UIComponents" {
+      include *
+      include Backend
+      include Database
+      include TheMealDB
+      include FirebaseAuth
+    }
+
+    component Backend "BackendComponents" {
+      include *
+      include UserService
+      include Database
+      include TheMealDB
+      include MealDBService
+    }
 
     styles {
+      relationship "Relationship" {
+        thickness 5
+      }
       element "External" {
         background lightgrey
         color black
@@ -64,6 +143,18 @@ workspace "My System" "C4 model via Structurizr Lite" {
       element "Database" {
         shape Cylinder
       }
+      element "Backend" {
+        background #4a90e2
+        color white
+      }
+      element "FontStyle" {
+        fontsize 40
+      }
+      element "Boundary" {
+        fontsize 56
+        strokeWidth 8
+      }
+
     }
 
     theme default
