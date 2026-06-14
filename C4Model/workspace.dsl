@@ -92,16 +92,19 @@ workspace "My System" {
     SignInController -> FirebaseAuth
 
     //Component - UI
-    HomeScreen -> MealDBService
+    HomeScreen -> Backend
     ExploreScreen -> MealDBService
     SavedRecipesScreen -> MealDBService
     AccountScreen -> UserService
-    AccountScreen -> FirebaseAuth
+    AccountScreen -> Backend
     SavedRecipesScreen -> UserService
     ExploreScreen -> InceptionV3
     FirebaseAuth -> Database
     LoginScreen -> Backend
     CreateAccountScreen -> Backend
+
+    //Component - Backend
+    UI -> PreferenceService
   }
 
   views {
